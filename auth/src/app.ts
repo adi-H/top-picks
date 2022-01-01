@@ -4,12 +4,14 @@ import { json } from 'body-parser';
 // import 'express-async-errors';
 
 import { pingRouter } from './routes/ping';
+import { signUpRouter } from './routes/signin';
 
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
 
 app.use(pingRouter);
+app.use(signUpRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
