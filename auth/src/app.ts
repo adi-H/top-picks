@@ -7,6 +7,7 @@ import { pingRouter } from './routes/ping';
 import { signUpRouter } from './routes/signup';
 import { signInRouter } from './routes/signin';
 import { logoutRouter } from './routes/logout';
+import { sessionInfoRouter } from './routes/session-info';
 
 const app = express();
 app.set('trust proxy', true);
@@ -22,6 +23,7 @@ app.use(pingRouter);
 app.use(signUpRouter);
 app.use(signInRouter);
 app.use(logoutRouter);
+app.use(sessionInfoRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
