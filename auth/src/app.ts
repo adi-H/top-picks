@@ -1,11 +1,12 @@
 import express from 'express';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-// import 'express-async-errors';
+import 'express-async-errors';
 
 import { pingRouter } from './routes/ping';
 import { signUpRouter } from './routes/signup';
 import { signInRouter } from './routes/signin';
+import { logoutRouter } from './routes/logout';
 
 const app = express();
 app.set('trust proxy', true);
@@ -20,6 +21,7 @@ app.use(
 app.use(pingRouter);
 app.use(signUpRouter);
 app.use(signInRouter);
+app.use(logoutRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
