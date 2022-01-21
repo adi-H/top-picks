@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+# apiVersion: extensions/v1beta1
+# used to be networking.k8s.io/v1 but it shouts 
+# no matches for kind \\\"Ingress\\\" in version \\\"networking.k8s.io/v1\\\"\\
+kind: Ingress
+metadata:
+  name: ingress-service
+  namespace: adi-dev
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - #host: ticketing.dev # from some reason this host name isnt working i dunno
+      http:
+        paths:
+          - path: /api/users/?(.*)
+            pathType: Prefix
+            backend:
+              # serviceName: auth-srv
+              # servicePort: 3000
+              # # this bellow doesnt work also like the comments from the top of the page
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+          # - path: /api/tickets/?(.*)
+          #   backend:
+          #     serviceName: tickets-srv
+          #     servicePort: 3000
+          # - path: /api/orders/?(.*)
+          #   backend:
+          #     serviceName: orders-srv
+          #     servicePort: 3000
+          # - path: /api/payments/?(.*)
+          #   backend:
+          #     serviceName: payments-srv
+          #     servicePort: 3000
+          # - path: /?(.*)
+          #   backend:
+          #     serviceName: client-srv
+          #     servicePort: 3000
