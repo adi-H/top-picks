@@ -7,7 +7,12 @@ declare global {
 	var signin: () => Promise<string[]>;
 }
 
-// jest.setTimeout(10000);
+// PLEASE NOTE THIS -- BUGFIX / BANDAID
+// // https://stackoverflow.com/a/68469945
+// // https://github.com/visionmedia/supertest/issues/520
+// seems to be an open issue
+// but adding a force exit worked and i dont wanna keep working on this
+// so to be fixed sometime in the future i dunno
 
 let mongo: any;
 
