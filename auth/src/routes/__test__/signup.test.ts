@@ -1,7 +1,6 @@
 import request from 'supertest';
 import { app } from '../../app';
 
-// mine
 it('returns a 201 on successful signup', (done) => {
 	request(app)
 		.post('/api/users/signup')
@@ -13,7 +12,6 @@ it('returns a 201 on successful signup', (done) => {
 	done();
 });
 
-// mine
 it('returns 400 with invalid email', (done) => {
 	request(app)
 		.post('/api/users/signup')
@@ -25,7 +23,6 @@ it('returns 400 with invalid email', (done) => {
 	done();
 });
 
-// mine
 it('returns 400 with invalid passsword', (done) => {
 	request(app)
 		.post('/api/users/signup')
@@ -37,7 +34,6 @@ it('returns 400 with invalid passsword', (done) => {
 	done();
 });
 
-// mine
 it('returns 400 with missing email + password', (done) => {
 	request(app)
 		.post('/api/users/signup')
