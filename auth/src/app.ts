@@ -4,7 +4,7 @@ import { json } from 'body-parser';
 // import 'express-async-errors';
 
 import { pingRouter } from './routes/ping';
-import { signUpRouter } from './routes/signin';
+import { signUpRouter } from './routes/signup';
 
 const app = express();
 app.set('trust proxy', true);
