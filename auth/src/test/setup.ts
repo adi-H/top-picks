@@ -7,6 +7,8 @@ declare global {
 	var signin: () => Promise<string[]>;
 }
 
+// jest.setTimeout(10000);
+
 let mongo: any;
 
 beforeAll(async () => {
