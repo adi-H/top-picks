@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brands-deployment
+  namespace: adi-dev
+spec:
+  selector:
+    matchLabels:
+      app: brands
+  template:
+    metadata:
+      labels:
+        app: brands
+    spec:
+      containers:
+      - name: brands
+        image: adihaimsohn/toppicks-brands
+        ports:
+          - containerPort: 3000
+        env: 
+          - name: MONGO_URI
+            value: 'mongodb://brands-mongo-srv:27017/brands'
+          # - name: JWT_KEY
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: jwt-secret
+          #       key: JWT_KEY
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: brands-srv
+  namespace: adi-dev
+spec:
+  selector:
+    app: brands
+  ports:
+  - name: brands
+    protocol: TCP 
+    port: 3000
+    targetPort: 3000
+
+

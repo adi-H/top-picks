@@ -24,6 +24,20 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
+          - path: /api/products/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: products-srv
+                port:
+                  number: 3000
+          - path: /api/brands/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: brands-srv
+                port:
+                  number: 3000
           # - path: /api/tickets/?(.*)
           #   backend:
           #     serviceName: tickets-srv

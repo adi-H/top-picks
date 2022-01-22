@@ -18,3 +18,19 @@ build:
         manual:
           - dest: . 
             src:  'src/**/*.ts'
+    - image: adihaimsohn/toppicks-products
+      context: products
+      docker:
+        dockerfile: Dockerfile 
+      sync:
+        manual:
+          - dest: . 
+            src:  'src/**/*.ts'
+    - image: adihaimsohn/toppicks-brands
+      context: brands
+      docker:
+        dockerfile: Dockerfile 
+      sync:
+        manual:
+          - dest: . 
+            src:  'src/**/*.ts'
