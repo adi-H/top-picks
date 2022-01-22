@@ -3,6 +3,8 @@ import { Brand } from '../models/brand';
 import { body } from 'express-validator';
 import { validateRequest } from '../middlewares/validate-request';
 import { BadRequestError } from '../errors/bad-request-error';
+import { BrandCreatedPublisher } from '../events/publishers/brand-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const brandValidationRules = () => {
 	return [
@@ -26,6 +28,12 @@ router.post('/api/brands', brandValidationRules(), validateRequest, async (req: 
 	await brand.save();
 
 	// EVENTS AND STUFF GO HERE
+
+	new BrandCreatedPublisher(natsWrapper.client).publish({
+		id: brand.id,
+		name: brand.name,
+		description: brand.description
+	});
 
 	console.log('brand was created ~~', name);
 

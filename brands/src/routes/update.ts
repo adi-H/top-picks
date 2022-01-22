@@ -3,6 +3,8 @@ import { NotFoundError } from '../errors/not-found-error';
 import { Brand } from '../models/brand';
 import { body } from 'express-validator';
 import { validateRequest } from '../middlewares/validate-request';
+import { natsWrapper } from '../nats-wrapper';
+import { BrandUpdatedPublisher } from '../events/publishers/brand-updated-publisher';
 
 const brandValidationRules = () => {
 	return [
@@ -27,6 +29,14 @@ router.put('/api/brands/:id', brandValidationRules(), validateRequest, async (re
 			description: description
 		});
 		await brand.save();
+
+		// events and stuff here
+		new BrandUpdatedPublisher(natsWrapper.client).publish({
+			id: brand.id,
+			name: brand.name,
+			description: brand.description
+		});
+
 		res.status(201).send(brand);
 	} catch (e) {
 		throw new NotFoundError();
