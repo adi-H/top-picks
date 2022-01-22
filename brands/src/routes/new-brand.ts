@@ -29,7 +29,7 @@ router.post('/api/brands', brandValidationRules(), validateRequest, async (req: 
 
 	console.log('brand was created ~~', name);
 
-	res.send(brand);
+	res.status(201).send(brand);
 });
 
 export { router as newBrandRouter };
