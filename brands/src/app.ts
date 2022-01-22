@@ -4,6 +4,8 @@ import cookieSession from 'cookie-session';
 import 'express-async-errors';
 
 import { pingRouter } from './routes/ping';
+import { indexBrandsRouter } from './routes/index';
+import { newBrandRouter } from './routes/new-brand';
 // import { signUpRouter } from './routes/signup';
 // import { signInRouter } from './routes/signin';
 // import { logoutRouter } from './routes/logout';
@@ -20,6 +22,8 @@ app.use(
 );
 
 app.use(pingRouter);
+app.use(indexBrandsRouter);
+app.use(newBrandRouter);
 // app.use(signUpRouter);
 // app.use(signInRouter);
 // app.use(logoutRouter);
