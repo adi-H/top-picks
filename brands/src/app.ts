@@ -2,13 +2,14 @@ import express from 'express';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import 'express-async-errors';
+import { NotFoundError } from './errors/not-found-error';
+import { errorHandler } from './middlewares/error-handler';
 
 import { pingRouter } from './routes/ping';
 import { indexBrandsRouter } from './routes/index';
 import { newBrandRouter } from './routes/new-brand';
 import { specificBrandRouter } from './routes/brand-details';
-import { NotFoundError } from './errors/not-found-error';
-import { errorHandler } from './middlewares/error-handler';
+import { updateBrandRouter } from './routes/update';
 // import { signUpRouter } from './routes/signup';
 // import { signInRouter } from './routes/signin';
 // import { logoutRouter } from './routes/logout';
@@ -28,6 +29,7 @@ app.use(pingRouter);
 app.use(indexBrandsRouter);
 app.use(newBrandRouter);
 app.use(specificBrandRouter);
+app.use(updateBrandRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
