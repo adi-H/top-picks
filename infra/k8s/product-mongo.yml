@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: product-mongo-dep
+  name: products-mongo-dep
   namespace: adi-dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: product-mongo
+      app: products-mongo
   template:
     metadata:
       labels:
-        app: product-mongo
+        app: products-mongo
     spec:
       containers:
-      - name: product-mongo
+      - name: products-mongo
         image: mongo
         ports:
           - containerPort: 27071
@@ -23,11 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: product-mongo-srv
+  name: products-mongo-srv
   namespace: adi-dev
 spec:
   selector:
-    app: product-mongo
+    app: products-mongo
   ports:
   - name: db 
     port: 27017

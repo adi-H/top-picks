@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: product-deployment
+  name: products-deployment
   namespace: adi-dev
 spec:
   selector:
     matchLabels:
-      app: product
+      app: products
   template:
     metadata:
       labels:
-        app: product
+        app: products
     spec:
       containers:
-      - name: product
-        image: adihaimsohn/toppicks-product
+      - name: products
+        image: adihaimsohn/toppicks-products
         ports:
           - containerPort: 3000
         env: 
           - name: MONGO_URI
-            value: 'mongodb://product-mongo-srv:27017/product'
+            value: 'mongodb://products-mongo-srv:27017/products'
           # - name: JWT_KEY
           #   valueFrom:
           #     secretKeyRef:
@@ -31,13 +31,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: product-srv
+  name: products-srv
   namespace: adi-dev
 spec:
   selector:
-    app: product
+    app: products
   ports:
-  - name: product
+  - name: products
     protocol: TCP 
     port: 3000
     targetPort: 3000
