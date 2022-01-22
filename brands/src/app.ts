@@ -6,6 +6,9 @@ import 'express-async-errors';
 import { pingRouter } from './routes/ping';
 import { indexBrandsRouter } from './routes/index';
 import { newBrandRouter } from './routes/new-brand';
+import { specificBrandRouter } from './routes/brand-details';
+import { NotFoundError } from './errors/not-found-error';
+import { errorHandler } from './middlewares/error-handler';
 // import { signUpRouter } from './routes/signup';
 // import { signInRouter } from './routes/signin';
 // import { logoutRouter } from './routes/logout';
@@ -24,16 +27,13 @@ app.use(
 app.use(pingRouter);
 app.use(indexBrandsRouter);
 app.use(newBrandRouter);
-// app.use(signUpRouter);
-// app.use(signInRouter);
-// app.use(logoutRouter);
-// app.use(sessionInfoRouter);
+app.use(specificBrandRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
-	// throw new NotFoundError();
+	throw new NotFoundError();
 });
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export { app };
