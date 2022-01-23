@@ -41,7 +41,7 @@ it('return 400 with missing name', async () => {
 
 it('return 400 with missing product type', async () => {
 	const brand = await createBrand();
-	await request(app)
+	const res = await request(app)
 		.post('/api/products')
 		.send({
 			name: 'test',

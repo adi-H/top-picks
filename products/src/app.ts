@@ -6,6 +6,8 @@ import 'express-async-errors';
 import { pingRouter } from './routes/ping';
 import { newProductRouter } from './routes/new-product';
 import { indexRouter } from './routes';
+import { errorHandler } from './middlewares/error-handler';
+import { specificProductRouter } from './routes/specific-product';
 
 const app = express();
 app.set('trust proxy', true);
@@ -20,12 +22,13 @@ app.use(
 app.use(pingRouter);
 app.use(newProductRouter);
 app.use(indexRouter);
+app.use(specificProductRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
 	// throw new NotFoundError();
 });
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export { app };

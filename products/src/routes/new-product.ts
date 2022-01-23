@@ -19,8 +19,12 @@ router.post('/api/products', productValidationRules(), validateRequest, async (r
 	const { name, productType, brand: brandId } = req.body;
 
 	// check if brand exists
-	const brandObj = await Brand.findById(brandId);
-	if (!brandObj) {
+	try {
+		const brandObj = await Brand.findById(brandId);
+		if (!brandObj) {
+			throw new BadRequestError('brand doesnt exist');
+		}
+	} catch (e) {
 		throw new BadRequestError('brand doesnt exist');
 	}
 
