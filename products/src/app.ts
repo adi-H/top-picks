@@ -8,6 +8,7 @@ import { newProductRouter } from './routes/new-product';
 import { indexRouter } from './routes';
 import { errorHandler } from './middlewares/error-handler';
 import { specificProductRouter } from './routes/specific-product';
+import { updateProductRouter } from './routes/update';
 
 const app = express();
 app.set('trust proxy', true);
@@ -23,6 +24,7 @@ app.use(pingRouter);
 app.use(newProductRouter);
 app.use(indexRouter);
 app.use(specificProductRouter);
+app.use(updateProductRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
