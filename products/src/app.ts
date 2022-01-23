@@ -5,10 +5,7 @@ import 'express-async-errors';
 
 import { pingRouter } from './routes/ping';
 import { newProductRouter } from './routes/new-product';
-// import { signUpRouter } from './routes/signup';
-// import { signInRouter } from './routes/signin';
-// import { logoutRouter } from './routes/logout';
-// import { sessionInfoRouter } from './routes/session-info';
+import { indexRouter } from './routes';
 
 const app = express();
 app.set('trust proxy', true);
@@ -22,10 +19,7 @@ app.use(
 
 app.use(pingRouter);
 app.use(newProductRouter);
-// app.use(signUpRouter);
-// app.use(signInRouter);
-// app.use(logoutRouter);
-// app.use(sessionInfoRouter);
+app.use(indexRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);

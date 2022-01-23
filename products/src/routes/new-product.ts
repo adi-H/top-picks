@@ -17,7 +17,7 @@ const productValidationRules = () => {
 
 router.post('/api/products', productValidationRules(), validateRequest, async (req: Request, res: Response) => {
 	const { name, productType, brand: brandId } = req.body;
-	console.log('starting~~');
+
 	// check if brand exists
 	const brandObj = await Brand.findById(brandId);
 	if (!brandObj) {
@@ -30,7 +30,6 @@ router.post('/api/products', productValidationRules(), validateRequest, async (r
 		throw new BadRequestError('product already exists');
 	}
 
-	console.log('trying to save prod!!');
 	const product = Product.build({
 		name,
 		brand: brandId,
@@ -40,8 +39,6 @@ router.post('/api/products', productValidationRules(), validateRequest, async (r
 	await product.save();
 
 	res.status(201).send(product);
-
-	// res.send('pong');
 });
 
 export { router as newProductRouter };
