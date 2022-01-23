@@ -4,6 +4,8 @@ import { body } from 'express-validator';
 import { Brand } from '../models/brand';
 import { BadRequestError } from '../errors/bad-request-error';
 import { Product } from '../models/product';
+import { productCreatedPublisher } from '../events/publishers/product-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -41,6 +43,14 @@ router.post('/api/products', productValidationRules(), validateRequest, async (r
 		avgRating: 0
 	});
 	await product.save();
+
+	new productCreatedPublisher(natsWrapper.client).publish({
+		id: product.id,
+		name: product.name,
+		productType: product.productType,
+		avgRating: product.avgRating,
+		brandId: brandId
+	});
 
 	res.status(201).send(product);
 });
