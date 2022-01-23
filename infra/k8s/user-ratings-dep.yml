@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-ratings-deployment
+  namespace: adi-dev
+spec:
+  selector:
+    matchLabels:
+      app: user-ratings
+  template:
+    metadata:
+      labels:
+        app: user-ratings
+    spec:
+      containers:
+      - name: user-ratings
+        image: adihaimsohn/toppicks-user-ratings
+        ports:
+          - containerPort: 3000
+        env: 
+          - name: NATS_CLIENT_ID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: NATS_URL
+            value: 'http://nats-srv:4222'
+          - name: NATS_CLUSTER_ID
+            value: toppicks
+          - name: MONGO_URI
+            value: 'mongodb://user-ratings-mongo-srv:27017/user-ratings'
+          # - name: JWT_KEY
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: jwt-secret
+          #       key: JWT_KEY
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-ratings-srv
+  namespace: adi-dev
+spec:
+  selector:
+    app: user-ratings
+  ports:
+  - name: user-ratings
+    protocol: TCP 
+    port: 3000
+    targetPort: 3000
+
+
