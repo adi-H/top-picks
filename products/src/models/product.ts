@@ -4,12 +4,14 @@ import mongoose, { mongo } from 'mongoose';
 interface ProductAttributes {
 	name: string;
 	productType: string;
+	avgRating: number;
 	brand: BrandDoc;
 }
 
 interface ProductDoc extends mongoose.Document {
 	name: string;
 	productType: string;
+	avgRating: number;
 	brand: BrandDoc;
 }
 
@@ -22,6 +24,9 @@ const productSchema = new mongoose.Schema(
 		name: {
 			type: String,
 			required: true
+		},
+		avgRating: {
+			type: Number
 		},
 		productType: {
 			type: String,
