@@ -2,6 +2,8 @@
 // import { BrandCreatedListener } from './events/listeners/brand-created-listener';
 import mongoose from 'mongoose';
 import { app } from './app';
+import { ProductCreatedListener } from './events/listeners/product-created-listener';
+import { ProductUpdatedListener } from './events/listeners/product-updated-listener';
 
 import { natsWrapper } from './nats-wrapper';
 
@@ -41,6 +43,8 @@ const start = async () => {
 
 		// new BrandCreatedListener(natsWrapper.client).listen();
 		// new BrandUpdatedListener(natsWrapper.client).listen();
+		new ProductCreatedListener(natsWrapper.client).listen();
+		new ProductUpdatedListener(natsWrapper.client).listen();
 
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log('user ratings dep connected to db!~~~~~');
