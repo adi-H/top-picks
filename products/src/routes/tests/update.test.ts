@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Brand } from '../../models/brand';
 import mongoose from 'mongoose';
+import { natsWrapper } from '../../nats-wrapper';
 
 const createBrand = async () => {
 	const brand = Brand.build({
@@ -198,4 +199,20 @@ it('return 400 if avgRating is 5+', async () => {
 			avgRating: 9
 		})
 		.expect(400);
+});
+
+it('emits a product update event', async () => {
+	const productCreationDetails = await createProduct('test', 'test123');
+
+	const res = await request(app)
+		.put(`/api/products/${productCreationDetails.body.id}`)
+		.send({
+			name: 'test2',
+			productType: 'desc',
+			brand: productCreationDetails.body.brand,
+			avgRating: 5
+		})
+		.expect(201);
+
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

@@ -68,13 +68,13 @@ router.put(
 			throw new BadRequestError('maybe some of the parameters are wrong~~');
 		}
 
-		new productUpdatedPublisher(natsWrapper.client).publish({
-			id: product.id,
-			name: product.name,
-			productType: product.productType,
-			avgRating: product.avgRating,
-			brandId: product.brand.id
-		});
+		// new productUpdatedPublisher(natsWrapper.client).publish({
+		// 	id: product.id,
+		// 	name: product.name,
+		// 	productType: product.productType,
+		// 	avgRating: product.avgRating,
+		// 	brandId: product.brand.id
+		// });
 
 		res.status(201).send(product);
 	}
