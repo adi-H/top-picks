@@ -41,9 +41,16 @@ router.post('/api/users/signin', reqValidationRules(), validateRequest, async (r
 		// so u can assume happily it exists
 		// the ! is to make ts stop being angry bout it
 	);
-	req.session = { jwt: userJwt };
+	if (!req.session) {
+		req.session = {};
+	}
+	req.session.jwt = userJwt;
+	req.session.save();
+	console.log(req.session.jwt);
 
+	// why does adding res.cookie work but not the req.session ????
 	res.status(200).send(existingUser);
+	// res.status(200).cookie('jwt', userJwt).send(existingUser);
 });
 
 export { router as signInRouter };
