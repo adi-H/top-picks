@@ -8,6 +8,7 @@ import { signUpRouter } from './routes/signup';
 import { signInRouter } from './routes/signin';
 import { logoutRouter } from './routes/logout';
 import { sessionInfoRouter } from './routes/session-info';
+import { errorHandler } from './middlewares/error-handler';
 
 const app = express();
 app.set('trust proxy', true);
@@ -31,6 +32,6 @@ app.all('*', async (req, res) => {
 	// throw new NotFoundError();
 });
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export { app };

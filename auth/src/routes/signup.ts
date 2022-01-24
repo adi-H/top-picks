@@ -40,10 +40,12 @@ router.post('/api/users/signup', userValidationRules(), validateRequest, async (
 	req.session = {
 		jwt: userJwt
 	};
-	req.session.save();
+	// req.session.save();
 
 	console.log('user was created ~~', email);
-	res.status(201).send(user);
+	// TODO i dunno anymore
+	// res.status(201).send(user);
+	res.status(201).cookie('jwt', userJwt).send(user);
 });
 
 export { router as signUpRouter };
