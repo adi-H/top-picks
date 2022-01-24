@@ -2,10 +2,11 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose, { ConnectOptions } from 'mongoose';
 import request from 'supertest';
 import { app } from '../app';
+import jwt from 'jsonwebtoken';
 
-// declare global {
-// 	var signin: () => Promise<string[]>;
-// }
+declare global {
+	var signin: (id?: string) => string[];
+}
 
 // PLEASE NOTE THIS -- BUGFIX / BANDAID
 // // https://stackoverflow.com/a/68469945
@@ -47,19 +48,31 @@ afterAll(async () => {
 	await mongoose.connection.close();
 });
 
-// global.signin = async () => {
-// 	const email = 'test@test.com';
-// 	const password = 'password';
+global.signin = (id?: string) => {
+	console.log(id);
+	let token;
+	if (id) {
+		token = jwt.sign(
+			{
+				id: id,
+				email: 'test@test.com'
+			},
+			process.env.JWT_KEY!
+		);
+	} else {
+		token = jwt.sign(
+			{
+				id: new mongoose.Types.ObjectId().toHexString(),
+				email: 'test@test.com'
+			},
+			process.env.JWT_KEY!
+		);
+	}
 
-// 	const response = await request(app)
-// 		.post('/api/users/signup')
-// 		.send({
-// 			email,
-// 			password
-// 		})
-// 		.expect(201);
+	const sessionJson = JSON.stringify({ jwt: token });
+	const base64 = Buffer.from(sessionJson).toString('base64');
 
-// 	const cookie = response.get('Set-Cookie');
-
-// 	return cookie;
-// };
+	return [ `express:sess=${base64}` ];
+	// session=eyJqd3QiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJall4WldVNE9Ea3lNVGt5TXpsaE9EaGxOMlJsWkRreVlTSXNJbVZ0WVdsc0lqb2lkR1Z6ZEVCMFpYTjBMbU52YlNJc0ltbGhkQ0k2TVRZME16QXlNalE0TW4wLm15TzdaOEM4c3BEV0YwWVBmWGVmZ1RrdGlBQldvVFY3ZE9lbC1CQVlmZVEifQ==; path=/; httponly
+	// return [ `express=${base64}; path=/; httponly` ];
+};

@@ -1,4 +1,8 @@
 export enum Subjects {
 	productCreated = 'product:created',
-	productUpdated = 'product:updated'
+	productUpdated = 'product:updated',
+
+	userCreated = 'user:created',
+
+	productRatingUpdated = 'product-rating: updated'
 }

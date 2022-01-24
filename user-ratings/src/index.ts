@@ -9,10 +9,10 @@ import { ProductUpdatedListener } from './events/listeners/product-updated-liste
 import { natsWrapper } from './nats-wrapper';
 
 const start = async () => {
-	// if (!process.env.JWT_KEY) {
-	// 	throw new Error('JWT key must be defined');
-	// 	// k create secret generic jwt-secret --from-literal=JWT_KEY=asdf -n adi-dev
-	// }
+	if (!process.env.JWT_KEY) {
+		throw new Error('JWT key must be defined');
+		// k create secret generic jwt-secret --from-literal=JWT_KEY=asdf -n adi-dev
+	}
 
 	if (!process.env.MONGO_URI) {
 		throw new Error('process.env.MONGO_URI must be defined');

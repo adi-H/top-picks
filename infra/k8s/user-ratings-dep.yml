@@ -28,11 +28,11 @@ spec:
             value: toppicks
           - name: MONGO_URI
             value: 'mongodb://user-ratings-mongo-srv:27017/user-ratings'
-          # - name: JWT_KEY
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: jwt-secret
-          #       key: JWT_KEY
+          - name: JWT_KEY
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secret
+                key: JWT_KEY
 
 --- 
 
