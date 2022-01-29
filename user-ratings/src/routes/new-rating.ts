@@ -34,6 +34,7 @@ router.post(
 		const user = await User.findById(req.sessionInfo!.id);
 
 		const product = await Product.findById(productId);
+		console.log(product);
 		if (!product) {
 			throw new BadRequestError(`the product youre trying to rate (${productId}) doesnt exist`);
 		}
@@ -60,7 +61,9 @@ router.post(
 		// calc the new avg rating for the product and publish event
 		const allProductRating = await Rating.find({ product });
 		const newAvgRating =
-			allProductRating.map((r) => r.rating).reduce((prev, next) => prev + next) / allProductRating.length;
+			allProductRating.length > 1
+				? allProductRating.map((r) => r.rating).reduce((prev, next) => prev + next) / allProductRating.length
+				: ratingObj.rating;
 
 		new ProductRatingUpdatedPublisher(natsWrapper.client).publish({
 			productId: product.id,
