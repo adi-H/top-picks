@@ -26,6 +26,7 @@ export class ProductCreatedListener extends Listener<ProductCreatedEvent> {
 		const product = Product.build({ id, name, avgRating });
 		await product.save();
 
+		console.log(product);
 		msg.ack();
 	}
 }

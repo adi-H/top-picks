@@ -23,9 +23,14 @@ const productSchema = new mongoose.Schema(
 		},
 		avgRating: {
 			type: Number
+		},
+		_id: {
+			type: String,
+			required: true
 		}
 	},
 	{
+		_id: false,
 		toJSON: {
 			transform(doc, ret) {
 				ret.id = ret._id;

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 interface UserAttributes {
 	email: string;
-	id: string;
+	_id: string;
 }
 
 // interface that describes the properties
@@ -15,7 +15,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 // that a User Document has
 export interface UserDoc extends mongoose.Document {
 	email: string;
-	id: string;
+	_id: string;
 }
 
 const userSchema = new mongoose.Schema(
@@ -23,9 +23,14 @@ const userSchema = new mongoose.Schema(
 		email: {
 			type: String,
 			required: true
+		},
+		_id: {
+			type: String,
+			required: true
 		}
 	},
 	{
+		_id: false,
 		toJSON: {
 			transform(doc, ret) {
 				ret.id = ret._id;

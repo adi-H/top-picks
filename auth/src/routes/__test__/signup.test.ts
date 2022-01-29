@@ -55,7 +55,7 @@ it('returns 400 with missing email + password', (done) => {
 		});
 });
 
-it('returns a 201 on successful signup', async () => {
+it('emits a user created event', async () => {
 	await request(app)
 		.post('/api/users/signup')
 		.send({
