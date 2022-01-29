@@ -17,11 +17,13 @@ export class UserCreatedListener extends Listener<UserCreatedEvent> {
 	queueGroupName: string = queueGroupName;
 
 	async onMessage(data: UserCreatedEvent['data'], msg: Message) {
-		console.log('listener User created ~~', data.email);
+		console.log('listener User created ~~', data.email, '~~~~~', data.id);
 
 		const { id, email } = data;
-		const user = User.build({ id, email });
+		const user = User.build({ _id: id, email });
 		await user.save();
+
+		console.log('added the user to db ~~', user);
 
 		msg.ack();
 	}

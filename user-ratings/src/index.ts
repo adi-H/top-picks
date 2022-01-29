@@ -1,6 +1,4 @@
 import { UserCreatedListener } from './events/listeners/user-created-listener';
-// import { BrandUpdatedListener } from './events/listeners/brand-updated-listener';
-// import { BrandCreatedListener } from './events/listeners/brand-created-listener';
 import mongoose from 'mongoose';
 import { app } from './app';
 import { ProductCreatedListener } from './events/listeners/product-created-listener';

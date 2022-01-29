@@ -18,9 +18,14 @@ const brandSchema = new mongoose.Schema(
 		name: {
 			type: String,
 			required: true
+		},
+		_id: {
+			type: String,
+			required: true
 		}
 	},
 	{
+		_id: false,
 		toJSON: {
 			transform(doc, ret) {
 				ret.id = ret._id;
