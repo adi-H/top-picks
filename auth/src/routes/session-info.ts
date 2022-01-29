@@ -15,14 +15,21 @@ declare global {
 }
 
 const insertUserSession = (req: Request, res: Response, next: NextFunction) => {
-	if (!req.session || !req.session.jwt) {
-		// !req.session?.jwt is equal to !req.session || !req.session.jwt
-		// formatter just didnt like it
+	const cookie = req.headers.cookie;
+	// console.log(cookie);
+	if (!cookie) {
+		return next();
+	}
+	const tokenCookie = cookie.split('; ').find((field) => field.startsWith('jwt'));
+	if (!tokenCookie) {
 		return next();
 	}
 
+	const token = tokenCookie.split('jwt=')[1];
 	try {
-		const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!) as UserPayload;
+		// console.log(token);
+		const payload = jwt.verify(token, process.env.JWT_KEY!) as UserPayload;
+		// console.log(payload);
 		req.sessionInfo = payload;
 	} catch (err) {}
 	next();
