@@ -14,6 +14,7 @@ declare global {
 	}
 }
 
+// TODO someday in the future remove all the magic strings
 export const insertUserSession = (req: Request, res: Response, next: NextFunction) => {
 	const cookie = req.headers.cookie;
 	// console.log(cookie);
@@ -29,7 +30,7 @@ export const insertUserSession = (req: Request, res: Response, next: NextFunctio
 	try {
 		// console.log(token);
 		const payload = jwt.verify(token, process.env.JWT_KEY!) as UserPayload;
-		console.log(payload);
+		// console.log(payload);
 		req.sessionInfo = payload;
 	} catch (err) {}
 	next();

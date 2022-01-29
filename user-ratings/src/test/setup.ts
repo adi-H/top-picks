@@ -49,7 +49,7 @@ afterAll(async () => {
 });
 
 global.signin = (id?: string) => {
-	console.log(id);
+	// console.log(id);
 	let token;
 	if (id) {
 		token = jwt.sign(
