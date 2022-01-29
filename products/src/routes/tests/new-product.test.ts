@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Brand } from '../../models/brand';
 import mongoose from 'mongoose';
+import { natsWrapper } from '../../nats-wrapper';
 
 const createBrand = async () => {
 	const brand = Brand.build({
@@ -90,4 +91,17 @@ it('return 400 with name that already exists', async () => {
 			brand: brand.id
 		})
 		.expect(400);
+});
+
+it('emits a new product event', async () => {
+	const brand = await createBrand();
+	await request(app)
+		.post('/api/products')
+		.send({
+			name: 'test',
+			productType: 'blahblah',
+			brand: brand.id
+		})
+		.expect(201);
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { app } from './app';
 
 import { natsWrapper } from './nats-wrapper';
+import { ProductRatingUpdatedListener } from './events/listeners/product-rating-updated-listener';
 
 const start = async () => {
 	// if (!process.env.JWT_KEY) {
@@ -41,6 +42,8 @@ const start = async () => {
 
 		new BrandCreatedListener(natsWrapper.client).listen();
 		new BrandUpdatedListener(natsWrapper.client).listen();
+
+		new ProductRatingUpdatedListener(natsWrapper.client).listen();
 
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log('product dep connected to db!~~~~~');

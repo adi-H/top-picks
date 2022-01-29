@@ -8,12 +8,15 @@ import { signUpRouter } from './routes/signup';
 import { signInRouter } from './routes/signin';
 import { logoutRouter } from './routes/logout';
 import { sessionInfoRouter } from './routes/session-info';
+import { errorHandler } from './middlewares/error-handler';
+import { NotFoundError } from './errors/not-found-error';
 
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
 app.use(
 	cookieSession({
+		name: 'session',
 		signed: false,
 		secure: process.env.NODE_ENV !== 'test'
 	})
@@ -26,10 +29,11 @@ app.use(logoutRouter);
 app.use(sessionInfoRouter);
 
 app.all('*', async (req, res) => {
-	console.log(req);
-	// throw new NotFoundError();
+	// console.log(req);
+	console.log('REQ PATH NOT FOUND');
+	throw new NotFoundError();
 });
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export { app };

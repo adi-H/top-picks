@@ -1,15 +1,16 @@
 import mongoose from 'mongoose';
 import { ProductDoc } from './product';
+import { UserDoc } from './user';
 
 interface RatingAttributes {
 	rating: number;
-	userId: string;
+	user: UserDoc;
 	product: ProductDoc;
 }
 
 interface RatingDoc extends mongoose.Document {
 	rating: number;
-	userId: string;
+	user: UserDoc;
 	product: ProductDoc;
 }
 
@@ -23,9 +24,9 @@ const ratingSchema = new mongoose.Schema(
 			type: Number,
 			required: true
 		},
-		userId: {
-			type: String,
-			required: true
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
 		},
 		product: {
 			type: mongoose.Schema.Types.ObjectId,

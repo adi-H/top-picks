@@ -38,7 +38,7 @@ spec:
                 name: brands-srv
                 port:
                   number: 3000
-          - path: /api/brands/?(.*)
+          - path: /api/user-ratings/?(.*)
             pathType: Prefix
             backend:
               service:

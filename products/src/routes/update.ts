@@ -6,6 +6,8 @@ import { NotFoundError } from '../errors/not-found-error';
 import { Brand } from '../models/brand';
 import { BadRequestError } from '../errors/bad-request-error';
 import { CustomError } from '../errors/custom-error';
+import { productUpdatedPublisher } from '../events/publishers/product-updated-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const productUpdateValidationRules = () => {
 	return [
@@ -30,7 +32,7 @@ const router = express.Router();
 
 // find somehow to validate each part of the product (the user doesnt have to bring
 // submit all fields if they're staying the same) but u still need to validate the input
-// maybe enum of sorts or somthin :?
+// maybe enum of sorts or somthin :? TODO
 
 router.put(
 	'/api/products/:id',
@@ -65,6 +67,14 @@ router.put(
 		} catch (e) {
 			throw new BadRequestError('maybe some of the parameters are wrong~~');
 		}
+
+		// new productUpdatedPublisher(natsWrapper.client).publish({
+		// 	id: product.id,
+		// 	name: product.name,
+		// 	productType: product.productType,
+		// 	avgRating: product.avgRating,
+		// 	brandId: product.brand.id
+		// });
 
 		res.status(201).send(product);
 	}

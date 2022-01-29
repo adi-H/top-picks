@@ -13,6 +13,7 @@
 		"express-validator": "^6.12.2",
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^6.1.7",
+		"node-nats-streaming": "^0.3.2",
 		"ts-node-dev": "^1.1.8",
 		"typescript": "^4.5.5"
 	},
@@ -33,7 +34,9 @@
 	"jest": {
 		"preset": "ts-jest",
 		"testEnvironment": "node",
-		"setupFilesAfterEnv": [ "./src/test/setup.ts" ]
+		"setupFilesAfterEnv": [
+			"./src/test/setup.ts"
+		]
 	},
 	"author": "",
 	"license": "ISC"

@@ -2,8 +2,10 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { BadRequestError } from '../errors/bad-request-error';
+import { UserCreatedPublisher } from '../events/publishers/user-created-publisher';
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
+import { natsWrapper } from '../nats-wrapper';
 
 const userValidationRules = () => {
 	return [
@@ -29,6 +31,12 @@ router.post('/api/users/signup', userValidationRules(), validateRequest, async (
 	const user = User.build({ email, password });
 	await user.save();
 
+	// prompt event here
+	new UserCreatedPublisher(natsWrapper.client).publish({
+		id: user.id,
+		email: user.email
+	});
+
 	// generate JWT for the session and store it in the session obj
 	const userJwt = jwt.sign(
 		{
@@ -40,9 +48,13 @@ router.post('/api/users/signup', userValidationRules(), validateRequest, async (
 	req.session = {
 		jwt: userJwt
 	};
+	// req.session.save();
 
 	console.log('user was created ~~', email);
-	res.status(201).send(user);
+
+	// TODO i dunno anymore
+	// res.status(201).send(user);
+	res.status(201).cookie('jwt', userJwt).send(user);
 });
 
 export { router as signUpRouter };
