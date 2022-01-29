@@ -3,5 +3,7 @@ export enum Subjects {
 	brandUpdated = 'brand:updated',
 
 	productCreated = 'product:created',
-	productUpdated = 'product:updated'
+	productUpdated = 'product:updated',
+
+	productRatingUpdated = 'product-rating:updated'
 }
