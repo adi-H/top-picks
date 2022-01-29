@@ -7,7 +7,9 @@ import { insertUserSession } from './middlewares/insert-user-session';
 
 import { pingRouter } from './routes/ping';
 import { newRatingRouter } from './routes/new-rating';
+import { indexRouter } from './routes/index';
 import { NotFoundError } from './errors/not-found-error';
+import { byProductRouter } from './routes/by-product-id';
 
 const app = express();
 app.set('trust proxy', true);
@@ -22,6 +24,8 @@ app.use(insertUserSession);
 
 app.use(pingRouter);
 app.use(newRatingRouter);
+app.use(indexRouter);
+app.use(byProductRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
