@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { app } from '../../app';
+import { natsWrapper } from '../../nats-wrapper';
 
 it('returns a 201 on successful signup', (done) => {
 	request(app)
@@ -52,4 +53,16 @@ it('returns 400 with missing email + password', (done) => {
 					done();
 				});
 		});
+});
+
+it('returns a 201 on successful signup', async () => {
+	await request(app)
+		.post('/api/users/signup')
+		.send({
+			email: 'test@test.com',
+			password: 'password'
+		})
+		.expect(201);
+
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

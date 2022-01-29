@@ -14,6 +14,8 @@ declare global {
 // but adding a force exit worked and i dont wanna keep working on this
 // so to be fixed sometime in the future i dunno
 
+jest.mock('../nats-wrapper');
+
 let mongo: any;
 
 beforeAll(async () => {
