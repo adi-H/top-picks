@@ -2,11 +2,14 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { BadRequestError } from '../errors/bad-request-error';
 import { RatingExistsError } from '../errors/rating-exists-error';
+import { ProductRatingUpdatedPublisher } from '../events/publishers/new-product-rating-publisher';
+import { NewRatingPostedPublisher } from '../events/publishers/new-rating-publisher';
 import { requireAuth } from '../middlewares/require-auth';
 import { validateRequest } from '../middlewares/validate-request';
 import { Product } from '../models/product';
 import { Rating } from '../models/rating';
 import { User } from '../models/user';
+import { natsWrapper } from '../nats-wrapper';
 
 const ratingValidationRules = () => {
 	return [
@@ -48,6 +51,21 @@ router.post(
 		await ratingObj.save();
 
 		// events and all that go here
+		new NewRatingPostedPublisher(natsWrapper.client).publish({
+			productId: ratingObj.product.id,
+			rating: ratingObj.rating,
+			userId: ratingObj.user.id
+		});
+
+		// calc the new avg rating for the product and publish event
+		const allProductRating = await Rating.find({ product });
+		const newAvgRating =
+			allProductRating.map((r) => r.rating).reduce((prev, next) => prev + next) / allProductRating.length;
+
+		new ProductRatingUpdatedPublisher(natsWrapper.client).publish({
+			productId: product.id,
+			avgRating: newAvgRating
+		});
 
 		res.status(201).send(ratingObj);
 	}
