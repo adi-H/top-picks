@@ -10,6 +10,7 @@ import { newRatingRouter } from './routes/new-rating';
 import { indexRouter } from './routes/index';
 import { NotFoundError } from './errors/not-found-error';
 import { byProductRouter } from './routes/by-product-id';
+import { byUserRouter } from './routes/by-user-id';
 
 const app = express();
 app.set('trust proxy', true);
@@ -26,6 +27,7 @@ app.use(pingRouter);
 app.use(newRatingRouter);
 app.use(indexRouter);
 app.use(byProductRouter);
+app.use(byUserRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
