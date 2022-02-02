@@ -5,3 +5,6 @@
 /brands/node_modules
 
 /user-ratings/node_modules
+
+/client/node_modules
+/client/build
