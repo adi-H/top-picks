@@ -1,7 +1,9 @@
 import { Flex } from '@chakra-ui/react';
+
 export const NavBarContainer = ({ children, ...props }) => {
 	return (
 		<Flex
+			className="NavBarContainer"
 			as="nav"
 			align="center"
 			justify="space-between"
