@@ -1,26 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
-import { ChakraProvider } from '@chakra-ui/react';
 import Layout from './layout/layout';
+import { Route, Switch, Router, Routes } from 'react-router-dom';
+// import { div } from 'react-router-dom';
 
-function App() {
+import { createBrowserHistory } from 'history';
+import { Home } from './views/home';
+
+const history = createBrowserHistory();
+// DOCUMENTATION
+// https://stackoverflow.com/a/69859510
+
+const App = (props) => {
 	return (
-		<ChakraProvider>
-			<Layout>
-				<div className="App">
-					<header className="App-header">
-						<img src={logo} className="App-logo" alt="logo" />
-						<p>
-							Edit <code>src/App.js</code> and save to reload.
-						</p>
-						<a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-							Learn React
-						</a>
-					</header>
-				</div>
-			</Layout>
-		</ChakraProvider>
+		<div className="App">
+			{/* <Router location={history.location} navigator={history}> */}
+			<Routes>
+				<Route element={<Layout />}>
+					{/* <Home /> */}
+					<Route path="/" name="home" element={<Home />}>
+						{' '}
+					</Route>
+					{/* <Route path="/" name="Home" render={(props) => <Layout {...props} />} /> */}
+				</Route>
+			</Routes>
+			{/* </Router> */}
+		</div>
 	);
-}
+};
 
 export default App;
