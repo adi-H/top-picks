@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import Layout from './layout/layout';
 import { Route, Switch, Router, Routes } from 'react-router-dom';
-// import { div } from 'react-router-dom';
 
 import { createBrowserHistory } from 'history';
 import { Home } from './views/home';
