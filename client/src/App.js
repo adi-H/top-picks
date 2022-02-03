@@ -1,11 +1,10 @@
 import './App.css';
 import Layout from './layout/layout';
-import { Route, Switch, Router, Routes } from 'react-router-dom';
-
-import { createBrowserHistory } from 'history';
+import { Route, Routes } from 'react-router-dom';
 import { Home } from './views/home';
 
-const history = createBrowserHistory();
+// import { createBrowserHistory } from 'history';
+// const history = createBrowserHistory();
 // DOCUMENTATION
 // https://stackoverflow.com/a/69859510
 

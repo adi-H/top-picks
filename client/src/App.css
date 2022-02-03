@@ -1,12 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
-.Layout {
+body {
 	/* background-color: aliceblue; */
-	background-color: #f4f4f2;
+	/* background-color: #f4f4f2; */
+}
+
+.main-view-container {
 }
 
 .App {
 	text-align: center;
+	background-color: #f4f4f2;
+	height: 100vh;
 }
 
 .App-logo {

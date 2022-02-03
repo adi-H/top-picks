@@ -10,7 +10,9 @@ const Layout = ({ children }) => {
 			<div>
 				<NavBar />
 			</div>
-			<Outlet />
+			<div className="main-view-container">
+				<Outlet />
+			</div>
 		</div>
 	);
 };
