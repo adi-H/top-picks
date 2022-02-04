@@ -9,6 +9,7 @@ import { natsWrapper } from '../nats-wrapper';
 import multer from 'multer';
 import { fileStorage } from '../file-upload/storage-config';
 import { fileFilter } from '../file-upload/file-filter';
+import { ProductImg } from '../models/productImg';
 
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
@@ -35,9 +36,7 @@ router.post(
 		if (!req.file) {
 			throw new BadRequestError('img is missing');
 		}
-		// console.log(req.file.buffer);
 
-		// check if brand exists
 		try {
 			const brandObj = await Brand.findById(brandId);
 			if (!brandObj) {
@@ -47,18 +46,36 @@ router.post(
 			throw new BadRequestError('brand doesnt exist');
 		}
 
-		// check if product already exists
 		const doesProductExist = await Product.findOne({ name });
 		if (doesProductExist) {
 			throw new BadRequestError('product already exists');
 		}
+
+		// // these lines are for the diskStorage option which is commented out cause i dont fucking need it
+		// // didn't work anyway
+		// var imgSync = fs.readFileSync(req.file.path);
+		// var encode_img = imgSync.toString('base64');
+		// const img = ProductImg.build({
+		// 	buff: Buffer.from(encode_img, 'base64')
+		// });
+		// await img.save();
+		// console.log(img);
+
+		// BANDAID -- this converts the file buffer to utf8 string and saves it
+		// i dunno why this works but it saves something so like what do i fucking know
+		// TODO fix this ??
+		const img = ProductImg.build({
+			buff: req.file.buffer.toString('utf8')
+		});
+		await img.save();
+		// console.log(img);
 
 		const product = await Product.build({
 			name,
 			brand: brandId,
 			productType,
 			avgRating: 0,
-			productImg: req.file.buffer
+			productImg: img._id
 		});
 		await product.save();
 
