@@ -12,8 +12,9 @@ export const MenuStack = ({ children, isOpen, ...rest }) => {
 				direction={[ 'column', 'row', 'row', 'row' ]}
 				pt={[ 4, 4, 0, 0 ]}
 			>
-				<MenuItem to="/">Home</MenuItem>
-				<MenuItem to="/how">How It Works</MenuItem>
+				{/* TODO change links and all that~~ */}
+				<MenuItem to="/">random link</MenuItem>
+				<MenuItem to="/login">login</MenuItem>
 			</Stack>
 		</Box>
 	);
