@@ -1,0 +1,92 @@
+/* BUGFIX 
+the InputControl (from formik-chakra-ui) in the LoginForm was working, but the Input (from basic chakra-ui) wasnt 
+and to have both a pretty password field and a show/hide thingi heres a copied ccs of the css of it */
+.auth-form-inupt {
+	width: 100%;
+	min-width: 0px;
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+	position: relative;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	transition-property: var(--chakra-transition-property-common);
+	transition-duration: var(--chakra-transition-duration-normal);
+	font-size: var(--chakra-fontSizes-md);
+	-webkit-padding-start: var(--chakra-space-4);
+	padding-inline-start: var(--chakra-space-4);
+	-webkit-padding-end: var(--chakra-space-4);
+	padding-inline-end: var(--chakra-space-4);
+	height: var(--chakra-sizes-10);
+	border-radius: var(--chakra-radii-md);
+	border: 1px solid;
+	border-color: inherit;
+	background: inherit;
+}
+
+.auth-form-container {
+	margin-top: 1rem;
+	padding: 1rem 2rem;
+	border-radius: 4px;
+	/* background: #fff; */
+	box-shadow: 10px 10px 20px rgba(#dedee6, 0.4), -10px -10px 20px rgba(#dedee6, 0.8), -8px 8px 30px rgba(#dedee6, 1);
+}
+
+.auth-form-h1 {
+	font-size: 2rem;
+	color: #293241;
+	margin-bottom: 1.25rem;
+}
+
+.auth-form-label {
+	font-size: 1.2rem;
+	margin-bottom: 0.5rem;
+	color: #293241;
+}
+
+.auth-form-input {
+	border: 2px solid rgba(#1d3557, 0.8);
+	border-radius: 4px;
+	padding: 0.5rem 1rem;
+	padding-left: 1rem;
+	color: #293241;
+	font-size: 1rem;
+}
+
+.auth-form-form-row {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1.2rem;
+}
+
+.auth-form-button {
+	color: #fff;
+	width: 80%;
+	font-size: 1rem;
+	background: #495464 !important;
+	border-radius: 4px;
+	border: none;
+	cursor: pointer;
+	padding: 0.7rem 1.2rem;
+	margin-top: 0.8rem;
+	/* 
+    &:hover {
+      background: rgba(red, 0.8);
+    } */
+}
+
+.auth-form-input-error {
+	border-color: #e63946;
+}
+
+.auth-form-error {
+	color: #e63946;
+	font-size: 1rem;
+	margin-top: 0.3rem;
+}
+
+.auth-form-disabled-btn {
+	cursor: not-allowed;
+	background: rgba(#bbbfca, 0.8) !important;
+}
