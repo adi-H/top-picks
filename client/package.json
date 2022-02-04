@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.25.0",
     "chakra-icons": "^0.0.0",
     "formik": "^2.2.9",
     "formik-chakra-ui": "^1.6.0",

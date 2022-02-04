@@ -2,6 +2,7 @@ import express from 'express';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import 'express-async-errors';
+import cors from 'cors';
 
 import { pingRouter } from './routes/ping';
 import { signUpRouter } from './routes/signup';
@@ -16,9 +17,15 @@ app.set('trust proxy', true);
 app.use(json());
 app.use(
 	cookieSession({
-		name: 'session',
-		signed: false,
-		secure: process.env.NODE_ENV !== 'test'
+		secure: false,
+		signed: false
+		// secure: process.env.NODE_ENV !== 'test'
+	})
+);
+// DOCUMENTATION https://www.section.io/engineering-education/how-to-use-cors-in-nodejs-with-express/
+app.use(
+	cors({
+		origin: '*'
 	})
 );
 
