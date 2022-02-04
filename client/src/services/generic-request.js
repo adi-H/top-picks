@@ -17,7 +17,7 @@ export const genericRequest = async ({ baseUrl, endpoint, method, authRequired =
 		console.log(response);
 		return response;
 	} catch (e) {
-		console.log(e);
-		throw e;
+		console.log(e.response.data);
+		return e.response;
 	}
 };

@@ -34,6 +34,8 @@ export const UserAuthenticationPage = (props) => {
 					/>
 				)}
 
+				<br />
+				<br />
 				<Link as={RouterLink} to="/">
 					... or, go back to home page!!
 				</Link>

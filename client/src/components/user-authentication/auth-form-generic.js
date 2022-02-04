@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { FormLabel, Box, InputGroup, Button, InputRightElement, IconButton } from '@chakra-ui/react';
+import { FormLabel, Box, InputGroup, Button, InputRightElement, IconButton, Text } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import { SubmitButton } from 'formik-chakra-ui';
 import './../../assets/stylesheets/auth-form.css';
@@ -17,8 +17,11 @@ const initialValues = {
 	password: ''
 };
 
+const okStatusCodes = [ 200, 201 ];
+
 export const AuthFormGeneric = (props) => {
 	const [ showPassword, setShowPassword ] = useState(false);
+	const [ apiMsg, setApiMsg ] = useState([]);
 	const navigate = useNavigate();
 
 	return (
@@ -26,24 +29,23 @@ export const AuthFormGeneric = (props) => {
 			initialValues={initialValues}
 			validationSchema={authFormSchema}
 			onSubmit={(values, { setSubmitting, funcProps }) => {
-				// alert(values.toString());
 				console.log('logged in ', values);
 
-				props.actionFunc(values.email, values.password).then((res) => {
-					if (res) {
-						console.log('success!!!!');
-						navigate(props.onSuccessRoute);
-					}
-				});
-
-				// store.dispatch(props.actionFunc(values.email, values.password))
-				//     .then(() => {
-				//         console.log(store.getState())
-				//         store.dispatch(fetchLogs()); // output is handled in Logs comp
-				//     })
-				//     .catch(() => {
-				//         console.log(store.getState())
-				//     })
+				props
+					.actionFunc(values.email, values.password)
+					.then((res) => {
+						console.log(res.status);
+						if (res.status in okStatusCodes) {
+							console.log('success!!!!');
+							navigate(props.onSuccessRoute);
+						} else {
+							throw res;
+						}
+					})
+					.catch((e) => {
+						setApiMsg(e.data.errors);
+						setSubmitting(false);
+					});
 			}}
 		>
 			{(formik) => {
@@ -93,7 +95,17 @@ export const AuthFormGeneric = (props) => {
 								<ErrorMessage name="password" component="span" className="auth-form-error" />
 							</Box>
 
-							{/* <Box className="auth-form-form-row">{messageFromStore}</Box> */}
+							{apiMsg.length != 0 ? (
+								<Box className="auth-form-form-row">
+									{apiMsg.map((m, i) => <Text key={i}>{m.message}</Text>)}
+								</Box>
+							) : (
+								<Box>
+									{' '}
+									<br />
+									<br />
+								</Box>
+							)}
 
 							<Box>
 								<SubmitButton

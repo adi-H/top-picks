@@ -12,12 +12,14 @@ export const login = async (email, password) => {
 	};
 	try {
 		const res = await genericRequest(config);
-		console.log(res);
-		return true;
+		// console.log(res);
+		// return true;
+		return res;
 	} catch (e) {
-		console.log(e);
-		console.log('oh no :( try again');
-		return false;
+		// console.log(e);
+		// console.log('oh no :( try again');
+		// return false;
+		return e;
 	}
 };
 
@@ -31,11 +33,13 @@ export const signup = async (email, password) => {
 	};
 	try {
 		const res = await genericRequest(config);
-		console.log(res);
-		return true;
+		// console.log(res);
+		// return true;
+		return res;
 	} catch (e) {
-		console.log('oh no :( try again');
-		return false;
+		// console.log('oh no :( try again');
+		// return false;
+		return e;
 	}
 };
 
