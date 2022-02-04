@@ -1,11 +1,12 @@
 import { BrandDoc } from './brand';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 
 interface ProductAttributes {
 	name: string;
 	productType: string;
 	avgRating: number;
 	brand: BrandDoc;
+	productImg: Buffer;
 }
 
 interface ProductDoc extends mongoose.Document {
@@ -13,6 +14,7 @@ interface ProductDoc extends mongoose.Document {
 	productType: string;
 	avgRating: number;
 	brand: BrandDoc;
+	productImg: Buffer;
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
@@ -35,6 +37,10 @@ const productSchema = new mongoose.Schema(
 		brand: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Brand'
+		},
+		productImg: {
+			data: Buffer,
+			contentType: String
 		}
 	},
 	{
