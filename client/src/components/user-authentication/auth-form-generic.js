@@ -5,6 +5,7 @@ import { FormLabel, Box, InputGroup, Button, InputRightElement, IconButton } fro
 import { ViewIcon, ViewOffIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import { SubmitButton } from 'formik-chakra-ui';
 import './../../assets/stylesheets/auth-form.css';
+import { useNavigate } from 'react-router-dom';
 
 const authFormSchema = Yup.object().shape({
 	email: Yup.string().email().required('Email is required'),
@@ -18,14 +19,22 @@ const initialValues = {
 
 export const AuthFormGeneric = (props) => {
 	const [ showPassword, setShowPassword ] = useState(false);
+	const navigate = useNavigate();
 
 	return (
 		<Formik
 			initialValues={initialValues}
 			validationSchema={authFormSchema}
-			onSubmit={(values, { setSubmitting, props }) => {
-				alert(values.toString());
+			onSubmit={(values, { setSubmitting, funcProps }) => {
+				// alert(values.toString());
 				console.log('logged in ', values);
+
+				props.actionFunc(values.email, values.password).then((res) => {
+					if (res) {
+						console.log('success!!!!');
+						navigate(props.onSuccessRoute);
+					}
+				});
 
 				// store.dispatch(props.actionFunc(values.email, values.password))
 				//     .then(() => {
