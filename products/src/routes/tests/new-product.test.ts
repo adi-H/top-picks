@@ -102,6 +102,7 @@ it('return 400 with missing img', async () => {
 
 it('returns 400 with wrong file type attached (txt)', async () => {
 	const brand = await createBrand();
+
 	await request(app)
 		.post('/api/products')
 		.field('name', 'test')
