@@ -13,7 +13,7 @@ const createBrand = async () => {
 	return brand;
 };
 
-const testImgPath = './../../__mocks__/alien.png';
+const testImgPath = __dirname + './../../__mocks__/alien.png';
 const createProduct = async (name: string, type: string) => {
 	const brand = await createBrand();
 	const res = await request(app)

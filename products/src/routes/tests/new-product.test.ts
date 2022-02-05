@@ -4,7 +4,7 @@ import { Brand } from '../../models/brand';
 import mongoose from 'mongoose';
 import { natsWrapper } from '../../nats-wrapper';
 
-const testImgPath = './../../__mocks__/alien.png';
+const testImgPath = __dirname + './../../__mocks__/alien.png';
 
 const createBrand = async () => {
 	const brand = Brand.build({
@@ -107,7 +107,7 @@ it('returns 400 with wrong file type attached (txt)', async () => {
 		.field('name', 'test')
 		.field('productType', 'blahblah')
 		.field('brand', brand.id)
-		.attach('productImg', './../../__mocks__/test.txt')
+		.attach('productImg', __dirname + './../../__mocks__/test.txt')
 		.expect(400);
 });
 

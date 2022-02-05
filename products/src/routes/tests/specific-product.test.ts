@@ -12,7 +12,7 @@ const createBrand = async () => {
 	return brand;
 };
 
-const testImgPath = './../../__mocks__/alien.png';
+const testImgPath = __dirname + './../../__mocks__/alien.png';
 const createProduct = async (name: string, type: string) => {
 	const brand = await createBrand();
 	const res = await request(app)
@@ -20,7 +20,7 @@ const createProduct = async (name: string, type: string) => {
 		.field('name', 'test')
 		.field('productType', 'blahblah')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(201);
 
 	return res;
