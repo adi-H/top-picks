@@ -7,10 +7,11 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-    # strategy:
-    #   matrix:
-    #     node-version: [17.x]
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+        matrix:
+            os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v2
       - run: node -v && cd products && ls src/__mocks__ && npm install && npm run test:ci
