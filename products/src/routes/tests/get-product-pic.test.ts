@@ -17,8 +17,8 @@ const createProduct = async (name: string, type: string) => {
 	const brand = await createBrand();
 	const res = await request(app)
 		.post('/api/products')
-		.field('name', 'test')
-		.field('productType', 'blahblah')
+		.field('name', name)
+		.field('productType', type)
 		.field('brand', brand.id)
 		.attach('productImg', __dirname + testImgPath)
 		.expect(201);
@@ -26,22 +26,15 @@ const createProduct = async (name: string, type: string) => {
 	return res;
 };
 
-it('returns 200 with valid product details', async () => {
-	const res = await createProduct('test', 'testtype');
+it('returns 200 with pic of product that exists', async () => {
+	const product = await createProduct('test', 'testtype');
 
-	const details = await request(app).get(`/api/products/${res.body.id}`).expect(200);
+	const res = await request(app).get(`/api/products/img/${product.body.productImg}`).expect(200);
 
-	expect(details.body.id).toEqual(res.body.id);
-	expect(details.body.name).toEqual(res.body.name);
-	expect(details.body.description).toEqual(res.body.description);
+	expect(res.headers['content-type']).toBe('image/png');
+	// expect(res.body).toEqual(Buffer.from(__dirname + testImgPath));
 });
 
-it('returns 404 with invalid product id', async () => {
-	await request(app).get(`/api/products/456`).expect(404);
-});
+it('returns 404 for picId that doesnt exist', async () => {});
 
 // it('returns ', async () => {});
-// it('', async () => {});
-// it('', async () => {});
-// it('', async () => {});
-// it('', async () => {});
