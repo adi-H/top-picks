@@ -24,7 +24,7 @@ it('return 201 on successful input', async () => {
 		.field('name', 'test')
 		.field('productType', 'blahblah')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(201);
 });
 
@@ -38,7 +38,7 @@ it('return 400 with missing name', async () => {
 		.post('/api/products')
 		.field('productType', 'blahblah')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
@@ -48,7 +48,7 @@ it('return 400 with missing product type', async () => {
 		.post('/api/products')
 		.field('name', 'test')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
@@ -57,7 +57,7 @@ it('return 400 with missing brand id', async () => {
 		.post('/api/products')
 		.field('name', 'test')
 		.field('productType', 'blahblah')
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
@@ -67,7 +67,7 @@ it('return 400 with brand id that doesnt exist', async () => {
 		.field('name', 'test')
 		.field('productType', 'blahblah')
 		.field('brand', new mongoose.Types.ObjectId().toString())
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
@@ -78,7 +78,7 @@ it('return 400 with name that already exists', async () => {
 		.field('name', 'test123')
 		.field('productType', 'blahblah')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(201);
 
 	await request(app)
@@ -86,7 +86,7 @@ it('return 400 with name that already exists', async () => {
 		.field('name', 'test123')
 		.field('productType', 'blahblah')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
@@ -107,7 +107,7 @@ it('returns 400 with wrong file type attached (txt)', async () => {
 		.field('name', 'test')
 		.field('productType', 'blahblah')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + './../../__mocks__/test.txt')
+		.attach('productImg', './../../__mocks__/test.txt')
 		.expect(400);
 });
 
@@ -118,7 +118,7 @@ it('emits a new product event', async () => {
 		.field('name', 'test')
 		.field('productType', 'blahblah')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(201);
 	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

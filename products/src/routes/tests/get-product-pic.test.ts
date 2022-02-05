@@ -20,7 +20,7 @@ const createProduct = async (name: string, type: string) => {
 		.field('name', name)
 		.field('productType', type)
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + testImgPath)
+		.attach('productImg', testImgPath)
 		.expect(201);
 
 	return res;
