@@ -2,10 +2,12 @@ import mongoose from 'mongoose';
 
 interface ProductImgAttributes {
 	buff: String;
+	fileName: String;
 }
 
 export interface ProductImgDoc extends mongoose.Document {
 	buff: String;
+	fileName: String;
 }
 
 interface ProductImgModel extends mongoose.Model<ProductImgDoc> {
@@ -15,6 +17,9 @@ interface ProductImgModel extends mongoose.Model<ProductImgDoc> {
 const productImgSchema = new mongoose.Schema(
 	{
 		buff: {
+			type: String
+		},
+		fileName: {
 			type: String
 		}
 	},

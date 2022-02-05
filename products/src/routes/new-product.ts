@@ -64,8 +64,11 @@ router.post(
 		// BANDAID -- this converts the file buffer to utf8 string and saves it
 		// i dunno why this works but it saves something so like what do i fucking know
 		// TODO fix this ??
+		// BANDAID #2 saves the buffer as binary so it can be like brought back from binary easily later
+		// https://stackoverflow.com/a/67063067
 		const img = ProductImg.build({
-			buff: req.file.buffer.toString('utf8')
+			buff: req.file.buffer.toString('binary'),
+			fileName: req.file.filename
 		});
 		await img.save();
 		// console.log(img);
