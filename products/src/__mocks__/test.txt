@@ -1,0 +1,2 @@
+this is a random file!!
+to make sure the create new product fails if it gets a text file !! 

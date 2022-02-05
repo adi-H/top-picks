@@ -17,8 +17,8 @@ const createProduct = async (name: string, type: string) => {
 	const brand = await createBrand();
 	const res = await request(app)
 		.post('/api/products')
-		.field('name', 'test')
-		.field('productType', 'blahblah')
+		.field('name', name)
+		.field('productType', type)
 		.field('brand', brand.id)
 		.attach('productImg', testImgPath)
 		.expect(201);
@@ -26,16 +26,15 @@ const createProduct = async (name: string, type: string) => {
 	return res;
 };
 
-it('returns 200 with a valid product in db', async () => {
-	const brand = await createBrand();
+it('returns 200 with pic of product that exists', async () => {
+	const product = await createProduct('test', 'testtype');
 
-	await createProduct('test', 'testtype');
+	const res = await request(app).get(`/api/products/img/${product.body.productImg}`).expect(200);
 
-	const res = await request(app).get('/api/products').expect(200);
-	expect(res.body).toHaveLength(1);
+	expect(res.headers['content-type']).toBe('image/png');
+	// expect(res.body).toEqual(Buffer.from(__dirname + testImgPath));
 });
 
-it('returns 200 with empty body (nothing in db)', async () => {
-	const res = await request(app).get('/api/products').expect(200);
-	expect(res.body).toHaveLength(0);
-});
+it('returns 404 for picId that doesnt exist', async () => {});
+
+// it('returns ', async () => {});

@@ -4,10 +4,14 @@ import { Brand } from '../../models/brand';
 import mongoose from 'mongoose';
 import { natsWrapper } from '../../nats-wrapper';
 
+const testImgPath = __dirname + './../../__mocks__/alien.png';
+
 const createBrand = async () => {
 	const brand = Brand.build({
 		name: 'blah',
-		id: new mongoose.Types.ObjectId().toHexString()
+		id: new mongoose.Types.ObjectId().toString()
+
+		// id: new mongoose.Types.ObjectId().toHexString()
 	});
 	await brand.save();
 	return brand;
@@ -17,11 +21,10 @@ it('return 201 on successful input', async () => {
 	const brand = await createBrand();
 	await request(app)
 		.post('/api/products')
-		.send({
-			name: 'test',
-			productType: 'blahblah',
-			brand: brand.id
-		})
+		.field('name', 'test')
+		.field('productType', 'blahblah')
+		.field('brand', brand.id)
+		.attach('productImg', testImgPath)
 		.expect(201);
 });
 
@@ -33,10 +36,9 @@ it('return 400 with missing name', async () => {
 	const brand = await createBrand();
 	await request(app)
 		.post('/api/products')
-		.send({
-			type: 'blahblah',
-			productType: brand.id
-		})
+		.field('productType', 'blahblah')
+		.field('brand', brand.id)
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
@@ -44,31 +46,28 @@ it('return 400 with missing product type', async () => {
 	const brand = await createBrand();
 	const res = await request(app)
 		.post('/api/products')
-		.send({
-			name: 'test',
-			productType: brand.id
-		})
+		.field('name', 'test')
+		.field('brand', brand.id)
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
 it('return 400 with missing brand id', async () => {
 	await request(app)
 		.post('/api/products')
-		.send({
-			name: 'test',
-			productType: 'blahblah'
-		})
+		.field('name', 'test')
+		.field('productType', 'blahblah')
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
 it('return 400 with brand id that doesnt exist', async () => {
 	await request(app)
 		.post('/api/products')
-		.send({
-			name: 'test',
-			productType: 'blahblah',
-			brand: new mongoose.Types.ObjectId().toHexString()
-		})
+		.field('name', 'test')
+		.field('productType', 'blahblah')
+		.field('brand', new mongoose.Types.ObjectId().toString())
+		.attach('productImg', testImgPath)
 		.expect(400);
 });
 
@@ -76,20 +75,40 @@ it('return 400 with name that already exists', async () => {
 	const brand = await createBrand();
 	await request(app)
 		.post('/api/products')
-		.send({
-			name: 'test123',
-			productType: 'blahblah12',
-			brand: brand.id
-		})
+		.field('name', 'test123')
+		.field('productType', 'blahblah')
+		.field('brand', brand.id)
+		.attach('productImg', testImgPath)
 		.expect(201);
 
 	await request(app)
 		.post('/api/products')
-		.send({
-			name: 'test123',
-			productType: 'blahblah123',
-			brand: brand.id
-		})
+		.field('name', 'test123')
+		.field('productType', 'blahblah')
+		.field('brand', brand.id)
+		.attach('productImg', testImgPath)
+		.expect(400);
+});
+
+it('return 400 with missing img', async () => {
+	const brand = await createBrand();
+	const res = await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('productType', 'blahblah')
+		.field('brand', brand.id)
+		.expect(400);
+});
+
+it('returns 400 with wrong file type attached (txt)', async () => {
+	const brand = await createBrand();
+
+	await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('productType', 'blahblah')
+		.field('brand', brand.id)
+		.attach('productImg', __dirname + './../../__mocks__/test.txt')
 		.expect(400);
 });
 
@@ -97,11 +116,10 @@ it('emits a new product event', async () => {
 	const brand = await createBrand();
 	await request(app)
 		.post('/api/products')
-		.send({
-			name: 'test',
-			productType: 'blahblah',
-			brand: brand.id
-		})
+		.field('name', 'test')
+		.field('productType', 'blahblah')
+		.field('brand', brand.id)
+		.attach('productImg', testImgPath)
 		.expect(201);
 	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

@@ -7,22 +7,23 @@ import { natsWrapper } from '../../nats-wrapper';
 const createBrand = async () => {
 	const brand = Brand.build({
 		name: 'blah',
-		id: new mongoose.Types.ObjectId().toHexString()
+		id: new mongoose.Types.ObjectId().toString()
 	});
 	await brand.save();
 	return brand;
 };
 
+const testImgPath = __dirname + './../../__mocks__/alien.png';
 const createProduct = async (name: string, type: string) => {
 	const brand = await createBrand();
 	const res = await request(app)
 		.post('/api/products')
-		.send({
-			name: name,
-			productType: type,
-			brand: brand.id
-		})
+		.field('name', name)
+		.field('productType', type)
+		.field('brand', brand.id)
+		.attach('productImg', testImgPath)
 		.expect(201);
+
 	return res;
 };
 
@@ -119,7 +120,7 @@ it('return 404 if Product id doesnt exist', async () => {
 		.send({
 			name: 'test2',
 			productType: 'desc',
-			brand: new mongoose.Types.ObjectId().toHexString(),
+			brand: new mongoose.Types.ObjectId().toString(),
 			avgRating: 5
 		})
 		.expect(404);
@@ -163,7 +164,7 @@ it('return 400 if brand id doesnt exist', async () => {
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
 		.send({
-			brand: new mongoose.Types.ObjectId().toHexString()
+			brand: new mongoose.Types.ObjectId().toString()
 		})
 		.expect(400);
 });

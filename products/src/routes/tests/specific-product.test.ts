@@ -6,23 +6,28 @@ import mongoose from 'mongoose';
 const createBrand = async () => {
 	const brand = Brand.build({
 		name: 'blah',
-		id: new mongoose.Types.ObjectId().toHexString()
+		id: new mongoose.Types.ObjectId().toString()
 	});
 	await brand.save();
 	return brand;
 };
 
-it('returns 200 with valid product details', async () => {
+const testImgPath = __dirname + './../../__mocks__/alien.png';
+const createProduct = async (name: string, type: string) => {
 	const brand = await createBrand();
-
 	const res = await request(app)
 		.post('/api/products')
-		.send({
-			name: 'test',
-			productType: 'blahblah',
-			brand: brand.id
-		})
+		.field('name', 'test')
+		.field('productType', 'blahblah')
+		.field('brand', brand.id)
+		.attach('productImg', testImgPath)
 		.expect(201);
+
+	return res;
+};
+
+it('returns 200 with valid product details', async () => {
+	const res = await createProduct('test', 'testtype');
 
 	const details = await request(app).get(`/api/products/${res.body.id}`).expect(200);
 
