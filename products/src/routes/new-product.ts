@@ -32,7 +32,7 @@ router.post(
 	async (req: Request, res: Response) => {
 		const { name, productType, brand: brandId } = req.body;
 
-		console.log(req.file);
+		// console.log(req.file);
 		if (!req.file) {
 			throw new BadRequestError('img is missing');
 		}
