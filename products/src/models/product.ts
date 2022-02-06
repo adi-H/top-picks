@@ -8,6 +8,7 @@ interface ProductAttributes {
 	avgRating: number;
 	brand: BrandDoc;
 	productImg: ProductImgDoc;
+	description: string;
 }
 
 interface ProductDoc extends mongoose.Document {
@@ -16,6 +17,7 @@ interface ProductDoc extends mongoose.Document {
 	avgRating: number;
 	brand: BrandDoc;
 	productImg: ProductImgDoc;
+	description: string;
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
@@ -42,6 +44,9 @@ const productSchema = new mongoose.Schema(
 		productImg: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'ProductImg'
+		},
+		description: {
+			type: String
 		}
 	},
 	{

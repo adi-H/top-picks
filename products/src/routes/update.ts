@@ -24,6 +24,10 @@ const productUpdateValidationRules = () => {
 			.notEmpty()
 			.isFloat({ min: 0, max: 5 })
 			.withMessage('rating cant be specified + under 0 or over 5')
+			.optional({ nullable: true, checkFalsy: true }),
+		body('description')
+			.notEmpty()
+			.withMessage('productType cant be specified + empty')
 			.optional({ nullable: true, checkFalsy: true })
 	];
 };

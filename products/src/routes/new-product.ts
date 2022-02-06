@@ -20,7 +20,8 @@ const productValidationRules = () => {
 		body('name').not().isEmpty().withMessage('name is required'),
 		body('productType').not().isEmpty().withMessage('productType is required'),
 		// .optional({ nullable: true, checkFalsy: true }),
-		body('brand').not().isEmpty().withMessage('brand is required')
+		body('brand').not().isEmpty().withMessage('brand is required'),
+		body('description').not().isEmpty().withMessage('productType is required')
 	];
 };
 
@@ -30,7 +31,7 @@ router.post(
 	productValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const { name, productType, brand: brandId } = req.body;
+		const { name, productType, brand: brandId, description } = req.body;
 
 		// console.log(req.file);
 		if (!req.file) {
@@ -78,7 +79,8 @@ router.post(
 			brand: brandId,
 			productType,
 			avgRating: 0,
-			productImg: img._id
+			productImg: img._id,
+			description
 		});
 		await product.save();
 
