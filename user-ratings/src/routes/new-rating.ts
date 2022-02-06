@@ -17,7 +17,11 @@ const ratingValidationRules = () => {
 			.notEmpty()
 			.isFloat({ min: 0, max: 5 })
 			.withMessage('rating cant be specified + under 0 or over 5'),
-		body('product').notEmpty().withMessage('product cant be empty')
+		body('product').notEmpty().withMessage('product cant be empty'),
+		body('description')
+			.notEmpty()
+			.withMessage('product cant be empty')
+			.optional({ nullable: true, checkFalsy: true })
 	];
 };
 const router = express.Router();
@@ -28,7 +32,7 @@ router.post(
 	ratingValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const { product: productId, rating } = req.body;
+		const { product: productId, rating, description = '' } = req.body;
 
 		// if sessionInfo didnt exist requireAuth wouldve thrown error, guarenteed exists
 		const user = await User.findById(req.sessionInfo!.id);
@@ -47,7 +51,8 @@ router.post(
 		const ratingObj = Rating.build({
 			product: product,
 			user: user!,
-			rating
+			rating,
+			description
 		});
 		await ratingObj.save();
 

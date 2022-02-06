@@ -7,6 +7,7 @@ import { pingRouter } from './routes/ping';
 import { newProductRouter } from './routes/new-product';
 import { indexRouter } from './routes';
 import { errorHandler } from './middlewares/error-handler';
+import { getProductPicRouter } from './routes/get-product-pic';
 import { specificProductRouter } from './routes/specific-product';
 import { updateProductRouter } from './routes/update';
 
@@ -25,6 +26,7 @@ app.use(newProductRouter);
 app.use(indexRouter);
 app.use(specificProductRouter);
 app.use(updateProductRouter);
+app.use(getProductPicRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
