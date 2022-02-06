@@ -12,6 +12,7 @@ export const Home = ({ props }) => {
 			<h1>hiiiii</h1>
 			<h1>hiiiii</h1>
 			<h1>hiiiii</h1>
+			{document.cookie}
 		</div>
 	);
 };

@@ -35,10 +35,12 @@ export const AuthFormGeneric = (props) => {
 					.actionFunc(values.email, values.password)
 					.then((res) => {
 						console.log(res.status);
-						if (res.status in okStatusCodes) {
+						if (okStatusCodes.includes(res.status)) {
 							console.log('success!!!!');
+							console.log(document.cookie);
 							navigate(props.onSuccessRoute);
 						} else {
+							console.log('in error part onsubmit');
 							throw res;
 						}
 					})
