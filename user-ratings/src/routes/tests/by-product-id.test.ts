@@ -35,7 +35,8 @@ it('returns 200 with only the rating thats by the product', async () => {
 		.set('Cookie', cookie)
 		.send({
 			rating: 2,
-			product: productOne.id
+			product: productOne.id,
+			description: 'blah blah blah desc'
 		})
 		.expect(201);
 
@@ -44,7 +45,8 @@ it('returns 200 with only the rating thats by the product', async () => {
 		.set('Cookie', cookie)
 		.send({
 			rating: 2,
-			product: productTwo.id
+			product: productTwo.id,
+			description: 'blah blah blah desc'
 		})
 		.expect(201);
 

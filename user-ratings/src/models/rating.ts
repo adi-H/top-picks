@@ -6,12 +6,14 @@ interface RatingAttributes {
 	rating: number;
 	user: UserDoc;
 	product: ProductDoc;
+	description: string;
 }
 
 interface RatingDoc extends mongoose.Document {
 	rating: number;
 	user: UserDoc;
 	product: ProductDoc;
+	description: string;
 }
 
 interface RatingModel extends mongoose.Model<RatingDoc> {
@@ -31,6 +33,9 @@ const ratingSchema = new mongoose.Schema(
 		product: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Product'
+		},
+		description: {
+			type: String
 		}
 	},
 	{
