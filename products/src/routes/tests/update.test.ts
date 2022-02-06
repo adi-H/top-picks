@@ -37,13 +37,15 @@ it('return 201 and update ok with all parameters', async () => {
 			name: 'test2',
 			productType: 'desc',
 			brand: productCreationDetails.body.brand,
-			avgRating: 5
+			avgRating: 5,
+			description: 'blah blah blah2'
 		})
 		.expect(201);
 
 	expect(res.body.name).toEqual('test2');
 	expect(res.body.productType).toEqual('desc');
 	expect(res.body.brand).toEqual(productCreationDetails.body.brand);
+	expect(res.body.description).toEqual('blah blah blah2');
 	expect(res.body.id).toEqual(productCreationDetails.body.id);
 });
 
@@ -59,6 +61,22 @@ it('return 201 with only name', async () => {
 
 	expect(res.body.name).toEqual('test2');
 	expect(res.body.productType).toEqual('test123');
+	expect(res.body.brand).toEqual(productCreationDetails.body.brand);
+	expect(res.body.id).toEqual(productCreationDetails.body.id);
+});
+
+it('return 201 with only desc', async () => {
+	const productCreationDetails = await createProduct('test', 'test123');
+
+	const res = await request(app)
+		.put(`/api/products/${productCreationDetails.body.id}`)
+		.send({
+			description: 'abkahasd askdjhasd kjhasd'
+		})
+		.expect(201);
+
+	expect(res.body.name).toEqual('test');
+	expect(res.body.description).toEqual('abkahasd askdjhasd kjhasd');
 	expect(res.body.brand).toEqual(productCreationDetails.body.brand);
 	expect(res.body.id).toEqual(productCreationDetails.body.id);
 });
