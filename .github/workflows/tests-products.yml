@@ -11,7 +11,9 @@ jobs:
 
     strategy:
         matrix:
-            os: [windows-latest, macos-latest]
+            os: [windows-latest]
+    # os: [windows-latest, ubuntu-latest, macos-latest]
+
     steps:
       - uses: actions/checkout@v2
       - run: node -v && cd products && ls src/__mocks__ && npm install && npm run test:ci
