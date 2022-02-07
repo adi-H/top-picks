@@ -30,3 +30,12 @@ thank u ❤
 **Client:** React, Chakra-ui, react-router-dom, formik
 
 **Server:** Node, Express, Typescript, MongoDB, jest
+
+## Used By
+
+This project is used by the following companies:
+
+- me
+- myself
+- and i 
+- 🔥🔥🔥
