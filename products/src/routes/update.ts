@@ -1,3 +1,4 @@
+import { BrandDoc } from './../models/brand';
 import { validateRequest } from './../middlewares/validate-request';
 import express, { Request, Response } from 'express';
 import { Product } from '../models/product';
@@ -27,7 +28,7 @@ const productUpdateValidationRules = () => {
 			.optional({ nullable: true, checkFalsy: true }),
 		body('description')
 			.notEmpty()
-			.withMessage('productType cant be specified + empty')
+			.withMessage('description cant be specified + empty')
 			.optional({ nullable: true, checkFalsy: true })
 	];
 };
@@ -45,7 +46,7 @@ router.put(
 	async (req: Request, res: Response) => {
 		let product;
 		try {
-			product = await Product.findById(req.params.id);
+			product = await Product.findById(req.params.id).populate('brand');
 			if (!product) {
 				throw new NotFoundError();
 			}
@@ -53,18 +54,23 @@ router.put(
 			throw new NotFoundError();
 		}
 
+		let reqBody = req.body;
 		if (req.body.brand) {
 			try {
 				const newBrand = await Brand.findById(req.body.brand);
 				if (!newBrand) {
 					throw new BadRequestError('brand id doesnt exist');
 				}
+				reqBody = { ...req.body, ...newBrand };
 			} catch (e) {
 				throw new BadRequestError('brand id doesnt exist');
 			}
 		}
 
-		const newProduct = { ...product, ...req.body };
+		let newProduct = { ...product, ...reqBody };
+		// if (newBrand) {
+		// 	newProduct = { ...product, ...req.body, ...newBrand };
+		// }
 		try {
 			await product.set(newProduct);
 			await product.save();
@@ -72,13 +78,13 @@ router.put(
 			throw new BadRequestError('maybe some of the parameters are wrong~~');
 		}
 
-		// new productUpdatedPublisher(natsWrapper.client).publish({
-		// 	id: product.id,
-		// 	name: product.name,
-		// 	productType: product.productType,
-		// 	avgRating: product.avgRating,
-		// 	brandId: product.brand.id
-		// });
+		new productUpdatedPublisher(natsWrapper.client).publish({
+			id: product.id,
+			name: product.name,
+			productType: product.productType,
+			avgRating: product.avgRating,
+			brandId: product.brand.id
+		});
 
 		res.status(201).send(product);
 	}

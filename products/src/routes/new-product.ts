@@ -1,3 +1,4 @@
+import { BrandDoc } from './../models/brand';
 import { validateRequest } from './../middlewares/validate-request';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
@@ -38,8 +39,9 @@ router.post(
 			throw new BadRequestError('img is missing');
 		}
 
+		let brandObj: BrandDoc | null;
 		try {
-			const brandObj = await Brand.findById(brandId);
+			brandObj = await Brand.findById(brandId);
 			if (!brandObj) {
 				throw new BadRequestError('brand doesnt exist');
 			}
@@ -76,7 +78,7 @@ router.post(
 
 		const product = await Product.build({
 			name,
-			brand: brandId,
+			brand: brandObj,
 			productType,
 			avgRating: 0,
 			productImg: img._id,
@@ -84,7 +86,7 @@ router.post(
 		});
 		await product.save();
 
-		console.log(product);
+		// console.log(product);
 		new productCreatedPublisher(natsWrapper.client).publish({
 			id: product.id,
 			name: product.name,
