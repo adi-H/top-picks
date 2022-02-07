@@ -1,12 +1,11 @@
 import { genericRequest } from './generic-request';
 
-const server_url = 'https://20.82.37.12';
-// const server_url = 'https://ingress-nginx-controller.ingress-nginx.svc.cluster.local/';
+import { SERVER_URL } from './../variables/server-url';
 
 // login
 export const login = async (email, password) => {
 	const config = {
-		baseUrl: server_url,
+		baseUrl: SERVER_URL,
 		endpoint: '/api/users/signin',
 		method: 'POST',
 		body: { email: email, password: password },
@@ -28,7 +27,7 @@ export const login = async (email, password) => {
 // signup
 export const signup = async (email, password) => {
 	const config = {
-		baseUrl: server_url,
+		baseUrl: SERVER_URL,
 		endpoint: '/api/users/signup',
 		method: 'POST',
 		body: { email: email, password: password },

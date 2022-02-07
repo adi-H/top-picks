@@ -15,7 +15,7 @@ export const genericRequest = async ({ baseUrl, endpoint, method, authRequired =
 		};
 
 		const response = await axios(options);
-		console.log(response);
+		// console.log(response);
 		return response;
 	} catch (e) {
 		console.log(e.response.data);
