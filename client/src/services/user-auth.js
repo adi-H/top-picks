@@ -1,14 +1,15 @@
 import { genericRequest } from './generic-request';
 
-const server_url = 'http://20.82.37.12';
+import { SERVER_URL } from './../variables/server-url';
 
 // login
 export const login = async (email, password) => {
 	const config = {
-		baseUrl: server_url,
+		baseUrl: SERVER_URL,
 		endpoint: '/api/users/signin',
 		method: 'POST',
-		body: { email: email, password: password }
+		body: { email: email, password: password },
+		options: { withCredentials: true }
 	};
 	try {
 		const res = await genericRequest(config);
@@ -26,10 +27,11 @@ export const login = async (email, password) => {
 // signup
 export const signup = async (email, password) => {
 	const config = {
-		baseUrl: server_url,
+		baseUrl: SERVER_URL,
 		endpoint: '/api/users/signup',
 		method: 'POST',
-		body: { email: email, password: password }
+		body: { email: email, password: password },
+		options: { withCredentials: true }
 	};
 	try {
 		const res = await genericRequest(config);

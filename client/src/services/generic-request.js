@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const genericRequest = async ({ baseUrl, endpoint, method, authRequired = false, body }) => {
+export const genericRequest = async ({ baseUrl, endpoint, method, authRequired = false, body, otherOptions = {} }) => {
 	try {
 		// TODO add authRequired thingi and add cookie header to req
 		const options = {
@@ -10,11 +10,12 @@ export const genericRequest = async ({ baseUrl, endpoint, method, authRequired =
 				Accept: 'application/json',
 				'Content-Type': 'application/json;charset=UTF-8'
 			},
-			data: body
+			data: body,
+			options: otherOptions
 		};
 
 		const response = await axios(options);
-		console.log(response);
+		// console.log(response);
 		return response;
 	} catch (e) {
 		console.log(e.response.data);

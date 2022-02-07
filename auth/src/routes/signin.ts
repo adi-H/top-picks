@@ -49,7 +49,14 @@ router.post('/api/users/signin', reqValidationRules(), validateRequest, async (r
 
 	// why does adding res.cookie work but not the req.session ????
 	// res.status(200).send(existingUser);
-	res.status(200).cookie('jwt', userJwt).send(existingUser);
+	res
+		.status(200)
+		.cookie('jwt', userJwt, {
+			maxAge: 900000,
+			httpOnly: false,
+			sameSite: 'lax'
+		})
+		.send(existingUser);
 });
 
 export { router as signInRouter };
