@@ -54,6 +54,7 @@ const productSchema = new mongoose.Schema(
 			transform(doc, ret) {
 				ret.id = ret._id;
 				delete ret._id;
+				ret.imgPath = `/api/products/img/${ret.productImg._id}`;
 			}
 		}
 	}
