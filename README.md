@@ -24,3 +24,9 @@ you to see all the options you could possibly pick!
 
 thank u ❤
 
+
+## Tech Stack
+
+**Client:** React, Chakra-ui, react-router-dom, formik
+
+**Server:** Node, Express, Typescript, MongoDB, jest
