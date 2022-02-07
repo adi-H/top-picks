@@ -1,14 +1,16 @@
 import React from 'react';
-import { Box, Spacer, Stack, Button, Badge, Image, Text, Flex } from '@chakra-ui/react';
+import { Box, Spacer, Stack, Badge, Image, Text, Flex, useColorModeValue } from '@chakra-ui/react';
 import { SERVER_URL } from '../../variables/server-url';
 
 // DOCUMENTATION basic card component
 // https://www.geeksforgeeks.org/reactjs-chakra-ui-card-component/
 
 export const ProductCard = (props) => {
+	const cardBg = useColorModeValue('gray.200', 'gray.600');
+
 	console.log(props);
 	return (
-		<Box w="200px" rounded="20px" overflow="hidden" bg={'gray.200'}>
+		<Box w="200px" rounded="20px" overflow="hidden" bg={cardBg}>
 			<Image src={`${SERVER_URL}${props.imgPath}`} alt="product Image" />
 			<Box p={5}>
 				<Stack align="center">
