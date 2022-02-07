@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 import { NavBar } from '../components/navbar/navbar';
 import { Outlet } from 'react-router-dom';
 import { useColorModeValue } from '@chakra-ui/react';
@@ -11,14 +11,19 @@ import { useColorModeValue } from '@chakra-ui/react';
 
 const Layout = ({ children }) => {
 	const appBg = useColorModeValue('#f4f4f2', '#1a202c');
+
 	return (
 		<div className="Layout">
 			<div>
 				<NavBar />
 			</div>
-			<Box className="main-view-container" bg={appBg} height="100vh" position="relative">
-				<Outlet />
-			</Box>
+			<Grid templateColumns="repeat(5, 1fr)" gap={4} bg={appBg}>
+				<GridItem colStart={2} colEnd={5}>
+					<Box className="main-view-container" height="100vh" position="relative">
+						<Outlet />
+					</Box>
+				</GridItem>
+			</Grid>
 		</div>
 	);
 };
