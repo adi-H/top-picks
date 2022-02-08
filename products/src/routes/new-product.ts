@@ -11,6 +11,7 @@ import multer from 'multer';
 import { fileStorage } from '../file-upload/storage-config';
 import { fileFilter } from '../file-upload/file-filter';
 import { ProductImg } from '../models/productImg';
+import { possibleProductTypes } from '../variables/product-types';
 
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
@@ -37,6 +38,10 @@ router.post(
 		// console.log(req.file);
 		if (!req.file) {
 			throw new BadRequestError('img is missing');
+		}
+
+		if (!possibleProductTypes.includes(productType.toLowerCase())) {
+			throw new BadRequestError(`product type ${productType} doesnt exist ~~`);
 		}
 
 		let brandObj: BrandDoc | null;

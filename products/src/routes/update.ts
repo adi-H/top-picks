@@ -6,9 +6,9 @@ import { body } from 'express-validator';
 import { NotFoundError } from '../errors/not-found-error';
 import { Brand } from '../models/brand';
 import { BadRequestError } from '../errors/bad-request-error';
-import { CustomError } from '../errors/custom-error';
 import { productUpdatedPublisher } from '../events/publishers/product-updated-publisher';
 import { natsWrapper } from '../nats-wrapper';
+import { possibleProductTypes } from '../variables/product-types';
 
 const productUpdateValidationRules = () => {
 	return [
@@ -67,10 +67,14 @@ router.put(
 			}
 		}
 
+		if (req.body.productType) {
+			console.log(req.body.productType);
+			if (!possibleProductTypes.includes(req.body.productType.toLowerCase())) {
+				throw new BadRequestError(`productType ${req.body.productType} doesnt exist ~~`);
+			}
+		}
+
 		let newProduct = { ...product, ...reqBody };
-		// if (newBrand) {
-		// 	newProduct = { ...product, ...req.body, ...newBrand };
-		// }
 		try {
 			await product.set(newProduct);
 			await product.save();
