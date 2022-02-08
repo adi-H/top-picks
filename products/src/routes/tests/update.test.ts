@@ -14,22 +14,36 @@ const createBrand = async () => {
 };
 
 const testImgPath = __dirname + './../../__mocks__/alien.png';
-const createProduct = async (name: string, type: string) => {
-	const brand = await createBrand();
-	const res = await request(app)
-		.post('/api/products')
-		.field('name', name)
-		.field('productType', type)
-		.field('description', 'blahblah desc')
-		.field('brand', brand.id)
-		.attach('productImg', testImgPath)
-		.expect(201);
+
+const createProduct = async (attrs: object, imgPath: string) => {
+	let req = request(app).post('/api/products');
+	for (const [ key, value ] of Object.entries(attrs)) {
+		req = req.field(key, value);
+	}
+	const res = await req.attach('productImg', imgPath).expect(201);
 
 	return res;
 };
 
+const getProductDetails = async (
+	name: string = 'test',
+	productType: string = 'cleanser',
+	description: string = 'blah desc',
+	brandId: string = ''
+) => {
+	if (brandId == '') {
+		// generate new brand
+		const brand = await createBrand();
+		brandId = brand.id;
+	}
+	const prodDetails = { name, productType, description, brand: brandId };
+
+	const details = await createProduct(prodDetails, testImgPath);
+	return details;
+};
+
 it('return 201 and update ok with all parameters', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	const res = await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -42,9 +56,6 @@ it('return 201 and update ok with all parameters', async () => {
 		})
 		.expect(201);
 
-	// console.log(res.body);
-	// console.log(productCreationDetails.body.brand);
-
 	expect(res.body.name).toEqual('test2');
 	expect(res.body.productType).toEqual('cleanser');
 	// bandaid for weird failing in tests
@@ -54,7 +65,7 @@ it('return 201 and update ok with all parameters', async () => {
 });
 
 it('return 201 with only name', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	const res = await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -70,7 +81,7 @@ it('return 201 with only name', async () => {
 });
 
 it('return 201 with only desc', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	const res = await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -86,7 +97,7 @@ it('return 201 with only desc', async () => {
 });
 
 it('return 201 with only productType', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	const res = await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -103,7 +114,7 @@ it('return 201 with only productType', async () => {
 });
 
 it('return 201 with only brand', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 	const newBrand = await createBrand();
 
 	const res = await request(app)
@@ -121,7 +132,7 @@ it('return 201 with only brand', async () => {
 });
 
 it('return 201 with only avgRating', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	const res = await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -150,7 +161,7 @@ it('return 404 if Product id doesnt exist', async () => {
 });
 
 it('return 400 if name is empty', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -161,7 +172,7 @@ it('return 400 if name is empty', async () => {
 });
 
 it('return 400 if type is empty', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -172,7 +183,7 @@ it('return 400 if type is empty', async () => {
 });
 
 it('return 400 if type is invalid', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -183,7 +194,7 @@ it('return 400 if type is invalid', async () => {
 });
 
 it('return 400 if brand is empty', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -194,7 +205,7 @@ it('return 400 if brand is empty', async () => {
 });
 
 it('return 400 if brand id doesnt exist', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -205,7 +216,7 @@ it('return 400 if brand id doesnt exist', async () => {
 });
 
 it('return 400 if avgRating is not a number', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -216,7 +227,7 @@ it('return 400 if avgRating is not a number', async () => {
 });
 
 it('return 400 if avgRating is negative numebr', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -227,7 +238,7 @@ it('return 400 if avgRating is negative numebr', async () => {
 });
 
 it('return 400 if avgRating is 5+', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
@@ -238,7 +249,7 @@ it('return 400 if avgRating is 5+', async () => {
 });
 
 it('emits a product update event', async () => {
-	const productCreationDetails = await createProduct('test', 'cleanser');
+	const productCreationDetails = await getProductDetails();
 
 	const res = await request(app)
 		.put(`/api/products/${productCreationDetails.body.id}`)
