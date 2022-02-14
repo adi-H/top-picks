@@ -18,9 +18,10 @@ const createProduct = async (name: string, type: string) => {
 	const res = await request(app)
 		.post('/api/products')
 		.field('name', name)
-		.field('productType', type)
+		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
+		.field('bestForTags', [ 'oily skin', 'acne' ])
 		.attach('productImg', testImgPath)
 		.expect(201);
 

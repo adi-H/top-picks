@@ -22,9 +22,10 @@ it('return 201 on successful input', async () => {
 	await request(app)
 		.post('/api/products')
 		.field('name', 'test')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
+		.field('bestForTags', [ 'oily skin', 'acne' ])
 		.attach('productImg', testImgPath)
 		.expect(201);
 });
@@ -37,7 +38,7 @@ it('return 400 with missing name', async () => {
 	const brand = await createBrand();
 	await request(app)
 		.post('/api/products')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
 		.attach('productImg', testImgPath)
@@ -55,13 +56,51 @@ it('return 400 with missing product type', async () => {
 		.expect(400);
 });
 
+it('return 400 with missing bestForTags', async () => {
+	const brand = await createBrand();
+	const res = await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('productType', 'cleanser')
+		.field('brand', brand.id)
+		.field('description', 'blahblah desc')
+		.attach('productImg', testImgPath)
+		.expect(400);
+});
+
+it('return 400 with wrong type bestForTags (String)', async () => {
+	const brand = await createBrand();
+	const res = await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('productType', 'cleanser')
+		.field('brand', brand.id)
+		.field('description', 'blahblah desc')
+		.field('bestForTags', 'blah blah')
+		.attach('productImg', testImgPath)
+		.expect(400);
+});
+
+it('return 400 with wrong type bestForTags (numerical)', async () => {
+	const brand = await createBrand();
+	const res = await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('productType', 'cleanser')
+		.field('brand', brand.id)
+		.field('description', 'blahblah desc')
+		.field('bestForTags', 345678)
+		.attach('productImg', testImgPath)
+		.expect(400);
+});
+
 it('return 400 with missing desc', async () => {
 	const brand = await createBrand();
 	const res = await request(app)
 		.post('/api/products')
 		.field('name', 'test')
 		.field('brand', brand.id)
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.attach('productImg', testImgPath)
 		.expect(400);
 });
@@ -71,7 +110,7 @@ it('return 400 with missing brand id', async () => {
 		.post('/api/products')
 		.field('name', 'test')
 		.field('description', 'blahblah desc')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.attach('productImg', testImgPath)
 		.expect(400);
 });
@@ -81,8 +120,20 @@ it('return 400 with brand id that doesnt exist', async () => {
 		.post('/api/products')
 		.field('name', 'test')
 		.field('description', 'blahblah desc')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.field('brand', new mongoose.Types.ObjectId().toString())
+		.attach('productImg', testImgPath)
+		.expect(400);
+});
+
+it('return 400 with productType that doesnt exist', async () => {
+	const brand = await createBrand();
+	await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('description', 'blahblah desc')
+		.field('productType', 'sdfghjkl')
+		.field('brand', brand.id)
 		.attach('productImg', testImgPath)
 		.expect(400);
 });
@@ -92,16 +143,17 @@ it('return 400 with name that already exists', async () => {
 	await request(app)
 		.post('/api/products')
 		.field('name', 'test123')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
+		.field('bestForTags', [ 'oily skin', 'acne' ])
 		.attach('productImg', testImgPath)
 		.expect(201);
 
 	await request(app)
 		.post('/api/products')
 		.field('name', 'test123')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
 		.attach('productImg', testImgPath)
@@ -113,7 +165,7 @@ it('return 400 with missing img', async () => {
 	const res = await request(app)
 		.post('/api/products')
 		.field('name', 'test')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
 		.expect(400);
@@ -126,7 +178,7 @@ it('returns 400 with wrong file type attached (txt)', async () => {
 		.post('/api/products')
 		.field('name', 'test')
 		.field('description', 'blahblah desc')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.field('brand', brand.id)
 		.attach('productImg', __dirname + './../../__mocks__/test.txt')
 		.expect(400);
@@ -138,8 +190,9 @@ it('emits a new product event', async () => {
 		.post('/api/products')
 		.field('name', 'test')
 		.field('description', 'blahblah desc')
-		.field('productType', 'blahblah')
+		.field('productType', 'cleanser')
 		.field('brand', brand.id)
+		.field('bestForTags', [ 'oily skin', 'acne' ])
 		.attach('productImg', testImgPath)
 		.expect(201);
 	expect(natsWrapper.client.publish).toHaveBeenCalled();

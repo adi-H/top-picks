@@ -9,6 +9,7 @@ interface ProductAttributes {
 	brand: BrandDoc;
 	productImg: ProductImgDoc;
 	description: string;
+	bestForTags: Array<String>;
 }
 
 interface ProductDoc extends mongoose.Document {
@@ -18,6 +19,7 @@ interface ProductDoc extends mongoose.Document {
 	brand: BrandDoc;
 	productImg: ProductImgDoc;
 	description: string;
+	bestForTags: Array<String>;
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
@@ -47,6 +49,9 @@ const productSchema = new mongoose.Schema(
 		},
 		description: {
 			type: String
+		},
+		bestForTags: {
+			type: Array
 		}
 	},
 	{
