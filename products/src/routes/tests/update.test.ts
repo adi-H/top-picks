@@ -29,14 +29,15 @@ const getProductDetails = async (
 	name: string = 'test',
 	productType: string = 'cleanser',
 	description: string = 'blah desc',
-	brandId: string = ''
+	brandId: string = '',
+	bestForTags: string[] = [ 'oily skin', 'acne' ]
 ) => {
 	if (brandId == '') {
 		// generate new brand
 		const brand = await createBrand();
 		brandId = brand.id;
 	}
-	const prodDetails = { name, productType, description, brand: brandId };
+	const prodDetails = { name, productType, description, brand: brandId, bestForTags };
 
 	const details = await createProduct(prodDetails, testImgPath);
 	return details;
@@ -167,6 +168,39 @@ it('return 400 if name is empty', async () => {
 		.put(`/api/products/${productCreationDetails.body.id}`)
 		.send({
 			name: ''
+		})
+		.expect(400);
+});
+
+it('return 400 if bestForTags is empty', async () => {
+	const productCreationDetails = await getProductDetails();
+
+	await request(app)
+		.put(`/api/products/${productCreationDetails.body.id}`)
+		.send({
+			bestForTags: []
+		})
+		.expect(400);
+});
+
+it('return 400 if bestForTags is a string', async () => {
+	const productCreationDetails = await getProductDetails();
+
+	await request(app)
+		.put(`/api/products/${productCreationDetails.body.id}`)
+		.send({
+			bestForTags: 'asdsf'
+		})
+		.expect(400);
+});
+
+it('return 400 if bestForTags is numerical', async () => {
+	const productCreationDetails = await getProductDetails();
+
+	await request(app)
+		.put(`/api/products/${productCreationDetails.body.id}`)
+		.send({
+			bestForTags: 23456789
 		})
 		.expect(400);
 });

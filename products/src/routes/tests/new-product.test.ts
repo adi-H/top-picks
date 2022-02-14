@@ -25,6 +25,7 @@ it('return 201 on successful input', async () => {
 		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
+		.field('bestForTags', [ 'oily skin', 'acne' ])
 		.attach('productImg', testImgPath)
 		.expect(201);
 });
@@ -51,6 +52,44 @@ it('return 400 with missing product type', async () => {
 		.field('name', 'test')
 		.field('brand', brand.id)
 		.field('description', 'blahblah desc')
+		.attach('productImg', testImgPath)
+		.expect(400);
+});
+
+it('return 400 with missing bestForTags', async () => {
+	const brand = await createBrand();
+	const res = await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('productType', 'cleanser')
+		.field('brand', brand.id)
+		.field('description', 'blahblah desc')
+		.attach('productImg', testImgPath)
+		.expect(400);
+});
+
+it('return 400 with wrong type bestForTags (String)', async () => {
+	const brand = await createBrand();
+	const res = await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('productType', 'cleanser')
+		.field('brand', brand.id)
+		.field('description', 'blahblah desc')
+		.field('bestForTags', 'blah blah')
+		.attach('productImg', testImgPath)
+		.expect(400);
+});
+
+it('return 400 with wrong type bestForTags (numerical)', async () => {
+	const brand = await createBrand();
+	const res = await request(app)
+		.post('/api/products')
+		.field('name', 'test')
+		.field('productType', 'cleanser')
+		.field('brand', brand.id)
+		.field('description', 'blahblah desc')
+		.field('bestForTags', 345678)
 		.attach('productImg', testImgPath)
 		.expect(400);
 });
@@ -107,6 +146,7 @@ it('return 400 with name that already exists', async () => {
 		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
+		.field('bestForTags', [ 'oily skin', 'acne' ])
 		.attach('productImg', testImgPath)
 		.expect(201);
 
@@ -152,6 +192,7 @@ it('emits a new product event', async () => {
 		.field('description', 'blahblah desc')
 		.field('productType', 'cleanser')
 		.field('brand', brand.id)
+		.field('bestForTags', [ 'oily skin', 'acne' ])
 		.attach('productImg', testImgPath)
 		.expect(201);
 	expect(natsWrapper.client.publish).toHaveBeenCalled();

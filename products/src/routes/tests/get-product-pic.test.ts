@@ -21,6 +21,7 @@ const createProduct = async (name: string, type: string) => {
 		.field('productType', 'cleanser')
 		.field('description', 'blahblah desc')
 		.field('brand', brand.id)
+		.field('bestForTags', [ 'oily skin', 'acne' ])
 		.attach('productImg', testImgPath)
 		.expect(201);
 

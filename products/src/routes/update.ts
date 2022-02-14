@@ -9,6 +9,7 @@ import { BadRequestError } from '../errors/bad-request-error';
 import { productUpdatedPublisher } from '../events/publishers/product-updated-publisher';
 import { natsWrapper } from '../nats-wrapper';
 import { possibleProductTypes } from '../variables/product-types';
+import { bestForTagsOptions } from '../variables/best-for-tags';
 
 const productUpdateValidationRules = () => {
 	return [
@@ -29,6 +30,11 @@ const productUpdateValidationRules = () => {
 		body('description')
 			.notEmpty()
 			.withMessage('description cant be specified + empty')
+			.optional({ nullable: true, checkFalsy: true }),
+		body('bestForTags')
+			.not()
+			.isEmpty()
+			.withMessage('bestfortags cant be empty')
 			.optional({ nullable: true, checkFalsy: true })
 	];
 };
@@ -68,10 +74,18 @@ router.put(
 		}
 
 		if (req.body.productType) {
-			console.log(req.body.productType);
+			// console.log(req.body.productType);
 			if (!possibleProductTypes.includes(req.body.productType.toLowerCase())) {
 				throw new BadRequestError(`productType ${req.body.productType} doesnt exist ~~`);
 			}
+		}
+
+		if (req.body.bestForTags) {
+			if (!Array.isArray(req.body.bestForTags)) {
+				throw new BadRequestError(`bestForTags ${req.body.bestForTags} isnt an array ~~`);
+			}
+			const tagsFiltered = req.body.bestForTags.filter((tag: string) => bestForTagsOptions.includes(tag));
+			reqBody = { ...req.body, ...{ bestForTags: tagsFiltered } };
 		}
 
 		let newProduct = { ...product, ...reqBody };

@@ -1,3 +1,4 @@
+import { bestForTagsOptions } from './../variables/best-for-tags';
 import { BrandDoc } from './../models/brand';
 import { validateRequest } from './../middlewares/validate-request';
 import express, { Request, Response } from 'express';
@@ -23,7 +24,13 @@ const productValidationRules = () => {
 		body('productType').not().isEmpty().withMessage('productType is required'),
 		// .optional({ nullable: true, checkFalsy: true }),
 		body('brand').not().isEmpty().withMessage('brand is required'),
-		body('description').not().isEmpty().withMessage('productType is required')
+		body('description').not().isEmpty().withMessage('productType is required'),
+		body('bestForTags')
+			.not()
+			.isEmpty()
+			.withMessage('bestfortags cant be empty')
+			.isArray()
+			.withMessage('best for tags must be an array')
 	];
 };
 
@@ -33,7 +40,7 @@ router.post(
 	productValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const { name, productType, brand: brandId, description } = req.body;
+		const { name, productType, brand: brandId, description, bestForTags } = req.body;
 
 		// console.log(req.file);
 		if (!req.file) {
@@ -58,6 +65,9 @@ router.post(
 		if (doesProductExist) {
 			throw new BadRequestError('product already exists');
 		}
+
+		// validate the bestForTags
+		const tagsFiltered = bestForTags.filter((tag: string) => bestForTagsOptions.includes(tag));
 
 		// // these lines are for the diskStorage option which is commented out cause i dont fucking need it
 		// // didn't work anyway
@@ -87,7 +97,8 @@ router.post(
 			productType,
 			avgRating: 0,
 			productImg: img._id,
-			description
+			description,
+			bestForTags: tagsFiltered
 		});
 		await product.save();
 
