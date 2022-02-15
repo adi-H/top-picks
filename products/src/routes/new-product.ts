@@ -1,7 +1,7 @@
 import { bestForTagsOptions } from './../variables/best-for-tags';
 import { BrandDoc } from './../models/brand';
 import { validateRequest } from './../middlewares/validate-request';
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 import { Brand } from '../models/brand';
 import { BadRequestError } from '../errors/bad-request-error';
@@ -29,7 +29,8 @@ const productValidationRules = () => {
 			.not()
 			.isEmpty()
 			.withMessage('bestfortags cant be empty')
-			.isArray()
+			.exists() // .isString()
+			// .toArray() // .isArray()
 			.withMessage('best for tags must be an array')
 	];
 };
@@ -40,13 +41,12 @@ router.post(
 	productValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const { name, productType, brand: brandId, description, bestForTags } = req.body;
-
-		// console.log(req.file);
+		let { name, productType, brand: brandId, description, bestForTags } = req.body;
+		// console.log('req.file ', req.file);
 		if (!req.file) {
+			console.log('failed img is missing');
 			throw new BadRequestError('img is missing');
 		}
-
 		if (!possibleProductTypes.includes(productType.toLowerCase())) {
 			throw new BadRequestError(`product type ${productType} doesnt exist ~~`);
 		}
@@ -67,7 +67,20 @@ router.post(
 		}
 
 		// validate the bestForTags
+		console.log(Object.prototype.toString.call(bestForTags));
+		if (Object.prototype.toString.call(bestForTags) === '[object String]') {
+			try {
+				bestForTags = bestForTags.split(',');
+			} catch (e) {
+				throw new BadRequestError('wrong bestForTags type');
+			}
+		} else if (Object.prototype.toString.call(bestForTags) !== '[object Array]') {
+			throw new BadRequestError('wrong bestForTags type');
+		}
 		const tagsFiltered = bestForTags.filter((tag: string) => bestForTagsOptions.includes(tag));
+		if (tagsFiltered.length !== bestForTags.length) {
+			throw new BadRequestError('bestForTags includes invalid values');
+		}
 
 		// // these lines are for the diskStorage option which is commented out cause i dont fucking need it
 		// // didn't work anyway
@@ -90,6 +103,8 @@ router.post(
 		});
 		await img.save();
 		// console.log(img);
+
+		// console.log('creating product');
 
 		const product = await Product.build({
 			name,
