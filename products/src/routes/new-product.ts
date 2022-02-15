@@ -18,16 +18,6 @@ const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
 const router = express.Router();
 
-// const convertTagsIfNeeded = (req: Request, res: Response, next: NextFunction) => {
-// 	console.log('in middleware!!!');
-// 	if (Object.prototype.toString.call(req.body.bestForTags) === '[object String]') {
-// 		console.log('string!!~');
-// 		req.body.bestForTags = JSON.parse(req.body.bestForTags);
-// 	}
-// 	console.log('##########3', body('bestForTags').toArray());
-// 	next();
-// };
-
 const productValidationRules = () => {
 	return [
 		body('name').not().isEmpty().withMessage('name is required'),
@@ -48,25 +38,18 @@ const productValidationRules = () => {
 router.post(
 	'/api/products',
 	upload.single('productImg'),
-	// convertTagsIfNeeded,
 	productValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
 		let { name, productType, brand: brandId, description, bestForTags } = req.body;
-		console.log(req.body);
-		console.log(bestForTags);
-
-		console.log('req.file ', req.file);
+		// console.log('req.file ', req.file);
 		if (!req.file) {
 			console.log('failed img is missing');
 			throw new BadRequestError('img is missing');
 		}
-
 		if (!possibleProductTypes.includes(productType.toLowerCase())) {
 			throw new BadRequestError(`product type ${productType} doesnt exist ~~`);
 		}
-
-		console.log('trying to get brand~~~~');
 
 		let brandObj: BrandDoc | null;
 		try {
@@ -84,12 +67,20 @@ router.post(
 		}
 
 		// validate the bestForTags
+		console.log(Object.prototype.toString.call(bestForTags));
 		if (Object.prototype.toString.call(bestForTags) === '[object String]') {
-			bestForTags = bestForTags.split(',');
+			try {
+				bestForTags = bestForTags.split(',');
+			} catch (e) {
+				throw new BadRequestError('wrong bestForTags type');
+			}
+		} else if (Object.prototype.toString.call(bestForTags) !== '[object Array]') {
+			throw new BadRequestError('wrong bestForTags type');
 		}
-		console.log(bestForTags);
-
 		const tagsFiltered = bestForTags.filter((tag: string) => bestForTagsOptions.includes(tag));
+		if (tagsFiltered.length !== bestForTags.length) {
+			throw new BadRequestError('bestForTags includes invalid values');
+		}
 
 		// // these lines are for the diskStorage option which is commented out cause i dont fucking need it
 		// // didn't work anyway
@@ -113,7 +104,7 @@ router.post(
 		await img.save();
 		// console.log(img);
 
-		console.log('creating product');
+		// console.log('creating product');
 
 		const product = await Product.build({
 			name,
