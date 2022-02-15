@@ -1,7 +1,7 @@
 import { bestForTagsOptions } from './../variables/best-for-tags';
 import { BrandDoc } from './../models/brand';
 import { validateRequest } from './../middlewares/validate-request';
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 import { Brand } from '../models/brand';
 import { BadRequestError } from '../errors/bad-request-error';
@@ -18,6 +18,16 @@ const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
 const router = express.Router();
 
+// const convertTagsIfNeeded = (req: Request, res: Response, next: NextFunction) => {
+// 	console.log('in middleware!!!');
+// 	if (Object.prototype.toString.call(req.body.bestForTags) === '[object String]') {
+// 		console.log('string!!~');
+// 		req.body.bestForTags = JSON.parse(req.body.bestForTags);
+// 	}
+// 	console.log('##########3', body('bestForTags').toArray());
+// 	next();
+// };
+
 const productValidationRules = () => {
 	return [
 		body('name').not().isEmpty().withMessage('name is required'),
@@ -29,7 +39,8 @@ const productValidationRules = () => {
 			.not()
 			.isEmpty()
 			.withMessage('bestfortags cant be empty')
-			.isArray()
+			.exists() // .isString()
+			// .toArray() // .isArray()
 			.withMessage('best for tags must be an array')
 	];
 };
@@ -37,19 +48,25 @@ const productValidationRules = () => {
 router.post(
 	'/api/products',
 	upload.single('productImg'),
+	// convertTagsIfNeeded,
 	productValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const { name, productType, brand: brandId, description, bestForTags } = req.body;
+		let { name, productType, brand: brandId, description, bestForTags } = req.body;
+		console.log(req.body);
+		console.log(bestForTags);
 
-		// console.log(req.file);
+		console.log('req.file ', req.file);
 		if (!req.file) {
+			console.log('failed img is missing');
 			throw new BadRequestError('img is missing');
 		}
 
 		if (!possibleProductTypes.includes(productType.toLowerCase())) {
 			throw new BadRequestError(`product type ${productType} doesnt exist ~~`);
 		}
+
+		console.log('trying to get brand~~~~');
 
 		let brandObj: BrandDoc | null;
 		try {
@@ -67,6 +84,11 @@ router.post(
 		}
 
 		// validate the bestForTags
+		if (Object.prototype.toString.call(bestForTags) === '[object String]') {
+			bestForTags = bestForTags.split(',');
+		}
+		console.log(bestForTags);
+
 		const tagsFiltered = bestForTags.filter((tag: string) => bestForTagsOptions.includes(tag));
 
 		// // these lines are for the diskStorage option which is commented out cause i dont fucking need it
@@ -90,6 +112,8 @@ router.post(
 		});
 		await img.save();
 		// console.log(img);
+
+		console.log('creating product');
 
 		const product = await Product.build({
 			name,
