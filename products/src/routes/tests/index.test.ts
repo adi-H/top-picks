@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Brand } from '../../models/brand';
 import mongoose from 'mongoose';
+import path from 'path'
 
 const createBrand = async () => {
 	const brand = Brand.build({
@@ -12,9 +13,10 @@ const createBrand = async () => {
 	return brand;
 };
 
-const testImgPath = __dirname + './../../__mocks__/alien.png';
+const testImgPath = path.resolve(__dirname, './../../__mocks__/alien.png');
 const createProduct = async (name: string, type: string) => {
 	const brand = await createBrand();
+	console.log(testImgPath); 
 	const res = await request(app)
 		.post('/api/products')
 		.field('name', 'test')

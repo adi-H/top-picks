@@ -3,8 +3,9 @@ import { app } from '../../app';
 import { Brand } from '../../models/brand';
 import mongoose from 'mongoose';
 import { natsWrapper } from '../../nats-wrapper';
+import path from 'path'; 
 
-const testImgPath = __dirname + './../../__mocks__/alien.png';
+const testImgPath = path.resolve(__dirname, './../../__mocks__/alien.png');
 
 const createBrand = async () => {
 	const brand = Brand.build({
@@ -174,13 +175,15 @@ it('return 400 with missing img', async () => {
 it('returns 400 with wrong file type attached (txt)', async () => {
 	const brand = await createBrand();
 
+	const filePath = path.resolve(__dirname, './../../__mocks__/test.txt');
+
 	await request(app)
 		.post('/api/products')
 		.field('name', 'test')
 		.field('description', 'blahblah desc')
 		.field('productType', 'cleanser')
 		.field('brand', brand.id)
-		.attach('productImg', __dirname + './../../__mocks__/test.txt')
+		.attach('productImg', filePath)
 		.expect(400);
 });
 
