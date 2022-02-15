@@ -3,6 +3,7 @@ import { app } from '../../app';
 import { Brand } from '../../models/brand';
 import mongoose from 'mongoose';
 import { natsWrapper } from '../../nats-wrapper';
+import path from 'path';
 
 const createBrand = async () => {
 	const brand = Brand.build({
@@ -13,7 +14,7 @@ const createBrand = async () => {
 	return brand;
 };
 
-const testImgPath = __dirname + './../../__mocks__/alien.png';
+const testImgPath = path.resolve(__dirname, './../../__mocks__/alien.png');
 
 const createProduct = async (attrs: object, imgPath: string) => {
 	let req = request(app).post('/api/products');
