@@ -37,7 +37,7 @@ const start = async () => {
 		// all like listeners go here
 
 		await mongoose.connect(process.env.MONGO_URI);
-		console.log('lists dep connected to db!~~~~~');
+		console.log('brands dep connected to db!~~~~~');
 	} catch (err) {
 		console.log(err);
 	}
