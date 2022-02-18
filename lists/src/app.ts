@@ -10,6 +10,7 @@ import { pingRouter } from './routes/ping';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 import { newListRouter } from './routes/new-list';
+import { deleteListRouter } from './routes/delete-list';
 
 const app = express();
 app.set('trust proxy', true);
@@ -24,6 +25,7 @@ app.use(insertUserSession);
 
 app.use(pingRouter);
 app.use(newListRouter);
+app.use(deleteListRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
