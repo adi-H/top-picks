@@ -4,7 +4,7 @@ import { List } from '../models/lists';
 import { requireAuth } from '../middlewares/require-auth';
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
-import { NewListCreatedPublisher } from '../events/publishers/new-list-created';
+import { NewListCreatedPublisher } from '../events/publishers/new-list-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 const router = express.Router();
 

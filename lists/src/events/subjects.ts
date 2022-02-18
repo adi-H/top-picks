@@ -5,5 +5,6 @@ export enum Subjects {
 	userCreated = 'user:created',
 
 	newListCreated = 'user-list:created',
-	listDeleted = 'user-list:deleted'
+	listDeleted = 'user-list:deleted',
+	listDetailsUpdated = 'user-list:details-updated'
 }

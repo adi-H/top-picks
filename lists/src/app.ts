@@ -14,6 +14,7 @@ import { deleteListRouter } from './routes/delete-list';
 import { indexRouter } from './routes';
 import { specificListRouter } from './routes/specific-list';
 import { bySpecificUserRouter } from './routes/by-user';
+import { updateListDetailsRouter } from './routes/update-details';
 
 const app = express();
 app.set('trust proxy', true);
@@ -32,6 +33,7 @@ app.use(deleteListRouter);
 app.use(indexRouter);
 app.use(specificListRouter);
 app.use(bySpecificUserRouter);
+app.use(updateListDetailsRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
