@@ -33,12 +33,15 @@ const listSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User'
 		},
-		products: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Product'
-			}
-		]
+		products: {
+			type: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'Product'
+				}
+			],
+			default: undefined
+		}
 	},
 	{
 		toJSON: {
