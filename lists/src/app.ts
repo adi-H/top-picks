@@ -11,6 +11,9 @@ import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 import { newListRouter } from './routes/new-list';
 import { deleteListRouter } from './routes/delete-list';
+import { indexRouter } from './routes';
+import { specificListRouter } from './routes/specific-list';
+import { bySpecificUserRouter } from './routes/by-user';
 
 const app = express();
 app.set('trust proxy', true);
@@ -26,6 +29,9 @@ app.use(insertUserSession);
 app.use(pingRouter);
 app.use(newListRouter);
 app.use(deleteListRouter);
+app.use(indexRouter);
+app.use(specificListRouter);
+app.use(bySpecificUserRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);

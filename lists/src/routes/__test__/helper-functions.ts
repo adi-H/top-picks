@@ -16,7 +16,7 @@ export const createList = async (cookie: string[]) => {
 	return res.body;
 };
 
-const createUser = async () => {
+export const createUser = async () => {
 	const user = User.build({
 		email: 'test@test.com',
 		_id: new mongoose.Types.ObjectId().toHexString()
