@@ -6,6 +6,7 @@ import { UserCreatedPublisher } from '../events/publishers/user-created-publishe
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
 import { natsWrapper } from '../nats-wrapper';
+import sanitize from 'mongo-sanitize';
 
 const userValidationRules = () => {
 	return [
@@ -22,13 +23,15 @@ const router = express.Router();
 router.post('/api/users/signup', userValidationRules(), validateRequest, async (req: Request, res: Response) => {
 	console.log('attempting to sign in~~~');
 	const { email, password } = req.body;
+	const cleanEmail = sanitize(email);
+	const cleanPassword = sanitize(password);
 
-	const existingUser = await User.findOne({ email });
+	const existingUser = await User.findOne({ cleanEmail });
 	if (existingUser) {
 		throw new BadRequestError('email is already in use');
 	}
 
-	const user = User.build({ email, password });
+	const user = User.build({ email: cleanEmail, password: cleanPassword });
 	await user.save();
 
 	// prompt event here
