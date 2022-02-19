@@ -1,0 +1,19 @@
+name: tests-lists
+
+on:
+  pull_request:
+    paths:
+      - 'lists/**'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+        matrix:
+          os: [windows-latest, ubuntu-latest, macos-latest]
+        # os: [windows-latest]
+    
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd lists && npm install && npm run test:ci
