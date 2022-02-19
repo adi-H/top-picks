@@ -10,6 +10,7 @@ import { productUpdatedPublisher } from '../events/publishers/product-updated-pu
 import { natsWrapper } from '../nats-wrapper';
 import { possibleProductTypes } from '../variables/product-types';
 import { bestForTagsOptions } from '../variables/best-for-tags';
+import sanitize from 'mongo-sanitize';
 
 const productUpdateValidationRules = () => {
 	return [
@@ -52,7 +53,7 @@ router.put(
 	async (req: Request, res: Response) => {
 		let product;
 		try {
-			product = await Product.findById(req.params.id).populate('brand');
+			product = await Product.findById(sanitize(req.params.id)).populate('brand');
 			if (!product) {
 				throw new NotFoundError();
 			}
@@ -60,32 +61,33 @@ router.put(
 			throw new NotFoundError();
 		}
 
-		let reqBody = req.body;
-		if (req.body.brand) {
+		let reqBody = sanitize(req.body);
+		let { brand = undefined, productType = undefined, bestForTags = undefined } = sanitize(req.body);
+		if (brand) {
 			try {
-				const newBrand = await Brand.findById(req.body.brand);
+				const newBrand = await Brand.findById(brand);
 				if (!newBrand) {
 					throw new BadRequestError('brand id doesnt exist');
 				}
-				reqBody = { ...req.body, ...newBrand };
+				reqBody = { ...sanitize(req.body), ...newBrand };
 			} catch (e) {
 				throw new BadRequestError('brand id doesnt exist');
 			}
 		}
 
-		if (req.body.productType) {
+		if (productType) {
 			// console.log(req.body.productType);
-			if (!possibleProductTypes.includes(req.body.productType.toLowerCase())) {
-				throw new BadRequestError(`productType ${req.body.productType} doesnt exist ~~`);
+			if (!possibleProductTypes.includes(productType.toLowerCase())) {
+				throw new BadRequestError(`productType ${productType} doesnt exist ~~`);
 			}
 		}
 
-		if (req.body.bestForTags) {
-			if (!Array.isArray(req.body.bestForTags)) {
-				throw new BadRequestError(`bestForTags ${req.body.bestForTags} isnt an array ~~`);
+		if (bestForTags) {
+			if (!Array.isArray(bestForTags)) {
+				throw new BadRequestError(`bestForTags ${bestForTags} isnt an array ~~`);
 			}
-			const tagsFiltered = req.body.bestForTags.filter((tag: string) => bestForTagsOptions.includes(tag));
-			reqBody = { ...req.body, ...{ bestForTags: tagsFiltered } };
+			const tagsFiltered = bestForTags.filter((tag: string) => bestForTagsOptions.includes(tag));
+			reqBody = { ...sanitize(req.body), ...{ bestForTags: tagsFiltered } };
 		}
 
 		let newProduct = { ...product, ...reqBody };

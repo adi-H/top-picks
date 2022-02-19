@@ -13,6 +13,7 @@ import { fileStorage } from '../file-upload/storage-config';
 import { fileFilter } from '../file-upload/file-filter';
 import { ProductImg } from '../models/productImg';
 import { possibleProductTypes } from '../variables/product-types';
+import sanitize from 'mongo-sanitize';
 
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
@@ -41,7 +42,9 @@ router.post(
 	productValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
-		let { name, productType, brand: brandId, description, bestForTags } = req.body;
+		let { name, productType, brand: brandId, description, bestForTags } = sanitize(req.body);
+		// let name = sanitize(req.body.name);
+
 		// console.log('req.file ', req.file);
 		if (!req.file) {
 			console.log('failed img is missing');
