@@ -6,6 +6,8 @@ import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
 import { NewListCreatedPublisher } from '../events/publishers/new-list-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
+import sanitize from 'mongo-sanitize';
+
 const router = express.Router();
 
 const listValidationRules = () => {
@@ -21,7 +23,7 @@ const listValidationRules = () => {
 };
 
 router.post('/api/lists', requireAuth, listValidationRules(), validateRequest, async (req: Request, res: Response) => {
-	const { name, description = '' } = req.body;
+	const { name, description = '' } = sanitize(req.body);
 	// console.log(req.body);
 	const user = await User.findById(req.sessionInfo!.id);
 

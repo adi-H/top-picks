@@ -10,6 +10,7 @@ import { Product } from '../models/product';
 import { Rating } from '../models/rating';
 import { User } from '../models/user';
 import { natsWrapper } from '../nats-wrapper';
+import sanitize from 'mongo-sanitize';
 
 const ratingValidationRules = () => {
 	return [
@@ -32,7 +33,7 @@ router.post(
 	ratingValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const { product: productId, rating, description = '' } = req.body;
+		const { product: productId, rating, description = '' } = sanitize(req.body);
 
 		// if sessionInfo didnt exist requireAuth wouldve thrown error, guarenteed exists
 		const user = await User.findById(req.sessionInfo!.id);
