@@ -1,3 +1,4 @@
+import RateLimit from 'express-rate-limit';
 import express from 'express';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
@@ -26,6 +27,14 @@ app.use(
 		secure: process.env.NODE_ENV !== 'test'
 	})
 );
+
+// limits to 20 reqs per 1 minute
+const limiter = RateLimit({
+	windowMs: 1 * 60 * 1000, // 1 minute
+	max: 20
+});
+
+app.use(limiter);
 app.use(insertUserSession);
 
 app.use(pingRouter);
