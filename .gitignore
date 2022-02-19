@@ -10,3 +10,5 @@
 /client/build
 
 /infra/dummy-data/node_modules
+
+/lists/node_modules

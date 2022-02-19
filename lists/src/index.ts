@@ -1,12 +1,15 @@
-import mongoose from 'mongoose';
 import { app } from './app';
 import { natsWrapper } from './nats-wrapper';
+import mongoose from 'mongoose';
+import { ProductCreatedListener } from './events/listeners/product-created-listener';
+import { ProductUpdatedListener } from './events/listeners/product-updated-listener';
+import { UserCreatedListener } from './events/listeners/user-created-listener';
 
 const start = async () => {
-	// if (!process.env.JWT_KEY) {
-	// 	throw new Error('JWT key must be defined');
-	// 	// k create secret generic jwt-secret --from-literal=JWT_KEY=asdf -n adi-dev
-	// }
+	if (!process.env.JWT_KEY) {
+		throw new Error('JWT key must be defined');
+		// k create secret generic jwt-secret --from-literal=JWT_KEY=asdf -n adi-dev
+	}
 
 	if (!process.env.MONGO_URI) {
 		throw new Error('process.env.MONGO_URI must be defined');
@@ -34,10 +37,14 @@ const start = async () => {
 		process.on('SIGINT', () => natsWrapper.client.close());
 		process.on('SIGTERM', () => natsWrapper.client.close());
 
-		// all like listeners go here
+		// listeners and stuff here
+
+		new ProductCreatedListener(natsWrapper.client).listen();
+		new ProductUpdatedListener(natsWrapper.client).listen();
+		new UserCreatedListener(natsWrapper.client).listen();
 
 		await mongoose.connect(process.env.MONGO_URI);
-		console.log('brands dep connected to db!~~~~~');
+		console.log('user ratings dep connected to db!~~~~~');
 	} catch (err) {
 		console.log(err);
 	}
