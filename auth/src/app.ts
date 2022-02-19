@@ -3,6 +3,7 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import 'express-async-errors';
 import cors from 'cors';
+import csurf from 'csurf';
 
 import { pingRouter } from './routes/ping';
 import { signUpRouter } from './routes/signup';
@@ -22,6 +23,8 @@ app.use(
 		// secure: process.env.NODE_ENV !== 'test'
 	})
 );
+app.use(csurf({ cookie: true }));
+
 // DOCUMENTATION https://www.section.io/engineering-education/how-to-use-cors-in-nodejs-with-express/
 app.use(
 	cors({
