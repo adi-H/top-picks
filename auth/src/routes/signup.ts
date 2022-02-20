@@ -57,13 +57,14 @@ router.post('/api/users/signup', userValidationRules(), validateRequest, async (
 
 	// TODO i dunno anymore
 	// res.status(201).send(user);
-	res.cookie('jwt', userJwt, {
-		maxAge: 900000,
-		httpOnly: false,
-		sameSite: 'lax'
-	});
-
-	res.status(201).send(user);
+	res
+		.cookie('jwt', userJwt, {
+			maxAge: 900000,
+			httpOnly: false,
+			sameSite: 'lax'
+		})
+		.status(201)
+		.send(user);
 });
 
 export { router as signUpRouter };
