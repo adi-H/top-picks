@@ -1,5 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import RateLimit from 'express-rate-limit';
+
+// limits to 5 reqs per 1 minute
+const limiter = RateLimit({
+	windowMs: 1 * 60 * 1000, // 1 minute
+	max: 5
+});
 
 interface UserPayload {
 	id: string;
@@ -37,7 +44,7 @@ const insertUserSession = (req: Request, res: Response, next: NextFunction) => {
 
 const router = express.Router();
 
-router.get('/api/users/session-info', insertUserSession, (req, res) => {
+router.get('/api/users/session-info', limiter, insertUserSession, (req, res) => {
 	res.send({ sessionInfo: req.sessionInfo || null });
 });
 

@@ -8,8 +8,9 @@ import { List } from '../models/lists';
 import { requireAuth } from '../middlewares/require-auth';
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
-import { NewListCreatedPublisher } from '../events/publishers/new-list-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
+import sanitize from 'mongo-sanitize';
+
 const router = express.Router();
 
 const listValidationRules = () => {
@@ -31,7 +32,7 @@ router.post(
 	async (req: Request, res: Response) => {
 		let list;
 		try {
-			list = await List.findById(req.params.id).populate('user');
+			list = await List.findById(sanitize(req.params.id)).populate('user');
 			if (!list) {
 				throw new NotFoundError();
 			}
@@ -44,7 +45,7 @@ router.post(
 			throw new NotAuthorizedError();
 		}
 
-		let updatedList = { ...list, ...req.body };
+		let updatedList = { ...list, ...sanitize(req.body) };
 		try {
 			await list.set(updatedList);
 			await list.save();

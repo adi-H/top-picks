@@ -4,6 +4,7 @@ import cookieSession from 'cookie-session';
 import 'express-async-errors';
 import { errorHandler } from './middlewares/error-handler';
 import { insertUserSession } from './middlewares/insert-user-session';
+import RateLimit from 'express-rate-limit';
 
 import { pingRouter } from './routes/ping';
 import { newRatingRouter } from './routes/new-rating';
@@ -21,6 +22,14 @@ app.use(
 		secure: process.env.NODE_ENV !== 'test'
 	})
 );
+
+// limits to 20 reqs per 1 minute
+const limiter = RateLimit({
+	windowMs: 1 * 60 * 1000, // 1 minute
+	max: 20
+});
+
+app.use(limiter);
 app.use(insertUserSession);
 
 app.use(pingRouter);

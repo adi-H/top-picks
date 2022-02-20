@@ -5,6 +5,7 @@ import { validateRequest } from '../middlewares/validate-request';
 import { BadRequestError } from '../errors/bad-request-error';
 import { BrandCreatedPublisher } from '../events/publishers/brand-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
+import sanitize from 'mongo-sanitize';
 
 const brandValidationRules = () => {
 	return [
@@ -16,7 +17,7 @@ const brandValidationRules = () => {
 const router = express.Router();
 
 router.post('/api/brands', brandValidationRules(), validateRequest, async (req: Request, res: Response) => {
-	const { name, description } = req.body;
+	const { name, description } = sanitize(req.body);
 
 	// if it exists already raise BadRequest
 	const existingBrand = await Brand.findOne({ name });

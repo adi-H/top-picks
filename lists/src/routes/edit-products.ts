@@ -1,7 +1,5 @@
 import { ProductDoc } from './../models/product';
 import { NotAuthorizedError } from './../errors/not-authorized-error';
-import { ListDeletedPublisher } from '../events/publishers/list-deleted-publisher';
-import { BadRequestError } from './../errors/bad-request-error';
 import { NotFoundError } from './../errors/not-found-error';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
@@ -9,10 +7,10 @@ import { List } from '../models/lists';
 import { requireAuth } from '../middlewares/require-auth';
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
-import { NewListCreatedPublisher } from '../events/publishers/new-list-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 import { Product } from '../models/product';
 import { ProductCountInListUpdatedPublisher } from '../events/publishers/list-products-count-updated-publisher';
+import sanitize from 'mongo-sanitize';
 
 interface UserGivenProduct {
 	id: string;
@@ -22,8 +20,6 @@ interface UserGivenProduct {
 function instanceOfUserGivenProduct(obj: any): obj is UserGivenProduct {
 	return 'id' in obj && 'dissociate' in obj;
 }
-
-interface UserProducts extends Array<UserGivenProduct> {}
 
 interface ProductsList {
 	[key: string]: ProductDoc;
@@ -65,7 +61,7 @@ router.put(
 	async (req: Request, res: Response) => {
 		let list;
 		try {
-			list = await List.findById(req.params.id).populate('user');
+			list = await List.findById(sanitize(req.params.id)).populate('user');
 			if (!list) {
 				throw new NotFoundError();
 			}
@@ -79,7 +75,7 @@ router.put(
 			throw new NotAuthorizedError();
 		}
 
-		const validProducts: ProductsList = await validateProducts(req.body.products);
+		const validProducts: ProductsList = await validateProducts(sanitize(req.body.products));
 
 		// let newListObj = Object.assign({}, list);
 		let currentProds = list.products;

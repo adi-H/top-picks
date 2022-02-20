@@ -5,6 +5,7 @@ import { Password } from '../services/password';
 import jwt from 'jsonwebtoken';
 import { validateRequest } from '../middlewares/validate-request';
 import { BadRequestError } from '../errors/bad-request-error';
+import sanitize from 'mongo-sanitize';
 
 const router = express.Router();
 
@@ -20,13 +21,15 @@ const reqValidationRules = () => {
 
 router.post('/api/users/signin', reqValidationRules(), validateRequest, async (req: Request, res: Response) => {
 	const { email, password } = req.body;
+	const cleanEmail = sanitize(email);
+	const cleanPassword = sanitize(password);
 
 	// check if user exists and if the passwords match
-	const existingUser = await User.findOne({ email });
+	const existingUser = await User.findOne({ cleanEmail });
 	if (!existingUser) {
 		throw new BadRequestError('invalid user -- doesnt exist');
 	}
-	const doPasswordsMatch = await Password.compare(existingUser.password, password);
+	const doPasswordsMatch = await Password.compare(existingUser.password, cleanPassword);
 	if (!doPasswordsMatch) {
 		throw new BadRequestError('invalid user -- wrong creds');
 	}
