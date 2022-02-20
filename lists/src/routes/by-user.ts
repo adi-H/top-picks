@@ -15,7 +15,7 @@ router.get('/api/lists/user/:userId', async (req: Request, res: Response) => {
 
 	const listsByUser = lists.filter((l) => {
 		console.log(l, user);
-		return Object.is(l.user._id, user._id);
+		return Object.is(l.user._id, user.id);
 	});
 
 	res.status(200).send(listsByUser);
