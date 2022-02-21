@@ -1,3 +1,7 @@
+import { ListDeletedListener } from './events/listeners/list-deleted-listener';
+import { ProductCountInListUpdatedListener } from './events/listeners/list-count-updated-listener';
+import { ListDetailsUpdatedListener } from './events/listeners/list-updated-listener';
+import { NewListCreatedListener } from './events/listeners/list-created-listener';
 import mongoose from 'mongoose';
 import { app } from './app';
 import { natsWrapper } from './nats-wrapper';
@@ -33,6 +37,12 @@ const start = async () => {
 		});
 		process.on('SIGINT', () => natsWrapper.client.close());
 		process.on('SIGTERM', () => natsWrapper.client.close());
+
+		// listeners and stuff here
+		new NewListCreatedListener(natsWrapper.client).listen();
+		new ListDetailsUpdatedListener(natsWrapper.client).listen();
+		new ProductCountInListUpdatedListener(natsWrapper.client).listen();
+		new ListDeletedListener(natsWrapper.client).listen();
 
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log('auth dep connected to db!~~~~~');

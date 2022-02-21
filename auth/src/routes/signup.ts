@@ -22,16 +22,14 @@ const router = express.Router();
 
 router.post('/api/users/signup', userValidationRules(), validateRequest, async (req: Request, res: Response) => {
 	console.log('attempting to sign in~~~');
-	const { email, password } = req.body;
-	const cleanEmail = sanitize(email);
-	const cleanPassword = sanitize(password);
+	const { email, password } = sanitize(req.body);
 
-	const existingUser = await User.findOne({ cleanEmail });
+	const existingUser = await User.findOne({ email });
 	if (existingUser) {
 		throw new BadRequestError('email is already in use');
 	}
 
-	const user = User.build({ email: cleanEmail, password: cleanPassword });
+	const user = User.build({ email: email, password: password, lists: [] });
 	await user.save();
 
 	// prompt event here
