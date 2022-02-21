@@ -1,3 +1,4 @@
+import { ListDoc } from './list';
 import mongoose from 'mongoose';
 import { Password } from '../services/password';
 
@@ -6,6 +7,7 @@ import { Password } from '../services/password';
 interface UserAttributes {
 	email: string;
 	password: string;
+	lists: Array<ListDoc>;
 }
 
 // interface that describes the properties
@@ -19,6 +21,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 interface UserDoc extends mongoose.Document {
 	email: string;
 	password: string;
+	lists: Array<ListDoc>;
 }
 
 const userSchema = new mongoose.Schema(
@@ -30,6 +33,14 @@ const userSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: true
+		},
+		lists: {
+			type: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'List'
+				}
+			]
 		}
 	},
 	{

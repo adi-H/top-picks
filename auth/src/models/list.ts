@@ -6,7 +6,7 @@ interface ListAttributes {
 	count: number;
 }
 
-interface ListDoc extends mongoose.Document {
+export interface ListDoc extends mongoose.Document {
 	_id: string;
 	name: string;
 	count: number;
