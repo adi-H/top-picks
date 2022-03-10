@@ -18,7 +18,7 @@ export interface UserDoc extends mongoose.Document {
 	_id: string;
 }
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<UserDoc>(
 	{
 		email: {
 			type: String,
