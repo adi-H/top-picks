@@ -16,7 +16,7 @@ interface ListModel extends mongoose.Model<ListDoc> {
 	build(attrs: ListAttributes): ListDoc;
 }
 
-const listSchema = new mongoose.Schema(
+const listSchema = new mongoose.Schema<ListDoc>(
 	{
 		_id: {
 			type: String,
