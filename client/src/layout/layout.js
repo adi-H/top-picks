@@ -17,12 +17,14 @@ const Layout = ({ children }) => {
 			<div>
 				<NavBar />
 			</div>
-			<Grid templateColumns="repeat(5, 1fr)" gap={4} bg={appBg}>
-				<GridItem colStart={2} colEnd={5}>
+			<Grid templateColumns="repeat(6, 1fr)" gap={4} bg={appBg}>
+				<GridItem colSpan={1} w="100%" />
+				<GridItem colSpan={4} w="100%">
 					<Box className="main-view-container" height="100vh" position="relative">
 						<Outlet />
 					</Box>
 				</GridItem>
+				<GridItem colSpan={1} w="100%" />
 			</Grid>
 		</div>
 	);
