@@ -56,6 +56,10 @@ var path_1 = __importDefault(require("path"));
 var fs_1 = __importDefault(require("fs"));
 var SERVER_URL = 'http://20.82.37.12';
 var testImgPath = path_1.default.resolve(__dirname, 'alien.png');
+var userDetails = [
+    { email: 'test1@test.com', password: 'abc1234' },
+    { email: 'test2@test.com', password: 'asmnbclkj12' }
+];
 var brandsDetails = [
     { name: 'brand1', description: 'desc desc desc' },
     { name: 'brand2', description: 'desc desc desc' },
@@ -91,6 +95,118 @@ var productsDetails = [
         brandName: 'brand3'
     }
 ];
+////////////////////////////////////////////
+var createRating = function (userCookie, productId, desc, rating) { return __awaiter(void 0, void 0, void 0, function () {
+    var config, res;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                config = {
+                    method: 'POST',
+                    url: SERVER_URL + '/api/user-ratings',
+                    data: {
+                        product: productId,
+                        desc: desc,
+                        rating: rating
+                    },
+                    headers: {
+                        Cookie: userCookie
+                    }
+                };
+                return [4 /*yield*/, (0, axios_1.default)(config)];
+            case 1:
+                res = _a.sent();
+                return [2 /*return*/, res.data];
+        }
+    });
+}); };
+var generateRatings = function (products, users) { return __awaiter(void 0, void 0, void 0, function () {
+    var ratings, _i, products_1, product, _a, users_1, user, conf, body;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                ratings = [];
+                _i = 0, products_1 = products;
+                _b.label = 1;
+            case 1:
+                if (!(_i < products_1.length)) return [3 /*break*/, 6];
+                product = products_1[_i];
+                if (!product.id)
+                    return [3 /*break*/, 5];
+                _a = 0, users_1 = users;
+                _b.label = 2;
+            case 2:
+                if (!(_a < users_1.length)) return [3 /*break*/, 5];
+                user = users_1[_a];
+                if (!user.cookie)
+                    return [3 /*break*/, 4];
+                conf = {
+                    userCookie: user.cookie,
+                    productId: product.id,
+                    desc: 'asdkjbasd laskdj desc desc blah',
+                    rating: Math.floor(Math.random() * 6) // max rating is 5, output from 0-5
+                };
+                return [4 /*yield*/, createRating(conf.userCookie, conf.productId, conf.desc, conf.rating)];
+            case 3:
+                body = _b.sent();
+                ratings.push(body);
+                _b.label = 4;
+            case 4:
+                _a++;
+                return [3 /*break*/, 2];
+            case 5:
+                _i++;
+                return [3 /*break*/, 1];
+            case 6: return [2 /*return*/, ratings];
+        }
+    });
+}); };
+var createUser = function (email, password) { return __awaiter(void 0, void 0, void 0, function () {
+    var config, res;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                config = {
+                    method: 'POST',
+                    url: SERVER_URL + '/api/users/signup',
+                    data: {
+                        email: email,
+                        password: password
+                    }
+                };
+                return [4 /*yield*/, (0, axios_1.default)(config)];
+            case 1:
+                res = _a.sent();
+                return [2 /*return*/, res];
+        }
+    });
+}); };
+var generateUsers = function (usersInfo) { return __awaiter(void 0, void 0, void 0, function () {
+    var _i, usersInfo_1, user, body, cookie;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _i = 0, usersInfo_1 = usersInfo;
+                _a.label = 1;
+            case 1:
+                if (!(_i < usersInfo_1.length)) return [3 /*break*/, 4];
+                user = usersInfo_1[_i];
+                return [4 /*yield*/, createUser(user.email, user.password)];
+            case 2:
+                body = _a.sent();
+                user.id = body.data.id;
+                if (body.headers['set-cookie']) {
+                    cookie = body.headers['set-cookie'].map(function (c) { return c.split(';')[0]; }).join('; ');
+                    user.cookie = cookie;
+                }
+                _a.label = 3;
+            case 3:
+                _i++;
+                return [3 /*break*/, 1];
+            case 4: return [2 /*return*/, usersInfo];
+        }
+    });
+}); };
 var createBrand = function (name, description) { return __awaiter(void 0, void 0, void 0, function () {
     var config, res;
     return __generator(this, function (_a) {
@@ -208,17 +324,22 @@ var generateProducts = function (productsInfo, brands) { return __awaiter(void 0
     });
 }); };
 var generateData = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var brands, prods;
+    var users, brands, prods, ratings;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, generateBrands(brandsDetails)];
+            case 0: return [4 /*yield*/, generateUsers(userDetails)];
             case 1:
-                brands = _a.sent();
-                console.log(brands);
-                return [4 /*yield*/, generateProducts(productsDetails, brands)];
+                users = _a.sent();
+                return [4 /*yield*/, generateBrands(brandsDetails)];
             case 2:
+                brands = _a.sent();
+                return [4 /*yield*/, generateProducts(productsDetails, brands)];
+            case 3:
                 prods = _a.sent();
-                console.log('~~~~~~~~~~~~~~', prods);
+                return [4 /*yield*/, generateRatings(prods, users)];
+            case 4:
+                ratings = _a.sent();
+                console.log(ratings);
                 return [2 /*return*/];
         }
     });
