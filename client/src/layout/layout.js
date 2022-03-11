@@ -3,7 +3,7 @@ import { Box, Grid, GridItem } from '@chakra-ui/react';
 import { NavBar } from '../components/navbar/navbar';
 import { Outlet } from 'react-router-dom';
 import { useColorModeValue } from '@chakra-ui/react';
-
+import '../assets/stylesheets/main.css';
 // DOCUMENTATION
 // https://stackoverflow.com/a/69982280
 

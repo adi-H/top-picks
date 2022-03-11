@@ -1,9 +1,9 @@
 import { Box, GridItem, Heading, SimpleGrid, Image, Skeleton, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ProductDetailsColumn } from '../components/product-page/product-details-column';
 import { useFetch } from '../hooks/use-fetch';
 import { getOneProductConf } from '../services/products';
-import { SERVER_URL } from '../variables/server-url';
 
 export const ProductPage = (props) => {
 	let { productId } = useParams();
@@ -29,13 +29,14 @@ export const ProductPage = (props) => {
 
 			<SimpleGrid columns={3} gap={5}>
 				<GridItem columns={1}>
-					<Skeleton isLoaded={!isLoading}>
-						{product.imgPath ? (
-							<Image src={`${SERVER_URL}${product.imgPath}`} alt="product Image" w="100%" />
-						) : (
-							<Image src="" alt="loading" w="100%" />
-						)}
-					</Skeleton>
+					<ProductDetailsColumn
+						isLoading={isLoading}
+						imgUrl={product.imgPath}
+						rating={product.avgRating}
+						name={product.name}
+						brand={product.brand}
+						numOfRatings={product.numOfRatings}
+					/>
 				</GridItem>
 				<GridItem colSpan={2}>
 					<Heading>{productId}</Heading>
