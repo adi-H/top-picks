@@ -1,30 +1,26 @@
 import React from 'react';
-import { Image, Text, Skeleton, Heading, Tag, TagLeftIcon } from '@chakra-ui/react';
+import { Image, Text, Box, Skeleton, Heading } from '@chakra-ui/react';
 import { SERVER_URL } from '../../variables/server-url';
 import { ProductRatingWidget } from './product-rating-widget';
-import { MdWorkOutline } from 'react-icons/md';
+import { BestForTags } from './best-for-tags';
+import { ProductBrandTag } from './product-brand-tag';
 
-// DOCUMENTATION basic card component
-// https://www.geeksforgeeks.org/reactjs-chakra-ui-card-component/
-
-export const ProductDetailsColumn = ({ isLoading, imgUrl, rating, name, brand = {}, numOfRatings }) => {
+export const ProductDetailsColumn = ({ isLoading, imgUrl, rating, name, brand = {}, numOfRatings, tags = [] }) => {
 	return (
 		<Skeleton isLoaded={!isLoading}>
-			<Text> this is the details col~~~</Text>
 			{imgUrl ? (
 				<Image src={`${SERVER_URL}${imgUrl}`} alt="product Image" w="100%" />
 			) : (
 				<Image src="" alt="loading" w="100%" />
 			)}
-
 			<ProductRatingWidget rating={rating} numOfRatings={numOfRatings} />
-
-			<Heading size="md">{name}</Heading>
-			<br />
-			<Tag>
-				<TagLeftIcon as={MdWorkOutline} boxSize="15px" />
-				<Heading size="sm">{brand.name}</Heading>
-			</Tag>
+			<Heading size="md" m={2}>
+				{name}
+			</Heading>
+			<Box m={3} mb={5}>
+				<ProductBrandTag name={brand.name} id={brand.id} />
+			</Box>
+			<BestForTags tags={tags} />
 		</Skeleton>
 	);
 };

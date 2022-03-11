@@ -1,4 +1,4 @@
-import { Box, GridItem, Heading, SimpleGrid, Image, Skeleton, Text } from '@chakra-ui/react';
+import { Box, GridItem, Heading, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductDetailsColumn } from '../components/product-page/product-details-column';
@@ -16,17 +16,13 @@ export const ProductPage = (props) => {
 	useEffect(
 		() => {
 			setProduct(data);
-			// console.log(data);
 			if (status === 'fetched') setIsLoading(false);
 		},
 		[ status, data ]
 	);
 
 	return (
-		<Box>
-			<Heading>helooooo</Heading>
-			<br />
-
+		<Box className="productPage" my={4}>
 			<SimpleGrid columns={3} gap={5}>
 				<GridItem columns={1}>
 					<ProductDetailsColumn
@@ -36,6 +32,7 @@ export const ProductPage = (props) => {
 						name={product.name}
 						brand={product.brand}
 						numOfRatings={product.numOfRatings}
+						tags={product.bestForTags}
 					/>
 				</GridItem>
 				<GridItem colSpan={2}>
