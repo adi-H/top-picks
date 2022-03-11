@@ -12,7 +12,7 @@ const SkinTag = ({ label }) => {
 };
 
 export const BestForTags = ({ tags }) => {
-	console.log(tags);
+	// console.log(tags);
 	return (
 		<Box>
 			<Text size="sm" as="u" m={2} pb={3}>

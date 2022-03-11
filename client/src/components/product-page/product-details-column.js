@@ -13,7 +13,7 @@ export const ProductDetailsColumn = ({ isLoading, imgUrl, rating, name, brand = 
 			) : (
 				<Image src="" alt="loading" w="100%" />
 			)}
-			<ProductRatingWidget rating={rating} numOfRatings={numOfRatings} />
+			<ProductRatingWidget rating={rating} numberOfRatings={numOfRatings} />
 			<Heading size="md" m={2}>
 				{name}
 			</Heading>

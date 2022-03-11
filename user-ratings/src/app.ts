@@ -5,6 +5,7 @@ import 'express-async-errors';
 import { errorHandler } from './middlewares/error-handler';
 import { insertUserSession } from './middlewares/insert-user-session';
 import RateLimit from 'express-rate-limit';
+import cors from 'cors';
 
 import { pingRouter } from './routes/ping';
 import { newRatingRouter } from './routes/new-rating';
@@ -21,6 +22,12 @@ app.use(
 	cookieSession({
 		signed: false,
 		secure: process.env.NODE_ENV !== 'test'
+	})
+);
+app.use(
+	cors({
+		origin: '*',
+		credentials: true
 	})
 );
 
