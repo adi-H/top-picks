@@ -6,6 +6,18 @@ import fs from 'fs';
 const SERVER_URL = 'http://20.82.37.12';
 const testImgPath = path.resolve(__dirname, 'alien.png');
 
+interface UserDetails {
+	id?: any;
+	email: string;
+	password: string;
+	cookie?: string;
+}
+
+const userDetails: UserDetails[] = [
+	{ email: 'test1@test.com', password: 'abc1234' },
+	{ email: 'test2@test.com', password: 'asmnbclkj12' }
+];
+
 interface BrandDetails {
 	name: string;
 	description: string;
@@ -58,6 +70,78 @@ const productsDetails: ProductDetails[] = [
 		brandName: 'brand3'
 	}
 ];
+
+interface RatingDetails {
+	rating: number;
+	desc: string;
+	product: string;
+}
+
+////////////////////////////////////////////
+
+const createRating = async (userCookie: string, productId: string, desc: string, rating: number) => {
+	const config: AxiosRequestConfig = {
+		method: 'POST',
+		url: SERVER_URL + '/api/user-ratings',
+		data: {
+			product: productId,
+			desc,
+			rating
+		},
+		headers: {
+			Cookie: userCookie
+		}
+	};
+
+	const res = await axios(config);
+	return res.data;
+};
+
+const generateRatings = async (products: Array<ProductDetails>, users: Array<UserDetails>) => {
+	const ratings: Array<RatingDetails> = [];
+	for (const product of products) {
+		if (!product.id) continue;
+		for (const user of users) {
+			if (!user.cookie) continue;
+			const conf = {
+				userCookie: user.cookie,
+				productId: product.id,
+				desc: 'asdkjbasd laskdj desc desc blah',
+				rating: Math.floor(Math.random() * 6) // max rating is 5, output from 0-5
+			};
+			const body = await createRating(conf.userCookie, conf.productId, conf.desc, conf.rating);
+			ratings.push(body);
+		}
+	}
+	return ratings;
+};
+
+const createUser = async (email: string, password: string) => {
+	const config: AxiosRequestConfig = {
+		method: 'POST',
+		url: SERVER_URL + '/api/users/signup',
+		data: {
+			email,
+			password
+		}
+	};
+
+	const res = await axios(config);
+	return res;
+};
+
+const generateUsers = async (usersInfo: Array<UserDetails>) => {
+	for (const user of usersInfo) {
+		const body = await createUser(user.email, user.password);
+		user.id = body.data.id;
+		if (body.headers['set-cookie']) {
+			const cookie = body.headers['set-cookie'].map((c) => c.split(';')[0]).join('; ');
+			user.cookie = cookie;
+		}
+	}
+
+	return usersInfo;
+};
 
 const createBrand = async (name: string, description: string) => {
 	const config: AxiosRequestConfig = {
@@ -136,10 +220,16 @@ const generateProducts = async (productsInfo: Array<ProductDetails>, brands: Arr
 };
 
 const generateData = async () => {
+	const users = await generateUsers(userDetails);
+	// console.log(users);
+
 	const brands = await generateBrands(brandsDetails);
-	console.log(brands);
+	// console.log(brands);
 	const prods = await generateProducts(productsDetails, brands);
-	console.log('~~~~~~~~~~~~~~', prods);
+	// console.log('~~~~~~~~~~~~~~', prods);
+
+	const ratings = await generateRatings(prods, users);
+	console.log(ratings);
 
 	return;
 };
