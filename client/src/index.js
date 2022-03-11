@@ -14,11 +14,6 @@ ReactDOM.render(
 		<ChakraProvider theme={theme}>
 			<BrowserRouter>
 				<App />
-				{/* <Routes>
-					{/* <Route path="/*" element={<App />}>
-						{' '}
-					</Route> 
-				</Routes> */}
 			</BrowserRouter>
 		</ChakraProvider>
 	</React.StrictMode>,
