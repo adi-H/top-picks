@@ -10,7 +10,7 @@ export const ProductCard = (props) => {
 
 	console.log(props);
 	return (
-		<Box w="200px" rounded="20px" overflow="hidden" bg={cardBg}>
+		<Box w="200px" m={7} rounded="20px" overflow="hidden" bg={cardBg}>
 			<Image src={`${SERVER_URL}${props.imgPath}`} alt="product Image" />
 			<Box p={5}>
 				<Stack align="center">

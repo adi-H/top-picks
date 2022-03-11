@@ -3,6 +3,20 @@ import { genericRequest } from './generic-request';
 
 import { SERVER_URL } from './../variables/server-url';
 
+export const getAllProductsConf = () => {
+	return {
+		url: `${SERVER_URL}/api/products`,
+		method: 'GET'
+	};
+};
+
+export const getOneProductConf = (productId) => {
+	return {
+		url: `${SERVER_URL}/api/products/${productId}`,
+		method: 'GET'
+	};
+};
+
 export const getAllProducts = async () => {
 	const config = {
 		baseUrl: SERVER_URL,
