@@ -1,24 +1,6 @@
 import React from 'react';
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Text } from '@chakra-ui/react';
-
-const CustomAccordionTab = ({ title, content }) => {
-	return (
-		<AccordionItem>
-			<AccordionButton>
-				<Box flex="1" textAlign="left" fontSize="medium">
-					<Text as="i">{title}</Text>
-				</Box>{' '}
-				<AccordionIcon />
-			</AccordionButton>
-
-			<AccordionPanel p={3}>
-				<Box fontSize="small" fontWeight="light">
-					<Text>{content}</Text>
-				</Box>
-			</AccordionPanel>
-		</AccordionItem>
-	);
-};
+import { Accordion, Box } from '@chakra-ui/react';
+import { CustomAccordionTab } from '../common/custom-accordion-tab';
 
 export const VerboseProductInfo = ({ description, ingridiants }) => {
 	return (

@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, Heading, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Heading, SimpleGrid, Skeleton } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { useFetch } from '../../hooks/use-fetch';
 import { getProductsByBrand } from '../../services/products';
@@ -31,6 +31,7 @@ export const MiscProducts = ({ brandId }) => {
 							{products.map((p) => (
 								<SmallProductCard
 									key={p.id}
+									id={p.id}
 									name={p.name}
 									avgRating={p.avgRating}
 									imgPath={p.imgPath}
@@ -40,6 +41,10 @@ export const MiscProducts = ({ brandId }) => {
 					</Skeleton>
 				</GridItem>
 			</Grid>
+			<Heading size="sm" m={3}>
+				total items ~~ {products.length}
+			</Heading>
+			<br />
 		</Box>
 	);
 };
