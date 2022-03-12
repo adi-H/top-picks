@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Home } from './views/home';
 import { UserAuthenticationPage } from './views/user-authentication';
 import { ProductPage } from './views/product-page';
+import { BrandPage } from './views/brand-page';
 
 // import { createBrowserHistory } from 'history';
 // const history = createBrowserHistory();
@@ -19,6 +20,7 @@ const App = (props) => {
 					<Route path="/" name="home" element={<Home />} />
 					<Route path="/login" name="login" element={<UserAuthenticationPage />} />
 					<Route path="/product/id/:productId" element={<ProductPage />} />
+					<Route path="/brand/id/:brandId" element={<BrandPage />} />
 				</Route>
 			</Routes>
 			{/* </Router> */}
