@@ -17,6 +17,13 @@ export const getOneProductConf = (productId) => {
 	};
 };
 
+export const getProductsByBrand = (brandId) => {
+	return {
+		url: `${SERVER_URL}/api/products/brand/${brandId}`,
+		method: 'GET'
+	};
+};
+
 export const getAllProducts = async () => {
 	const config = {
 		baseUrl: SERVER_URL,
