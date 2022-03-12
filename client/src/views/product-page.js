@@ -4,27 +4,14 @@ import { useParams } from 'react-router-dom';
 import { ProductDetailsColumn } from '../components/product-page/product-details-column';
 import { useFetch } from '../hooks/use-fetch';
 import { getOneProductConf } from '../services/products';
-import { ratingCountConf } from '../services/user-ratings';
 
 export const ProductPage = (props) => {
 	let { productId } = useParams();
 
 	let [ isLoading, setIsLoading ] = useState(true);
-	let [ count, setCount ] = useState(0);
 	let [ product, setProduct ] = useState({});
 	let conf = getOneProductConf(productId);
 	let { status, data } = useFetch(conf);
-
-	let ratingsCountConf = ratingCountConf(productId);
-	let { data: countData } = useFetch(ratingsCountConf);
-
-	useEffect(
-		() => {
-			console.log(countData.count);
-			setCount(countData.count);
-		},
-		[ countData ]
-	);
 
 	useEffect(
 		() => {
@@ -44,7 +31,7 @@ export const ProductPage = (props) => {
 						rating={product.avgRating}
 						name={product.name}
 						brand={product.brand}
-						numOfRatings={count}
+						numOfRatings={product.numberOfRatings}
 						tags={product.bestForTags}
 					/>
 				</GridItem>
