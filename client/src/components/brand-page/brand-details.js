@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, GridItem, SimpleGrid, Text, Skeleton } from '@chakra-ui/react';
+import { Box, Text, Skeleton } from '@chakra-ui/react';
 
 export const BrandDetails = ({ name, description, isLoading }) => {
 	return (

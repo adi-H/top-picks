@@ -19,12 +19,13 @@ export const MiscProducts = ({ brandId }) => {
 		[ status, data ]
 	);
 
+	// TODO add a normal search comp?? maybe generic enough so it can be reused ?
 	return (
 		<Box m={4}>
-			<Heading size="sm"> available products by the brand ~~ </Heading>
-			<Grid>
-				<GridItem />
-				<GridItem>
+			<Heading size="sm"> available products by the brand ~~ </Heading> <br />
+			<Grid templateColumns="repeat(5, 1fr)">
+				<GridItem bgColor="red">search comp</GridItem>
+				<GridItem colSpan={4}>
 					<Skeleton isLoaded={!isLoading}>
 						<SimpleGrid columns={4}>
 							{products.map((p) => (

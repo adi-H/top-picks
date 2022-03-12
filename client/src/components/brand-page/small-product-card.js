@@ -1,4 +1,4 @@
-import { Box, Container, Image, GridItem, Text, SimpleGrid } from '@chakra-ui/react';
+import { Box, Container, Image, GridItem, Text } from '@chakra-ui/react';
 import React from 'react';
 import { SERVER_URL } from '../../variables/server-url';
 import Ratings from 'react-ratings-declarative';
