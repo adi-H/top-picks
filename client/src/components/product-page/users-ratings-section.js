@@ -14,7 +14,7 @@ export const CommunityRatingsSection = ({ productId }) => {
 		() => {
 			setRatings(data);
 			if (status === 'fetched') setIsLoading(false);
-			console.log(data);
+			// console.log(data);
 		},
 		[ data, status ]
 	);

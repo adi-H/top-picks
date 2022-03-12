@@ -4,6 +4,7 @@ import cookieSession from 'cookie-session';
 import 'express-async-errors';
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
+import cors from 'cors';
 
 import { pingRouter } from './routes/ping';
 import { indexBrandsRouter } from './routes/index';
@@ -22,6 +23,12 @@ app.use(
 	cookieSession({
 		signed: false,
 		secure: process.env.NODE_ENV !== 'test'
+	})
+);
+app.use(
+	cors({
+		origin: '*',
+		credentials: true
 	})
 );
 
