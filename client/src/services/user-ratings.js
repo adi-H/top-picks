@@ -6,3 +6,10 @@ export const ratingCountConf = (id) => {
 		method: 'GET'
 	};
 };
+
+export const productRatingsConf = (id) => {
+	return {
+		url: `${SERVER_URL}/api/user-ratings/product/${id}`,
+		method: 'GET'
+	};
+};

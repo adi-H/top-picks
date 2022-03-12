@@ -1,11 +1,12 @@
-import { Box, GridItem, Heading, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
+import { Box, GridItem, SimpleGrid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { MiscProductColumn } from '../components/product-page/misc-column';
 import { ProductDetailsColumn } from '../components/product-page/product-details-column';
 import { useFetch } from '../hooks/use-fetch';
 import { getOneProductConf } from '../services/products';
 
-export const ProductPage = (props) => {
+export const ProductPage = () => {
 	let { productId } = useParams();
 
 	let [ isLoading, setIsLoading ] = useState(true);
@@ -35,12 +36,13 @@ export const ProductPage = (props) => {
 						tags={product.bestForTags}
 					/>
 				</GridItem>
-				<GridItem colSpan={2}>
-					<Heading>{productId}</Heading>
-					<Skeleton isLoaded={!isLoading}>
-						<Heading w="100%">{product.name}</Heading>
-						<Text>{product.description}</Text>
+				<GridItem colSpan={2} textAlign="left">
+					<MiscProductColumn isLoading={isLoading} productDesc={product.description} productId={productId} />
+
+					{/* <Skeleton isLoaded={!isLoading}>
+						<VerboseProductInfo description={product.description} />
 					</Skeleton>
+					<CommunityRatingsSection productId={productId} /> */}
 				</GridItem>
 			</SimpleGrid>
 		</Box>

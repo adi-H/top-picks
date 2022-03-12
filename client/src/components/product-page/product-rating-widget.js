@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Text, Skeleton, useColorModeValue } from '@chakra-ui/react';
+import React from 'react';
+import { Box, Text } from '@chakra-ui/react';
 import Ratings from 'react-ratings-declarative';
 
 export const ProductRatingWidget = ({ rating, numberOfRatings }) => {
