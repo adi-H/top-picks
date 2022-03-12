@@ -23,8 +23,10 @@ export class ProductRatingUpdatedListener extends Listener<ProductRatingUpdatedE
 		const { productId, avgRating } = data;
 		const product = await Product.findById(productId);
 		if (product) {
+			const numberOfRatings = product.numberOfRatings;
 			product.set({
-				avgRating
+				avgRating,
+				numberOfRatings: numberOfRatings + 1
 			});
 			await product.save();
 			console.log('updated product avg rating !!!!!!!!!!');

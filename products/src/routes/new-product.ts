@@ -116,7 +116,8 @@ router.post(
 			avgRating: 0,
 			productImg: img._id,
 			description,
-			bestForTags: tagsFiltered
+			bestForTags: tagsFiltered,
+			numberOfRatings: 0
 		});
 		await product.save();
 
