@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/api/products/:id', async (req: Request, res: Response) => {
 	try {
-		const product = await Product.findById(req.params.id);
+		const product = await Product.findById(req.params.id).populate('brand');
 		if (!product) {
 			throw new NotFoundError();
 		}

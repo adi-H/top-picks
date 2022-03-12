@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { genericRequest } from './generic-request';
 
 import { SERVER_URL } from './../variables/server-url';

@@ -24,8 +24,12 @@ export const useFetch = (conf) => {
 						url: url,
 						method: method,
 						headers: {
-							Accept: 'application/json',
-							'Content-Type': 'application/json;charset=UTF-8'
+							'Content-Type': 'application/json;charset=UTF-8',
+							Accept: 'application/json, text/plain, */*',
+							'Access-Control-Allow-Headers': '*',
+							'Access-Control-Allow-Methods': 'OPTIONS, GET, POST, PATCH, DELETE, PUT',
+							'Access-Control-Allow-Origin': '*',
+							'Access-Control-Allow-Headers': 'X-Requested-With'
 						},
 						data: body,
 						options: otherOptions

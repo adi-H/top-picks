@@ -20,7 +20,7 @@ export const MenuStack = ({ children, isOpen, ...rest }) => {
 				<Button onClick={toggleColorMode}>{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}</Button>
 
 				{/* TODO change links and all that~~ */}
-				<MenuItem to="/">random link</MenuItem>
+				<MenuItem to="/">back home</MenuItem>
 				<MenuItem to="/login">login</MenuItem>
 			</Stack>
 		</Box>
