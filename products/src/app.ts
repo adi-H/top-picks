@@ -11,6 +11,7 @@ import { errorHandler } from './middlewares/error-handler';
 import { getProductPicRouter } from './routes/get-product-pic';
 import { specificProductRouter } from './routes/specific-product';
 import { updateProductRouter } from './routes/update';
+import { byBrandIdRouter } from './routes/by-brand-id';
 
 const app = express();
 app.set('trust proxy', true);
@@ -31,6 +32,7 @@ app.use(
 app.use(pingRouter);
 app.use(newProductRouter);
 app.use(indexRouter);
+app.use(byBrandIdRouter);
 app.use(specificProductRouter);
 app.use(updateProductRouter);
 app.use(getProductPicRouter);
