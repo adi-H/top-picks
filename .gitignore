@@ -12,3 +12,6 @@
 /infra/dummy-data/node_modules
 
 /lists/node_modules
+
+/common/build 
+/common/node_modules
