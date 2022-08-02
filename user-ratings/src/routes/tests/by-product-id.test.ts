@@ -50,7 +50,6 @@ it('returns 200 with only the rating thats by the product', async () => {
 		})
 		.expect(201);
 
-	// console.log(ratingTwo.body);
 	const res = await request(app).get(`/api/user-ratings/product/${productTwo.id}`).expect(200);
 	// console.log(res.body);
 	expect(res.body).toHaveLength(1);
