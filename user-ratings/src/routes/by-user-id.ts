@@ -10,10 +10,11 @@ router.get('/api/user-ratings/user/:userId', async (req: Request, res: Response)
 	if (!user) {
 		throw new NotFoundError();
 	}
-	console.log(user);
+	// console.log(user);
 
 	const ratings = await Rating.find();
-	console.log(ratings);
+	// console.log(ratings);
+
 	// BANDAID sorta
 	// from whatever reason, it insists that r.user is a string when u do typeof, but if u try to check equality (==/===)
 	// it decides it's an object, but it also decides it's not equal to the user object

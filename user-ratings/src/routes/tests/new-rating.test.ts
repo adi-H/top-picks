@@ -29,7 +29,7 @@ it('returns a 201 with valid rating', async () => {
 	const product = await createProduct();
 	const u = await createUser();
 	const cookie = global.signin(u.id);
-	// console.log('printing cookie', cookie);
+
 	await request(app)
 		.post('/api/user-ratings')
 		.set('Cookie', cookie)
@@ -45,7 +45,6 @@ it('returns a 201 with valid rating without desc', async () => {
 	const product = await createProduct();
 	const u = await createUser();
 	const cookie = global.signin(u.id);
-	// console.log('printing cookie', cookie);
 	await request(app)
 		.post('/api/user-ratings')
 		.set('Cookie', cookie)
@@ -158,7 +157,7 @@ it('returns 400 with a rating that is negative', async () => {
 		.expect(400);
 });
 
-it('returns 400 with valid rating that is 5+', async () => {
+it('returns 400 with invalid rating that is 5+', async () => {
 	const product = await createProduct();
 	const cookie = global.signin((await createUser()).id);
 	await request(app)
@@ -186,4 +185,32 @@ it('emits a product rating updated event', async () => {
 		.expect(201);
 
 	expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
+
+it('updates avgRating after multiple ratings', async () => {
+	const product = await createProduct();
+	const userOne = await createUser();
+	const userTwo = await createUser();
+	const cookieOne = global.signin(userOne.id);
+	const cookieTwo = global.signin(userTwo.id);
+
+	await request(app)
+		.post('/api/user-ratings')
+		.set('Cookie', cookieOne)
+		.send({
+			rating: 2,
+			product: product.id
+		})
+		.expect(201);
+
+	const secondRatingRes = await request(app)
+		.post('/api/user-ratings')
+		.set('Cookie', cookieTwo)
+		.send({
+			rating: 3,
+			product: product.id
+		})
+		.expect(201);
+
+	expect(secondRatingRes.body.product.avgRating).toEqual(2.5);
 });

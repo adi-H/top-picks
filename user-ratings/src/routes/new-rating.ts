@@ -39,7 +39,7 @@ router.post(
 		const user = await User.findById(req.sessionInfo!.id);
 
 		const product = await Product.findById(productId);
-		console.log(product);
+		// console.log(product);
 		if (!product) {
 			throw new BadRequestError(`the product youre trying to rate (${productId}) doesnt exist`);
 		}
@@ -65,7 +65,9 @@ router.post(
 		});
 
 		// calc the new avg rating for the product and publish event
-		const allProductRating = await Rating.find({ product });
+		const allProductRating = await (await Rating.find().populate('product')).filter(
+			(r) => r.product._id == product.id
+		);
 		const newAvgRating =
 			allProductRating.length > 1
 				? allProductRating.map((r) => r.rating).reduce((prev, next) => prev + next) / allProductRating.length
@@ -75,6 +77,12 @@ router.post(
 			productId: product.id,
 			avgRating: newAvgRating
 		});
+
+		// updates the products avg rating + the ratingObj so it can be sent back
+		product.avgRating = newAvgRating;
+		await product.save();
+		ratingObj.product = product;
+		await ratingObj.save();
 
 		res.status(201).send(ratingObj);
 	}
