@@ -6,4 +6,4 @@ export * from './events/base-publisher';
 export * from './events/publishers/index';
 
 // events exports
-export * from './events/events/index';
+export * from './events/event-types/index';

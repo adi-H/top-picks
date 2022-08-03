@@ -5,15 +5,15 @@ export * from './brand-created-publisher';
 export * from './brand-updated-publisher';
 
 // products
-export * from './product-created-publisher';
-export * from './product-updated-publisher';
+export * from './products-and-ratings/product-created-publisher';
+export * from './products-and-ratings/product-updated-publisher';
 
 // lists
-export * from './list-deleted-publisher';
-export * from './list-products-count-updated-publisher';
-export * from './list-updated-publisher';
-export * from './new-list-created-publisher';
+export * from './lists/list-deleted-publisher';
+export * from './lists/list-products-count-updated-publisher';
+export * from './lists/list-updated-publisher';
+export * from './lists/new-list-created-publisher';
 
 // ratings
-export * from './new-product-rating-publisher';
-export * from './new-rating-publisher';
+export * from './products-and-ratings/new-product-rating-publisher';
+export * from './products-and-ratings/new-rating-publisher';

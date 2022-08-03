@@ -1,5 +1,5 @@
 import { Publisher } from '../base-publisher';
-import { BrandCreatedEvent } from '../events';
+import { BrandCreatedEvent } from '../event-types';
 import { Subjects } from '../subjects';
 
 export class BrandCreatedPublisher extends Publisher<BrandCreatedEvent> {
