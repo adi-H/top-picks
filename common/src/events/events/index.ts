@@ -3,3 +3,6 @@ export * from './list-details-updated-event';
 export * from './new-list-created-event';
 export * from './new-rating-posted-event';
 export * from './product-count-in-list-updated-event';
+export * from './brand-created-event';
+export * from './brand-updated-event';
+export * from './user-created-event';
