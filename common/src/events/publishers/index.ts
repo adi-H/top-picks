@@ -13,3 +13,7 @@ export * from './list-deleted-publisher';
 export * from './list-products-count-updated-publisher';
 export * from './list-updated-publisher';
 export * from './new-list-created-publisher';
+
+// ratings
+export * from './new-product-rating-publisher';
+export * from './new-rating-publisher';
