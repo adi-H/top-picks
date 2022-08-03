@@ -6,7 +6,7 @@ import { body } from 'express-validator';
 import { NotFoundError } from '../errors/not-found-error';
 import { Brand } from '../models/brand';
 import { BadRequestError } from '../errors/bad-request-error';
-import { productUpdatedPublisher } from '../events/publishers/product-updated-publisher';
+import { productUpdatedPublisher } from '@adih-toppicks/common';
 import { natsWrapper } from '../nats-wrapper';
 import { possibleProductTypes } from '../variables/product-types';
 import { bestForTagsOptions } from '../variables/best-for-tags';
