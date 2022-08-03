@@ -11,7 +11,7 @@ const setup = async () => {
 
 	const list = await List.build({ name: 'test', count: 2, _id: new mongoose.Types.ObjectId().toHexString() });
 	await list.save();
-	const user = await User.build({ email: 'test@test.com', password: 'abc123', lists: [ list ] });
+	const user = await User.build({ email: 'test@test.com', password: 'abc123', lists: [ list ], userAccess: '~' });
 	await user.save();
 
 	const data: ProductCountInListUpdatedEvent['data'] = {

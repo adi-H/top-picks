@@ -11,11 +11,12 @@ interface UserDetails {
 	email: string;
 	password: string;
 	cookie?: string;
+	userAccess: string;
 }
 
 const userDetails: UserDetails[] = [
-	{ email: 'test1@test.com', password: 'abc1234' },
-	{ email: 'test2@test.com', password: 'asmnbclkj12' }
+	{ email: 'test1@test.com', password: 'abc1234', userAccess: 'admin' },
+	{ email: 'test2@test.com', password: 'asmnbclkj12', userAccess: '~' }
 ];
 
 interface BrandDetails {
