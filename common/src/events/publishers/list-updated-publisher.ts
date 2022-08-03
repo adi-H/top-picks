@@ -1,15 +1,6 @@
+import { ListDetailsUpdatedEvent } from '../events';
 import { Subjects } from '../subjects';
-import { Publisher } from './base-publisher';
-
-interface ListDetailsUpdatedEvent {
-	subject: Subjects.listDetailsUpdated;
-	data: {
-		userId: string;
-		listId: string;
-
-		name: string;
-	};
-}
+import { Publisher } from './../base-publisher';
 
 export class ListDetailsUpdatedPublisher extends Publisher<ListDetailsUpdatedEvent> {
 	subject: Subjects.listDetailsUpdated = Subjects.listDetailsUpdated;

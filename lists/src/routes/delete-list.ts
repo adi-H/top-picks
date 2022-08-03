@@ -1,4 +1,4 @@
-import { ListDeletedPublisher } from '../events/publishers/list-deleted-publisher';
+import { ListDeletedPublisher } from '@adih-toppicks/common';
 import { NotAuthorizedError } from './../errors/not-authorized-error';
 import { NotFoundError } from './../errors/not-found-error';
 import express, { Request, Response } from 'express';
