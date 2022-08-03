@@ -1,18 +1,17 @@
+import { ProductCountInListUpdatedEvent, Listener, Subjects } from '@adih-toppicks/common';
 import { queueGroupName } from './queue-group-name';
-import { Subjects } from '../subjects';
-import { Listener } from './base-listener';
 import { Message } from 'node-nats-streaming';
 import { List } from '../../models/list';
 
-export interface ProductCountInListUpdatedEvent {
-	subject: Subjects.listProductCountUpdated;
-	data: {
-		userId: string;
-		listId: string;
+// export interface ProductCountInListUpdatedEvent {
+// 	subject: Subjects.listProductCountUpdated;
+// 	data: {
+// 		userId: string;
+// 		listId: string;
 
-		count: number;
-	};
-}
+// 		count: number;
+// 	};
+// }
 
 export class ProductCountInListUpdatedListener extends Listener<ProductCountInListUpdatedEvent> {
 	subject: Subjects.listProductCountUpdated = Subjects.listProductCountUpdated;

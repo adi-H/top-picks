@@ -1,19 +1,8 @@
 import { queueGroupName } from './queue-group-name';
-import { Subjects } from '../subjects';
-import { Listener } from './base-listener';
+import { Subjects, ListDeletedEvent, Listener } from '@adih-toppicks/common';
 import { Message } from 'node-nats-streaming';
 import { List } from '../../models/list';
 import { User } from '../../models/user';
-
-export interface ListDeletedEvent {
-	subject: Subjects.listDeleted;
-	data: {
-		userId: string;
-		listId: string;
-
-		name: string;
-	};
-}
 
 export class ListDeletedListener extends Listener<ListDeletedEvent> {
 	subject: Subjects.listDeleted = Subjects.listDeleted;

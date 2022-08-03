@@ -1,5 +1,6 @@
 import { Message } from 'node-nats-streaming';
-import { ListDeletedListener, ListDeletedEvent } from '../list-deleted-listener';
+import { ListDeletedListener } from '../list-deleted-listener';
+import { ListDeletedEvent } from '@adih-toppicks/common';
 import { natsWrapper } from '../../../nats-wrapper';
 import mongoose from 'mongoose';
 import { User } from '../../../models/user';

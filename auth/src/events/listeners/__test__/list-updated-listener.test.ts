@@ -1,9 +1,10 @@
 import { Message } from 'node-nats-streaming';
-import { ListDetailsUpdatedListener, ListDetailsUpdatedEvent } from '../list-updated-listener';
+import { ListDetailsUpdatedListener } from '../list-updated-listener';
 import { natsWrapper } from '../../../nats-wrapper';
 import mongoose from 'mongoose';
 import { User } from '../../../models/user';
 import { List } from '../../../models/list';
+import { ListDetailsUpdatedEvent } from '@adih-toppicks/common';
 
 const setup = async () => {
 	const listener = new ListDetailsUpdatedListener(natsWrapper.client);

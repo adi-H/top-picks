@@ -1,16 +1,6 @@
 import { queueGroupName } from './queue-group-name';
-import { Subjects } from '../subjects';
-import { Listener } from './base-listener';
 import { Message } from 'node-nats-streaming';
-
-interface NewRatingPostedEvent {
-	subject: Subjects.newRatingPosted;
-	data: {
-		productId: string;
-		rating: number;
-		userId: string;
-	};
-}
+import { Listener, Subjects, NewRatingPostedEvent } from '@adih-toppicks/common';
 
 export class NewRatingPostedListener extends Listener<NewRatingPostedEvent> {
 	subject: Subjects.newRatingPosted = Subjects.newRatingPosted;

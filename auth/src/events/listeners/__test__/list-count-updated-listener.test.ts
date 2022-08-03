@@ -1,5 +1,6 @@
 import { Message } from 'node-nats-streaming';
-import { ProductCountInListUpdatedListener, ProductCountInListUpdatedEvent } from '../list-count-updated-listener';
+import { ProductCountInListUpdatedListener } from '../list-count-updated-listener';
+import { ProductCountInListUpdatedEvent } from '@adih-toppicks/common';
 import { natsWrapper } from '../../../nats-wrapper';
 import mongoose from 'mongoose';
 import { User } from '../../../models/user';

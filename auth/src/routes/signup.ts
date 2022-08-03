@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
+import { UserCreatedPublisher } from '@adih-toppicks/common';
 import { BadRequestError } from '../errors/bad-request-error';
-import { UserCreatedPublisher } from '../events/publishers/user-created-publisher';
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
 import { natsWrapper } from '../nats-wrapper';

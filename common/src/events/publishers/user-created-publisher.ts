@@ -1,5 +1,5 @@
 import { Subjects } from '../subjects';
-import { Publisher } from './base-publisher';
+import { Publisher } from './../base-publisher';
 
 interface UserCreatedEvent {
 	subject: Subjects.userCreated;
