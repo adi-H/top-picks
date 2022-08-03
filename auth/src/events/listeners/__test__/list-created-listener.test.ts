@@ -8,7 +8,7 @@ import { NewListCreatedEvent } from '@adih-toppicks/common';
 const setup = async () => {
 	const listener = new NewListCreatedListener(natsWrapper.client);
 
-	const user = await User.build({ email: 'test@test.com', password: 'abc123', lists: [] });
+	const user = await User.build({ email: 'test@test.com', password: 'abc123', lists: [], userAccess: '~' });
 	await user.save();
 
 	const data: NewListCreatedEvent['data'] = {

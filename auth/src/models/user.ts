@@ -8,6 +8,7 @@ interface UserAttributes {
 	email: string;
 	password: string;
 	lists: Array<ListDoc>;
+	userAccess: string;
 }
 
 // interface that describes the properties
@@ -22,6 +23,7 @@ interface UserDoc extends mongoose.Document {
 	email: string;
 	password: string;
 	lists: Array<ListDoc>;
+	userAccess: string;
 }
 
 const userSchema = new mongoose.Schema(
@@ -41,6 +43,10 @@ const userSchema = new mongoose.Schema(
 					ref: 'List'
 				}
 			]
+		},
+		userAccess: {
+			type: String,
+			required: true
 		}
 	},
 	{

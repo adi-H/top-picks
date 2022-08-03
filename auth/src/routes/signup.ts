@@ -8,13 +8,17 @@ import { User } from '../models/user';
 import { natsWrapper } from '../nats-wrapper';
 import sanitize from 'mongo-sanitize';
 
+const ADMIN_ACCESS_LABEL = 'admin';
+const VIEWER_ACCESS_LABEL = 'viewer';
+
 const userValidationRules = () => {
 	return [
 		body('email').isEmail().withMessage('Email must be valid'),
 		body('password')
 			.trim()
 			.isLength({ min: 4, max: 20 })
-			.withMessage('Password must be between 4 and 20 characters')
+			.withMessage('Password must be between 4 and 20 characters'),
+		body('accessLevel').optional().isString()
 	];
 };
 
@@ -22,14 +26,18 @@ const router = express.Router();
 
 router.post('/api/users/signup', userValidationRules(), validateRequest, async (req: Request, res: Response) => {
 	console.log('attempting to sign in~~~');
-	const { email, password } = sanitize(req.body);
+	const { email, password, accessLevel } = sanitize(req.body);
 
 	const existingUser = await User.findOne({ email });
 	if (existingUser) {
 		throw new BadRequestError('email is already in use');
 	}
 
-	const user = User.build({ email: email, password: password, lists: [] });
+	const userAccess: string =
+		accessLevel == ADMIN_ACCESS_LABEL || accessLevel == VIEWER_ACCESS_LABEL ? accessLevel : '~';
+
+	console.log('userAccess "', userAccess, '"');
+	const user = User.build({ email: email, password: password, lists: [], userAccess });
 	await user.save();
 
 	// prompt event here
