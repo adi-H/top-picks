@@ -5,5 +5,6 @@ export interface UserCreatedEvent {
 	data: {
 		id: string;
 		email: string;
+		userAccess: string;
 	};
 }

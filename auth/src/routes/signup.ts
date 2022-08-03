@@ -43,7 +43,8 @@ router.post('/api/users/signup', userValidationRules(), validateRequest, async (
 	// prompt event here
 	new UserCreatedPublisher(natsWrapper.client).publish({
 		id: user.id,
-		email: user.email
+		email: user.email,
+		userAccess: user.userAccess
 	});
 
 	// generate JWT for the session and store it in the session obj

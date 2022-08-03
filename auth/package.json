@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"dependencies": {
-		"@adih-toppicks/common": "^1.0.5",
+		"@adih-toppicks/common": "^1.0.15",
 		"@types/cookie-session": "^2.0.43",
 		"@types/cors": "^2.8.12",
 		"@types/csurf": "^1.11.2",
