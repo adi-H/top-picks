@@ -4,7 +4,7 @@ import { Brand } from '../models/brand';
 import { body } from 'express-validator';
 import { validateRequest } from '../middlewares/validate-request';
 import { natsWrapper } from '../nats-wrapper';
-import { BrandUpdatedPublisher } from '../events/publishers/brand-updated-publisher';
+import { BrandUpdatedPublisher } from '@adih-toppicks/common';
 
 const brandValidationRules = () => {
 	return [

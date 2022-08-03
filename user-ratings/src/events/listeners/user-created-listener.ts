@@ -1,16 +1,7 @@
+import { Listener, Subjects, UserCreatedEvent } from '@adih-toppicks/common';
 import { queueGroupName } from './queue-group-name';
-import { Subjects } from '../subjects';
-import { Listener } from './base-listener';
 import { Message } from 'node-nats-streaming';
 import { User } from '../../models/user';
-
-interface UserCreatedEvent {
-	subject: Subjects.userCreated;
-	data: {
-		id: string;
-		email: string;
-	};
-}
 
 export class UserCreatedListener extends Listener<UserCreatedEvent> {
 	subject: Subjects.userCreated = Subjects.userCreated;

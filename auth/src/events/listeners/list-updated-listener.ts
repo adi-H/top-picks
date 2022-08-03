@@ -1,18 +1,7 @@
 import { queueGroupName } from './queue-group-name';
-import { Subjects } from '../subjects';
-import { Listener } from './base-listener';
 import { Message } from 'node-nats-streaming';
 import { List } from '../../models/list';
-
-export interface ListDetailsUpdatedEvent {
-	subject: Subjects.listDetailsUpdated;
-	data: {
-		userId: string;
-		listId: string;
-
-		name: string;
-	};
-}
+import { ListDetailsUpdatedEvent, Subjects, Listener } from '@adih-toppicks/common';
 
 export class ListDetailsUpdatedListener extends Listener<ListDetailsUpdatedEvent> {
 	subject: Subjects.listDetailsUpdated = Subjects.listDetailsUpdated;

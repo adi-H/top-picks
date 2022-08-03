@@ -1,19 +1,7 @@
 import { queueGroupName } from './queue-group-name';
-import { Subjects } from '../subjects';
-import { Listener } from './base-listener';
+import { Subjects, Listener, ProductCreatedEvent } from '@adih-toppicks/common';
 import { Message } from 'node-nats-streaming';
 import { Product } from '../../models/product';
-
-interface ProductCreatedEvent {
-	subject: Subjects.productCreated;
-	data: {
-		id: string;
-		name: string;
-		productType: string;
-		avgRating: number;
-		brandId: string;
-	};
-}
 
 export class ProductCreatedListener extends Listener<ProductCreatedEvent> {
 	subject: Subjects.productCreated = Subjects.productCreated;

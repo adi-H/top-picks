@@ -6,7 +6,7 @@ import { body } from 'express-validator';
 import { Brand } from '../models/brand';
 import { BadRequestError } from '../errors/bad-request-error';
 import { Product } from '../models/product';
-import { productCreatedPublisher } from '../events/publishers/product-created-publisher';
+import { productCreatedPublisher } from '@adih-toppicks/common';
 import { natsWrapper } from '../nats-wrapper';
 import multer from 'multer';
 import { fileStorage } from '../file-upload/storage-config';

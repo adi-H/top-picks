@@ -3,7 +3,7 @@ import { Brand } from '../models/brand';
 import { body } from 'express-validator';
 import { validateRequest } from '../middlewares/validate-request';
 import { BadRequestError } from '../errors/bad-request-error';
-import { BrandCreatedPublisher } from '../events/publishers/brand-created-publisher';
+import { BrandCreatedPublisher } from '@adih-toppicks/common';
 import { natsWrapper } from '../nats-wrapper';
 import sanitize from 'mongo-sanitize';
 

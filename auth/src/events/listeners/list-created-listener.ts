@@ -1,18 +1,8 @@
 import { queueGroupName } from './queue-group-name';
-import { Subjects } from '../subjects';
-import { Listener } from './base-listener';
 import { Message } from 'node-nats-streaming';
 import { User } from '../../models/user';
 import { List } from '../../models/list';
-
-export interface NewListCreatedEvent {
-	subject: Subjects.newListCreated;
-	data: {
-		userId: string;
-		listId: string;
-		name: string;
-	};
-}
+import { NewListCreatedEvent, Listener, Subjects } from '@adih-toppicks/common';
 
 export class NewListCreatedListener extends Listener<NewListCreatedEvent> {
 	subject: Subjects.newListCreated = Subjects.newListCreated;

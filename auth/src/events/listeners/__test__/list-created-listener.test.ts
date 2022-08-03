@@ -1,8 +1,9 @@
 import { Message } from 'node-nats-streaming';
-import { NewListCreatedEvent, NewListCreatedListener } from '../list-created-listener';
+import { NewListCreatedListener } from '../list-created-listener';
 import { natsWrapper } from '../../../nats-wrapper';
 import mongoose from 'mongoose';
 import { User } from '../../../models/user';
+import { NewListCreatedEvent } from '@adih-toppicks/common';
 
 const setup = async () => {
 	const listener = new NewListCreatedListener(natsWrapper.client);

@@ -9,7 +9,7 @@ import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
 import { natsWrapper } from '../nats-wrapper';
 import { Product } from '../models/product';
-import { ProductCountInListUpdatedPublisher } from '../events/publishers/list-products-count-updated-publisher';
+import { ProductCountInListUpdatedPublisher } from '@adih-toppicks/common';
 import sanitize from 'mongo-sanitize';
 
 interface UserGivenProduct {
