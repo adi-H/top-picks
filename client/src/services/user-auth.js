@@ -47,3 +47,24 @@ export const signup = async (email, password) => {
 
 // logout
 export const logout = async () => {};
+
+// check if user session info is ok
+export const checkExistingCreds = async () => {
+	const config = {
+		baseUrl: SERVER_URL,
+		endpoint: '/api/users/session-info',
+		method: 'GET',
+		options: { withCredentials: true }
+	};
+	try {
+		const res = await genericRequest(config);
+		// console.log(res);
+		// return true;
+		return res;
+	} catch (e) {
+		// console.log(e);
+		// console.log('oh no :( try again');
+		// return false;
+		return e;
+	}
+};
