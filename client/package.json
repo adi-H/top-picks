@@ -34,7 +34,7 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "react-scripts build",
+		"build": "react-scripts --max_old_space_size=4096 build -v",
 		"test": "react-scripts test",
 		"deploy": "npm run build && serve -s build",
 		"eject": "react-scripts eject"
