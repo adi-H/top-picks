@@ -35,21 +35,16 @@ export const signup = async (email, password) => {
 	};
 	try {
 		const res = await genericRequest(config);
-		// console.log(res);
-		// return true;
 		return res;
 	} catch (e) {
-		// console.log('oh no :( try again');
-		// return false;
 		return e;
 	}
 };
 
-// logout
+// TODO logout lmao
 export const logout = async () => {};
 
-// check if user session info is ok
-export const checkExistingCreds = async () => {
+const checkExistingCreds = async () => {
 	const config = {
 		baseUrl: SERVER_URL,
 		endpoint: '/api/users/session-info',
@@ -58,13 +53,23 @@ export const checkExistingCreds = async () => {
 	};
 	try {
 		const res = await genericRequest(config);
-		// console.log(res);
-		// return true;
 		return res;
 	} catch (e) {
-		// console.log(e);
-		// console.log('oh no :( try again');
-		// return false;
 		return e;
 	}
+};
+
+// check if user session info is ok, return true or false
+export const isUserLoggedIn = async () => {
+	const res = await checkExistingCreds();
+	// console.log('checking creds!! ', res);
+	if (res.data.sessionInfo !== null) return true;
+	else return false;
+};
+
+// returns the user's email + makes sure the sessionInfo is ok
+export const getUserDetails = async () => {
+	const res = await checkExistingCreds();
+	if (res.data.sessionInfo !== null) return { ...res.data.sessionInfo, valid: true };
+	else return { valid: false };
 };

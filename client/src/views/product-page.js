@@ -1,4 +1,4 @@
-import { Box, GridItem, SimpleGrid } from '@chakra-ui/react';
+import { Box, GridItem, SimpleGrid, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MiscProductColumn } from '../components/product-page/misc-column';
@@ -8,7 +8,6 @@ import { getOneProductConf } from '../services/products';
 
 export const ProductPage = () => {
 	let { productId } = useParams();
-
 	let [ isLoading, setIsLoading ] = useState(true);
 	let [ product, setProduct ] = useState({});
 	let conf = getOneProductConf(productId);
@@ -26,6 +25,7 @@ export const ProductPage = () => {
 		<Box className="productPage" my={4}>
 			<SimpleGrid columns={3} gap={5}>
 				<GridItem columns={1}>
+					{/* <Text>{userDetails.id} </Text> */}
 					<ProductDetailsColumn
 						isLoading={isLoading}
 						imgUrl={product.imgPath}
