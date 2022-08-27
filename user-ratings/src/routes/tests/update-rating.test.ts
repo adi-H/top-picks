@@ -3,6 +3,7 @@ import { app } from '../../app';
 import mongoose from 'mongoose';
 import { User } from '../../models/user';
 import { getUserCookie, createRating } from './generic-functions';
+import { natsWrapper } from '../../nats-wrapper';
 
 it('updates a valid req with valid inputs 201', async () => {
 	const cookie = await getUserCookie();
@@ -19,6 +20,7 @@ it('updates a valid req with valid inputs 201', async () => {
 
 	expect(res.body.rating).toEqual(2);
 	expect(res.body.description).toEqual('blah blah blah desc');
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
 
 it('updates a valid req without description (only rating changed) 201', async () => {
@@ -140,6 +142,21 @@ it('401 updating a rating of another user', async () => {
 		.set('Cookie', cookieTwo)
 		.send()
 		.expect(401);
-	// console.log(res.body);
 	expect(res.body.errors[0].message).toEqual('not authorized for this action');
 });
+
+// it('emits publishers', async () => {
+// 	const cookie = await getUserCookie();
+// 	const rating = await createRating(4, 'hehe', cookie);
+
+// 	const res = await request(app)
+// 		.put(`/api/user-ratings/${rating.body.id}`)
+// 		.set('Cookie', cookie)
+// 		.send({
+// 			rating: 2,
+// 			description: 'blah blah blah desc'
+// 		})
+// 		.expect(201);
+
+// 	// expect(natsWrapper.client.publish).toHaveBeenCalled();
+// });
