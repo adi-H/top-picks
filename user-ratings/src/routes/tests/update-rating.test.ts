@@ -140,5 +140,6 @@ it('401 updating a rating of another user', async () => {
 		.set('Cookie', cookieTwo)
 		.send()
 		.expect(401);
-	console.log(res.body);
+	// console.log(res.body);
+	expect(res.body.errors[0].message).toEqual('not authorized for this action');
 });
