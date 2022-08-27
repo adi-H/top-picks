@@ -73,22 +73,30 @@ it('400 invalid rating - 5+', async () => {
 	const cookie = await getUserCookie();
 	const rating = await createRating(4, 'hehe', cookie);
 
-	console.log(rating.body);
-
-	const res = await request(app).put(`/api/user-ratings/${rating.body.id}`).set('Cookie', cookie).send().expect(201);
-
-	// expect(res.text).toEqual('pong');
+	const res = await request(app)
+		.put(`/api/user-ratings/${rating.body.id}`)
+		.set('Cookie', cookie)
+		.send({
+			rating: 8
+		})
+		.expect(400);
+	expect(res.body.errors[0].message).toEqual('rating cant be specified + under 0 or over 5');
+	expect(res.body.errors[0].field).toEqual('rating');
 });
 
 it('400 invalid rating - negative', async () => {
 	const cookie = await getUserCookie();
 	const rating = await createRating(4, 'hehe', cookie);
 
-	console.log(rating.body);
-
-	const res = await request(app).put(`/api/user-ratings/${rating.body.id}`).set('Cookie', cookie).send().expect(201);
-
-	// expect(res.text).toEqual('pong');
+	const res = await request(app)
+		.put(`/api/user-ratings/${rating.body.id}`)
+		.set('Cookie', cookie)
+		.send({
+			rating: -2
+		})
+		.expect(400);
+	expect(res.body.errors[0].message).toEqual('rating cant be specified + under 0 or over 5');
+	expect(res.body.errors[0].field).toEqual('rating');
 });
 
 it('400 invalid rating - not a number', async () => {
@@ -97,7 +105,15 @@ it('400 invalid rating - not a number', async () => {
 
 	console.log(rating.body);
 
-	const res = await request(app).put(`/api/user-ratings/${rating.body.id}`).set('Cookie', cookie).send().expect(201);
+	const res = await request(app)
+		.put(`/api/user-ratings/${rating.body.id}`)
+		.set('Cookie', cookie)
+		.send({
+			rating: '8'
+		})
+		.expect(400);
+	expect(res.body.errors[0].message).toEqual('rating cant be specified + under 0 or over 5');
+	expect(res.body.errors[0].field).toEqual('rating');
 });
 
 it('400 rating doesnt exist', async () => {
@@ -111,8 +127,6 @@ it('401 no cookie is attached - user unauthenticated', async () => {
 	const rating = await createRating(4, 'hehe', cookie);
 
 	const res = await request(app).put(`/api/user-ratings/${rating.body.id}`).send().expect(401);
-	console.log(res.body);
-
 	expect(res.body.errors[0].message).toEqual('not authorized');
 });
 
