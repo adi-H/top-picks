@@ -10,18 +10,17 @@ import { Rating } from '../models/rating';
 import { User } from '../models/user';
 import { natsWrapper } from '../nats-wrapper';
 import sanitize from 'mongo-sanitize';
+import { CustomError } from '../errors/custom-error';
+import { NotAuthorizedError } from '../errors/not-authorized-error';
+import { NotAuthorizedForActionError } from '../errors/not-authorized-for-action-error';
 
 const ratingValidationRules = () => {
 	return [
 		body('rating')
-			.notEmpty()
 			.isFloat({ min: 0, max: 5 })
-			.withMessage('rating cant be specified + under 0 or over 5'),
-		body('product').notEmpty().withMessage('product cant be empty'),
-		body('description')
-			.notEmpty()
-			.withMessage('product cant be empty')
-			.optional({ nullable: true, checkFalsy: true })
+			.withMessage('rating cant be specified + under 0 or over 5')
+			.optional(),
+		body('description').isString().optional({ nullable: true, checkFalsy: true })
 	];
 };
 const router = express.Router();
@@ -29,32 +28,33 @@ const router = express.Router();
 router.put(
 	'/api/user-ratings/:id',
 	requireAuth,
-	// ratingValidationRules(),
+	ratingValidationRules(),
 	validateRequest,
 	async (req: Request, res: Response) => {
-		// const { product: productId, rating, description = '' } = sanitize(req.body);
+		const { rating, description } = sanitize(req.body);
 
-		// // if sessionInfo didnt exist requireAuth wouldve thrown error, guarenteed exists
-		// const user = await User.findById(req.sessionInfo!.id);
+		const ratingObj = await Rating.findById(req.params.id);
+		if (!ratingObj) {
+			throw new RatingExistsError(`this rating doesnt exist :// (rating id-- ${req.params.id})`);
+		}
 
-		// const product = await Product.findById(productId);
-		// // console.log(product);
-		// if (!product) {
-		// 	throw new BadRequestError(`the product youre trying to rate (${productId}) doesnt exist`);
-		// }
+		// if sessionInfo didnt exist requireAuth wouldve thrown error, guarenteed exists
+		const user = await User.findById(req.sessionInfo!.id);
+		if (user!.id !== ratingObj.user) {
+			throw new NotAuthorizedForActionError();
+		}
 
-		// const existingRating = await Rating.findOne({ user: user!.id, product: productId });
-		// if (existingRating) {
-		// 	throw new RatingExistsError(`this rating exists, try modifing it :// (rating id-- ${existingRating.id})`);
-		// }
+		if (description && description !== ratingObj.description) {
+			ratingObj.description = description;
+		}
 
-		// const ratingObj = Rating.build({
-		// 	product: product,
-		// 	user: user!,
-		// 	rating,
-		// 	description
-		// });
-		// await ratingObj.save();
+		if (rating && rating !== ratingObj.rating) {
+			ratingObj.rating = rating;
+		}
+
+		await ratingObj.save();
+
+		// TODO add publisher for updated / modified rating and all that
 
 		// // events and all that go here
 		// new NewRatingPostedPublisher(natsWrapper.client).publish({
@@ -63,28 +63,31 @@ router.put(
 		// 	userId: ratingObj.user.id
 		// });
 
-		// // calc the new avg rating for the product and publish event
-		// const allProductRating = await (await Rating.find().populate('product')).filter(
-		// 	(r) => r.product._id == product.id
-		// );
-		// const newAvgRating =
-		// 	allProductRating.length > 1
-		// 		? allProductRating.map((r) => r.rating).reduce((prev, next) => prev + next) / allProductRating.length
-		// 		: ratingObj.rating;
+		const product = await Product.findById(ratingObj.product);
+		if (!product) {
+			throw new BadRequestError(`the product youre trying to rate (${ratingObj.product.id}) doesnt exist`);
+		}
+		// calc the new avg rating for the product and publish event
+		const allProductRating = await (await Rating.find().populate('product')).filter(
+			(r) => r.product._id == product.id
+		);
+		const newAvgRating =
+			allProductRating.length > 1
+				? allProductRating.map((r) => r.rating).reduce((prev, next) => prev + next) / allProductRating.length
+				: ratingObj.rating;
 
-		// new ProductRatingUpdatedPublisher(natsWrapper.client).publish({
-		// 	productId: product.id,
-		// 	avgRating: newAvgRating
-		// });
+		new ProductRatingUpdatedPublisher(natsWrapper.client).publish({
+			productId: product.id,
+			avgRating: newAvgRating
+		});
 
-		// // updates the products avg rating + the ratingObj so it can be sent back
-		// product.avgRating = newAvgRating;
-		// await product.save();
-		// ratingObj.product = product;
-		// await ratingObj.save();
+		// updates the products avg rating + the ratingObj so it can be sent back
+		product.avgRating = newAvgRating;
+		await product.save();
+		ratingObj.product = product;
+		await ratingObj.save();
 
-		// res.status(201).send(ratingObj);
-		res.status(201).send({});
+		res.status(201).send(ratingObj);
 	}
 );
 
