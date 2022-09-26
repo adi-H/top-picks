@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { BadRequestError } from '../errors/bad-request-error';
-import { RatingExistsError } from '../errors/rating-exists-error';
+import { BadRequestError, RatingExistsError } from '@adih-toppicks/common';
 import { ProductRatingUpdatedPublisher, NewRatingPostedPublisher } from '@adih-toppicks/common';
 import { requireAuth } from '../middlewares/require-auth';
 import { validateRequest } from '../middlewares/validate-request';
