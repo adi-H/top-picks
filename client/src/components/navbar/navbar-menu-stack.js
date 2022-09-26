@@ -22,13 +22,16 @@ export const MenuStack = ({ children, isOpen, ...rest }) => {
 	return (
 		<Box display={{ base: isOpen ? 'block' : 'none', md: 'block' }} flexBasis={{ base: '100%', md: 'auto' }}>
 			<Stack
-				spacing={8}
+				spacing={5}
 				align="center"
 				justify={[ 'center', 'space-between', 'flex-end', 'flex-end' ]}
 				direction={[ 'column', 'row', 'row', 'row' ]}
-				pt={[ 4, 4, 0, 0 ]}
+				pt={[ 3, 3, 0, 0 ]}
+				fontSize={14}
 			>
-				<Button onClick={toggleColorMode}>{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}</Button>
+				<Button variant="ghost" onClick={toggleColorMode}>
+					{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+				</Button>
 
 				{/* TODO change links and all that~~ */}
 				<MenuItem to="/">back home</MenuItem>
