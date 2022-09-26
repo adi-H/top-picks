@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Flex, Grid, GridItem, VStack } from '@chakra-ui/react';
 import { NavBar } from '../components/navbar/navbar';
 import { Outlet } from 'react-router-dom';
 import { useColorModeValue } from '@chakra-ui/react';
@@ -13,20 +13,22 @@ const Layout = ({ children }) => {
 	const appBg = useColorModeValue('#f4f4f2', '#1a202c');
 
 	return (
-		<div className="Layout">
-			<div>
+		<VStack className="Layout" align="stretch" spacing={3}>
+			<Flex position="relative" zIndex={8} top={0}>
 				<NavBar />
-			</div>
-			<Grid templateColumns="repeat(6, 1fr)" gap={4} bg={appBg}>
-				<GridItem colSpan={1} w="100%" />
-				<GridItem colSpan={4} w="100%">
-					<Box className="main-view-container" height="100vh" position="relative">
-						<Outlet />
-					</Box>
-				</GridItem>
-				<GridItem colSpan={1} w="100%" />
-			</Grid>
-		</div>
+			</Flex>
+			<Box pt="70px">
+				<Grid templateColumns="repeat(6, 1fr)" bg={appBg}>
+					<GridItem colSpan={1} />
+					<GridItem colSpan={4}>
+						<Box className="main-view-container" position="relative">
+							<Outlet />
+						</Box>
+					</GridItem>
+					<GridItem colSpan={1} />
+				</Grid>
+			</Box>
+		</VStack>
 	);
 };
 
