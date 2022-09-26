@@ -1,5 +1,5 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import FormData, { from } from 'form-data';
+import axios, { AxiosRequestConfig } from 'axios';
+import FormData from 'form-data';
 import path from 'path';
 import fs from 'fs';
 

@@ -14,6 +14,7 @@ import { NotFoundError } from './errors/not-found-error';
 import { byProductRouter } from './routes/by-product-id';
 import { byUserRouter } from './routes/by-user-id';
 import { ratingsCountByProductRouter } from './routes/ratings-count-by-product';
+import { updateRatingRouter } from './routes/update-rating';
 
 const app = express();
 app.set('trust proxy', true);
@@ -46,6 +47,7 @@ app.use(indexRouter);
 app.use(byProductRouter);
 app.use(byUserRouter);
 app.use(ratingsCountByProductRouter);
+app.use(updateRatingRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);

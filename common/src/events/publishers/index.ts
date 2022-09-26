@@ -17,3 +17,4 @@ export * from './lists/new-list-created-publisher';
 // ratings
 export * from './products-and-ratings/new-product-rating-publisher';
 export * from './products-and-ratings/new-rating-publisher';
+export * from './products-and-ratings/existing-rating-updated-publisher';

@@ -12,6 +12,7 @@ export * from './brand-updated-event';
 
 // products
 export * from './products-and-ratings/new-rating-posted-event';
+export * from './products-and-ratings/existing-rating-updated-event';
 export * from './products-and-ratings/product-created-event';
 export * from './products-and-ratings/product-updated-event';
 export * from './products-and-ratings/product-rating-updated-event';

@@ -1,13 +1,13 @@
-FROM node:alpine 
+FROM node:16-alpine 
 
 RUN mkdir -p /app
 WORKDIR /app
-COPY package.json .
+COPY package*.json ./
 RUN npm install 
 COPY . . 
 
 EXPOSE 3000
-RUN npm run build 
+# RUN NODE_OPTIONS=--max_old_space_size=4096 npm run build 
 CMD [ "npm", "run", "start" ]
 
 # # FROM node:16-alpine 
