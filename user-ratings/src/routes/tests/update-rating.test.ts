@@ -9,6 +9,9 @@ it('updates a valid req with valid inputs 201', async () => {
 	const cookie = await getUserCookie();
 	const rating = await createRating(4, 'hehe', cookie);
 
+	// * createRating makes an api req and makes 2 publisher calls
+	expect(natsWrapper.client.publish).toHaveBeenCalledTimes(2);
+
 	const res = await request(app)
 		.put(`/api/user-ratings/${rating.body.id}`)
 		.set('Cookie', cookie)
@@ -20,7 +23,9 @@ it('updates a valid req with valid inputs 201', async () => {
 
 	expect(res.body.rating).toEqual(2);
 	expect(res.body.description).toEqual('blah blah blah desc');
+	// * updating the rating makes 2 more publisher reqs
 	expect(natsWrapper.client.publish).toHaveBeenCalled();
+	expect(natsWrapper.client.publish).toHaveBeenCalledTimes(4);
 });
 
 it('updates a valid req without description (only rating changed) 201', async () => {
