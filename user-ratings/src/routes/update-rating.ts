@@ -2,7 +2,11 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { BadRequestError } from '../errors/bad-request-error';
 import { RatingExistsError } from '../errors/rating-exists-error';
-import { ProductRatingUpdatedPublisher, NewRatingPostedPublisher } from '@adih-toppicks/common';
+import {
+	ProductRatingUpdatedPublisher,
+	NewRatingPostedPublisher,
+	ExistingRatingUpdatedPublisher
+} from '@adih-toppicks/common';
 import { requireAuth } from '../middlewares/require-auth';
 import { validateRequest } from '../middlewares/validate-request';
 import { Product } from '../models/product';
@@ -56,12 +60,12 @@ router.put(
 
 		// TODO add publisher for updated / modified rating and all that
 
-		// // events and all that go here
-		// new NewRatingPostedPublisher(natsWrapper.client).publish({
-		// 	productId: ratingObj.product.id,
-		// 	rating: ratingObj.rating,
-		// 	userId: ratingObj.user.id
-		// });
+		new ExistingRatingUpdatedPublisher(natsWrapper.client).publish({
+			ratingId: ratingObj.id,
+			productId: ratingObj.product.id,
+			rating: ratingObj.rating,
+			userId: ratingObj.user.id
+		});
 
 		const product = await Product.findById(ratingObj.product);
 		if (!product) {
