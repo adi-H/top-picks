@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
-// DOCUMENTATION -- modified from https://www.smashingmagazine.com/2020/07/custom-react-hook-fetch-cache-data/
+// * DOCUMENTATION -- modified from https://www.smashingmagazine.com/2020/07/custom-react-hook-fetch-cache-data/
 
 export const useFetch = (conf) => {
 	const cache = useRef({});

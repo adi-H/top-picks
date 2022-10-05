@@ -5,7 +5,7 @@ import { NavBarContainer } from './navbar-container';
 import { MenuStack } from './navbar-menu-stack';
 import './../../assets/stylesheets/navbar.css';
 
-// DOCUMENTATION
+// * DOCUMENTATION
 // https://raptis.wtf/blog/create-a-navbar-with-chakra-ui-react/
 
 export const NavBar = (props) => {

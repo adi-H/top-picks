@@ -6,7 +6,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import { theme } from './theme';
 
-// DOCUMENTATION
+// * DOCUMENTATION
 // https://stackoverflow.com/a/70104127
 
 ReactDOM.render(
