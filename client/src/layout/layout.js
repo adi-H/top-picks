@@ -6,14 +6,20 @@ import { useColorModeValue } from '@chakra-ui/react';
 import '../assets/stylesheets/main.css';
 import { darkModeAppBg, lightModeAppBg } from '../theme/variables';
 
-// * DOCUMENTATION
+// * DOCUMENTATION -- for the <Outlet /> comp
 // * https://stackoverflow.com/a/69982280
 
 const Layout = ({ children }) => {
-	const appBg = useColorModeValue(lightModeAppBg, darkModeAppBg);
+	// ! moved the appBg functionality to the theme completely
+	// const appBg = useColorModeValue(lightModeAppBg, darkModeAppBg);
 
 	return (
-		<VStack className="Layout" align="stretch" spacing={3} bg={appBg}>
+		<VStack
+			className="Layout"
+			align="stretch"
+			spacing={3}
+			// bg={appBg}
+		>
 			<Flex position="relative" zIndex={8} top={0}>
 				<NavBar />
 			</Flex>

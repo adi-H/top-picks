@@ -8,7 +8,7 @@ import { BrandPage } from './views/brand-page';
 
 // import { createBrowserHistory } from 'history';
 // const history = createBrowserHistory();
-// DOCUMENTATION
+// * DOCUMENTATION
 // https://stackoverflow.com/a/69859510
 
 const App = (props) => {
