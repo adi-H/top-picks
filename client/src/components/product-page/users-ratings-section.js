@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Skeleton } from '@chakra-ui/react';
 import { productRatingsConf } from '../../services/user-ratings';
 import { useFetch } from '../../hooks/use-fetch';
-import { UserRating } from './user-rating';
+import { UserRating } from './../common/user-rating/user-rating';
 import { getUserDetails } from '../../services/user-auth';
 
 export const CommunityRatingsSection = ({ productId }) => {
