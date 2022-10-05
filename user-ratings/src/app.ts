@@ -6,11 +6,11 @@ import { errorHandler } from './middlewares/error-handler';
 import { insertUserSession } from './middlewares/insert-user-session';
 import RateLimit from 'express-rate-limit';
 import cors from 'cors';
+import { NotFoundError } from '@adih-toppicks/common';
 
 import { pingRouter } from './routes/ping';
 import { newRatingRouter } from './routes/new-rating';
 import { indexRouter } from './routes/index';
-import { NotFoundError } from './errors/not-found-error';
 import { byProductRouter } from './routes/by-product-id';
 import { byUserRouter } from './routes/by-user-id';
 import { ratingsCountByProductRouter } from './routes/ratings-count-by-product';

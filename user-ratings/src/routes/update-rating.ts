@@ -1,11 +1,13 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { BadRequestError } from '../errors/bad-request-error';
-import { RatingExistsError } from '../errors/rating-exists-error';
+
 import {
 	ProductRatingUpdatedPublisher,
 	NewRatingPostedPublisher,
-	ExistingRatingUpdatedPublisher
+	ExistingRatingUpdatedPublisher,
+	BadRequestError,
+	RatingExistsError,
+	NotAuthorizedForActionError
 } from '@adih-toppicks/common';
 import { requireAuth } from '../middlewares/require-auth';
 import { validateRequest } from '../middlewares/validate-request';
@@ -14,9 +16,7 @@ import { Rating } from '../models/rating';
 import { User } from '../models/user';
 import { natsWrapper } from '../nats-wrapper';
 import sanitize from 'mongo-sanitize';
-import { CustomError } from '../errors/custom-error';
-import { NotAuthorizedError } from '../errors/not-authorized-error';
-import { NotAuthorizedForActionError } from '../errors/not-authorized-for-action-error';
+// import { NotAuthorizedForActionError } from '../errors/not-authorized-for-action-error';
 
 const ratingValidationRules = () => {
 	return [

@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
-import { NotFoundError } from '../errors/not-found-error';
+import { NotFoundError } from '@adih-toppicks/common';
+// import { NotFoundError } from '../errors/not-found-error';
 import { Product } from '../models/product';
 import { Rating } from '../models/rating';
 
