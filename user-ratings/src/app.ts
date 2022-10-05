@@ -15,6 +15,7 @@ import { byProductRouter } from './routes/by-product-id';
 import { byUserRouter } from './routes/by-user-id';
 import { ratingsCountByProductRouter } from './routes/ratings-count-by-product';
 import { updateRatingRouter } from './routes/update-rating';
+import { specificProductByUserRouter } from './routes/specific-rating-by-user-id';
 
 const app = express();
 app.set('trust proxy', true);
@@ -48,6 +49,7 @@ app.use(byProductRouter);
 app.use(byUserRouter);
 app.use(ratingsCountByProductRouter);
 app.use(updateRatingRouter);
+app.use(specificProductByUserRouter);
 
 app.all('*', async (req, res) => {
 	console.log(req);
