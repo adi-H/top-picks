@@ -1,3 +1,4 @@
+import { Heading } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { MainProductsView } from '../components/home-page/main-products-view';
 import { useFetch } from '../hooks/use-fetch';
@@ -27,6 +28,8 @@ export const Home = ({ props }) => {
 					return <ProductCard key={p.id} props={p} />;
 				})} */}
 			<MainProductsView list={products} />
+
+			<Heading>hehe some more text here ~~ still home page</Heading>
 		</div>
 	);
 };
