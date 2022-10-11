@@ -70,6 +70,9 @@ export const isUserLoggedIn = async () => {
 // returns the user's email + makes sure the sessionInfo is ok
 export const getUserDetails = async () => {
 	const res = await checkExistingCreds();
+	console.log(res.data.sessionInfo);
+	// ! BUGFIX TODO -- figure this weird thing out
+	// ! works in prod but not in dev
 	if (res.data.sessionInfo !== null) return { ...res.data.sessionInfo, valid: true };
 	else return { valid: false };
 };
