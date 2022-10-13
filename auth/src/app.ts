@@ -4,6 +4,7 @@ import cookieSession from 'cookie-session';
 import 'express-async-errors';
 import cors from 'cors';
 // import csurf from 'csurf';
+import RateLimit from 'express-rate-limit';
 
 import { pingRouter } from './routes/ping';
 import { signUpRouter } from './routes/signup';
@@ -33,6 +34,14 @@ app.use(
 		exposedHeaders: [ 'Set-Cookie' ]
 	})
 );
+
+// limits to 50 reqs per 1 minute
+const limiter = RateLimit({
+	windowMs: 1 * 60 * 1000, // 1 minute
+	max: 60
+});
+
+app.use(limiter);
 
 app.use(function(req, res, next) {
 	// Website you wish to allow to connect
