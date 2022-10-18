@@ -28,10 +28,10 @@ app.use(
 	})
 );
 
-// limits to 20 reqs per 1 minute
+// limits to 70 reqs per 1 minute
 const limiter = RateLimit({
 	windowMs: 1 * 60 * 1000, // 1 minute
-	max: 200
+	max: 70
 });
 
 app.use(limiter);
