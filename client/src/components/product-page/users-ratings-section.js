@@ -49,7 +49,7 @@ export const CommunityRatingsSection = ({ productId }) => {
 				productId={productId}
 				userId={userData.id || 'nulluserId'}
 				isUserValid={userData.valid}
-				rating={thisUserRating}
+				rating={thisUserRating || 'empty'}
 			/>
 			here's what other users say~~
 			{ratings.filter((r) => r.id && r.id !== thisUserRating.id).map((r) => <UserRating key={r.id} {...r} />)}

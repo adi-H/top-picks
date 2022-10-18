@@ -24,6 +24,7 @@ export const AddUserReview = ({ productId, userId, isUserValid, rating }) => {
 
 	// TODO to test this properly, figure out how to make like cookies save over localhost
 	// TODO cant save session and cant id the user signed in rn
+	// ? https://medium.com/swlh/how-the-new-chrome-80-cookie-rule-samesite-none-secure-affects-web-development-c06380220ced
 
 	return isUserValid ? (
 		<Flex mb={3}>
