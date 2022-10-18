@@ -1,15 +1,15 @@
-import { Box, Container, GridItem, Icon, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Container, GridItem, Icon, SimpleGrid, Spacer, Text } from '@chakra-ui/react';
 import React from 'react';
 import Ratings from 'react-ratings-declarative';
 import { FaUserNinja } from 'react-icons/fa';
 
 export const UserRating = ({ rating, user, description }) => {
 	return (
-		<Container m={10} textAlign="left">
+		<Container p={4} m={3} textAlign="left" borderWidth="1px" borderRadius="lg">
 			<SimpleGrid columns={5}>
 				<GridItem colSpan={3}>
 					{' '}
-					<Text as="div">
+					<Text as="div" fontSize="sm">
 						{rating}/5 {' '}
 						<Ratings rating={rating} widgetDimensions="15px" widgetSpacings="2px" widgetRatedColors="teal">
 							<Ratings.Widget />
@@ -22,13 +22,14 @@ export const UserRating = ({ rating, user, description }) => {
 				</GridItem>
 				<GridItem colSpan={2}>
 					{' '}
-					<Text>
+					<Text fontSize="sm">
 						<Icon as={FaUserNinja} /> {user.email}
 					</Text>
 				</GridItem>
 			</SimpleGrid>
-
-			<Text>{description} 'desc goes here hehe'</Text>
+			<Text p={2}>
+				{description} desc goes here hehe -- my userid is {user.id}{' '}
+			</Text>
 		</Container>
 	);
 };
