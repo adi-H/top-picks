@@ -12,7 +12,7 @@ export const AddUserReview = ({ productId, userId, isUserValid, rating }) => {
 
 	useEffect(
 		async () => {
-			console.log(userId);
+			console.log(userId); // ! note this is 'nulluserId' if the userId is undefined in users-ratings-section
 			console.log(isUserValid);
 			console.log('RATING~~~~~~~', rating);
 			// 	console.log(loggedIn, 'value of loggedIn');
@@ -21,6 +21,9 @@ export const AddUserReview = ({ productId, userId, isUserValid, rating }) => {
 		},
 		[ userId, isUserValid ]
 	);
+
+	// TODO to test this properly, figure out how to make like cookies save over localhost
+	// TODO cant save session and cant id the user signed in rn
 
 	return isUserValid ? (
 		<Flex mb={3}>

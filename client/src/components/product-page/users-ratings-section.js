@@ -32,11 +32,7 @@ export const CommunityRatingsSection = ({ productId }) => {
 	useEffect(
 		() => {
 			if (userData && userData.valid) {
-				// console.log(ratings);
 				const userRating = ratings.find((r) => {
-					console.log(r);
-					console.log(userData.id);
-					console.log(r.user.id == userData.id);
 					return r.user.id === userData.id;
 				});
 				setThisUserRating(userRating);
@@ -51,12 +47,12 @@ export const CommunityRatingsSection = ({ productId }) => {
 		<Box>
 			<AddUserReview
 				productId={productId}
-				userId={userData.id}
+				userId={userData.id || 'nulluserId'}
 				isUserValid={userData.valid}
 				rating={thisUserRating}
-			/>{' '}
+			/>
 			here's what other users say~~
-			{ratings.map((r) => <UserRating key={r.id} {...r} />)}
+			{ratings.filter((r) => r.id && r.id !== thisUserRating.id).map((r) => <UserRating key={r.id} {...r} />)}
 		</Box>
 	);
 };
