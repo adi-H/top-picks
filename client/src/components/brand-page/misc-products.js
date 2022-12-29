@@ -2,17 +2,19 @@ import { Box, Grid, GridItem, Heading, SimpleGrid, Skeleton, Input, Text, Spacer
 import React, { useState, useEffect } from 'react';
 import { useFetch } from '../../hooks/use-fetch';
 import { getProductsByBrand } from '../../services/products';
-import { SearchByTag } from '../common/search-by-tag';
 import { SmallProductCard } from './small-product-card';
+import { DisplaySearchFilterColumn } from '../common/filter-and-search-comps/display-search-filter-column';
 
 export const MiscProducts = ({ brandId }) => {
 	let [ isLoading, setIsLoading ] = useState(true);
 	let [ products, setProducts ] = useState([]);
 	let [ displayProducts, setDisplayProducts ] = useState([]);
-	let [ search, setSearch ] = useState('');
-	let [ searchedTags, setSearchedTags ] = useState([]);
 	let conf = getProductsByBrand(brandId);
 	let { status, data } = useFetch(conf);
+
+	let [ searchText, setSearch ] = useState('');
+	let [ searchedTags, setSearchedTags ] = useState([]);
+	let [ byProductType, setByProductType ] = useState([]);
 
 	useEffect(
 		() => {
@@ -28,15 +30,17 @@ export const MiscProducts = ({ brandId }) => {
 
 	useEffect(
 		() => {
+			let filtered = products;
 			if (searchedTags.length > 0) {
 				// ! for product - check if the product tags contain some of the searched tags
-				let filtered = products.filter((p) => p.bestForTags.some((s) => searchedTags.includes(s)));
-				setDisplayProducts(filtered);
-			} else {
-				setDisplayProducts(products);
+				filtered = filtered.filter((p) => p.bestForTags.some((s) => searchedTags.includes(s)));
 			}
+			if (byProductType.length > 0) {
+				filtered = filtered.filter((p) => byProductType.includes(p.productType));
+			}
+			setDisplayProducts(filtered);
 		},
-		[ searchedTags ]
+		[ searchedTags, byProductType ]
 	);
 
 	return (
@@ -44,29 +48,23 @@ export const MiscProducts = ({ brandId }) => {
 			<Heading size="sm"> available products by the brand ~~ </Heading> <br />
 			<Grid templateColumns="repeat(5, 1fr)">
 				<GridItem>
-					<Input
-						p={3}
-						size="md"
-						variant="filled"
-						placeholder="filter by name"
-						value={search}
-						onChange={handleSearchTextChange}
+					<DisplaySearchFilterColumn
+						searchedText={searchText}
+						handleSearchTextChange={handleSearchTextChange}
+						currentSearchedForTags={searchedTags}
+						setSearchedForTags={setSearchedTags}
+						searchedByProductType={byProductType}
+						setSearchedByProductType={setByProductType}
+						showInColumn={true}
+						handleSearchByBrandName={undefined}
 					/>
-
-					<Box mt={4}>
-						<SearchByTag
-							current={searchedTags}
-							setCurrent={setSearchedTags}
-							directionArr={[ 'row', 'column' ]}
-						/>
-					</Box>
 				</GridItem>
 
 				<GridItem colSpan={4}>
 					<Skeleton isLoaded={!isLoading}>
 						<SimpleGrid columns={4}>
 							{displayProducts
-								.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
+								.filter((p) => p.name.toLowerCase().includes(searchText.toLowerCase()))
 								.map((p) => (
 									<SmallProductCard
 										key={p.id}

@@ -1,18 +1,18 @@
 import React from 'react';
 import { Box, Text, CheckboxGroup, Checkbox } from '@chakra-ui/react';
 
-import { possibleProductTypes } from '../../variables/products-types';
+import { BEST_FOR_TAGS_ICONS } from '../../../variables/best-for-tags-icons';
 
-export const SearchByProductType = ({ current, setCurrent, showTitle = true, showInDiffLines = true }) => {
+export const SearchByTag = ({ current, setCurrent, showTitle = true, showInDiffLines = true }) => {
 	const onSelectionChange = (value) => {
 		setCurrent(value);
 	};
 
 	return (
 		<Box size="sm" textAlign="left">
-			{showTitle && <Text decoration="underline"> filter by product type - </Text>}
+			{showTitle && <Text decoration="underline"> filter by concern - </Text>}
 			<CheckboxGroup colorScheme="teal" direction={[ 'row', 'column' ]} onChange={onSelectionChange}>
-				{possibleProductTypes.map((t) => {
+				{Object.keys(BEST_FOR_TAGS_ICONS).map((t) => {
 					if (showInDiffLines) {
 						return (
 							<Text key={t}>
