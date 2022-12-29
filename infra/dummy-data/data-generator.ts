@@ -51,14 +51,14 @@ const productsDetails: ProductDetails[] = [
 	},
 	{
 		name: 'product2',
-		productType: 'cleanser',
+		productType: 'serum',
 		description: 'prod descp2134567',
 		bestForTags: [ 'combo skin', 'hyperpigmentation' ],
 		brandName: 'brand1'
 	},
 	{
 		name: 'product3',
-		productType: 'cleanser',
+		productType: 'moisturizer',
 		description: 'prod descp',
 		bestForTags: [ 'dry skin', 'hyperpigmentation' ],
 		brandName: 'brand2'

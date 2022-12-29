@@ -4,6 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"build": "tsc --build",
+		"clean": "tsc --build --clean",
 		"start": "npx ts-node data-generator.ts"
 	},
 	"author": "",
