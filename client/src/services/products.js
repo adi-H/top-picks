@@ -25,11 +25,7 @@ export const getProductsByBrand = (brandId) => {
 };
 
 export const getAllProducts = async () => {
-	const config = {
-		baseUrl: SERVER_URL,
-		endpoint: '/api/products',
-		method: 'GET'
-	};
+	const config = getAllProductsConf();
 	try {
 		const res = await genericRequest(config);
 		// console.log(res);

@@ -2,19 +2,21 @@ import { Heading } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { MainProductsView } from '../components/home-page/main-products-view';
 import { useFetch } from '../hooks/use-fetch';
-
-import { getAllProductsConf } from './../services/products';
+// import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
+import { getAllProducts, getAllProductsConf } from './../services/products';
 
 export const Home = ({ props }) => {
 	let [ products, setProducts ] = useState([]);
 	let config = getAllProductsConf();
-	let { status, data } = useFetch(config);
+	// let { status, data } = useFetch(config);
+	const { data, isLoading, error } = useQuery('', getAllProducts);
 
 	useEffect(
 		() => {
 			setProducts(data);
 		},
-		[ status, data ]
+		[ isLoading, data ]
 	);
 
 	return (
