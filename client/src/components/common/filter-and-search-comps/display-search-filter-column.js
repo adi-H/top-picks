@@ -1,7 +1,9 @@
 import { Box, Text, SimpleGrid, Flex, Input, Spacer, Wrap, WrapItem, Stack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { SearchByProductType } from './search-by-product-type';
-import { SearchByTag } from './search-by-tag';
+import { SearchByGenericArray } from './search-by-generic-array';
+
+import { BEST_FOR_TAGS_ICONS } from '../../../variables/best-for-tags-icons';
+import { possibleProductTypes } from '../../../variables/products-types';
 
 export function DisplaySearchFilterColumn({
 	searchedText,
@@ -41,18 +43,22 @@ export function DisplaySearchFilterColumn({
 			</WrapItem>
 			<Spacer />
 			<WrapItem width={showInColumn ? '100%' : '35%'}>
-				<SearchByTag
+				<SearchByGenericArray
 					current={currentSearchedForTags}
 					setCurrent={setSearchedForTags}
+					titleContent="filter by concern - "
+					values={Object.keys(BEST_FOR_TAGS_ICONS)}
 					showTitle={true}
 					showInDiffLines={showInColumn}
 				/>
 			</WrapItem>
 			<Spacer />
 			<WrapItem width={showInColumn ? '100%' : '30%'}>
-				<SearchByProductType
+				<SearchByGenericArray
 					current={searchedByProductType}
 					setCurrent={setSearchedByProductType}
+					titleContent="filter by product type - "
+					values={possibleProductTypes}
 					showTitle={true}
 					showInDiffLines={showInColumn}
 				/>
