@@ -27,7 +27,7 @@ export const MiscProducts = ({ brandId }) => {
 	const handleSearchTextChange = (event) => setSearch(event.target.value);
 
 	useEffect(
-		(products) => {
+		() => {
 			if (searchedTags.length > 0) {
 				// ! for product - check if the product tags contain some of the searched tags
 				let filtered = products.filter((p) => p.bestForTags.some((s) => searchedTags.includes(s)));
