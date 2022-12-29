@@ -1,34 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Text } from '@chakra-ui/react';
-// import { getUserDetails, isUserLoggedIn } from '../../services/user-auth';
+import { useDisclosure, Flex, Button, Stack, StackItem, Text } from '@chakra-ui/react';
+import { UserRating } from './../common/user-rating/user-rating';
+import { ModifyRatingModal } from './modify-rating-modal';
 
 export const AddUserReview = ({ productId, userId, isUserValid, rating }) => {
-	const [ isLoading, setIsLoading ] = useState(true);
-	const [ review, setReview ] = useState({});
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	// useEffect(async () => {
-	// 	isLoggedIn(await isUserLoggedIn());
-	// }, []);
+	// const [ isLoading, setIsLoading ] = useState(true);
+	// const [ review, setReview ] = useState({});
 
-	useEffect(
-		async () => {
-			console.log(userId); // ! note this is 'nulluserId' if the userId is undefined in users-ratings-section
-			console.log(isUserValid);
-			console.log('RATING~~~~~~~', rating);
-			// 	console.log(loggedIn, 'value of loggedIn');
-			// 	if (loggedIn) {
-			// 	}
-		},
-		[ userId, isUserValid ]
-	);
-
-	// TODO to test this properly, figure out how to make like cookies save over localhost
-	// TODO cant save session and cant id the user signed in rn
-	// ? https://medium.com/swlh/how-the-new-chrome-80-cookie-rule-samesite-none-secure-affects-web-development-c06380220ced
+	// useEffect(
+	// 	async () => {
+	// 		console.log(userId); // ! note this is 'nulluserId' if the userId is undefined in users-ratings-section
+	// 		console.log(isUserValid);
+	// 		console.log('RATING~~~~~~~', rating);
+	// 	},
+	// 	[ userId, isUserValid ]
+	// );
 
 	return isUserValid ? (
 		<Flex mb={3}>
-			<Text> hehe logged in </Text>
+			<Stack>
+				<StackItem>
+					<Text> hehe logged in </Text>
+					<Text> heres the review you left = </Text>
+				</StackItem>
+				<StackItem>
+					<UserRating {...rating} />
+				</StackItem>
+				<StackItem>
+					<Button onClick={onOpen}>Open Modal</Button>
+
+					<ModifyRatingModal isOpen={isOpen} onClose={onClose} rating={rating} />
+				</StackItem>
+			</Stack>
 		</Flex>
 	) : (
 		<Flex mb={3}>
