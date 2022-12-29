@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Box, Spacer, Stack, Badge, Image, Text, Flex, useColorModeValue } from '@chakra-ui/react';
+import { Link, Box, Spacer, Stack, Badge, Image, Text, Flex, useColorModeValue, WrapItem } from '@chakra-ui/react';
 import { SERVER_URL } from '../../variables/server-url';
 import { Link as RouterLink } from 'react-router-dom';
 import { SingleProductViewCardStyles } from '../../theme/pages/home';
@@ -8,16 +8,15 @@ import { SingleProductViewCardStyles } from '../../theme/pages/home';
 // * https://www.geeksforgeeks.org/reactjs-chakra-ui-card-component/
 
 export const SingleProductViewCard = (props) => {
-	const cardBg = useColorModeValue(SingleProductViewCardStyles.bg.light, SingleProductViewCardStyles.bg.dark);
+	// const cardBg = useColorModeValue(SingleProductViewCardStyles.bg.light, SingleProductViewCardStyles.bg.dark);
 
 	console.log(props);
 	return (
-		<Box
-			minW={SingleProductViewCardStyles.minW}
+		<WrapItem
+			w={SingleProductViewCardStyles.w}
 			m={5}
 			rounded="20px"
 			overflow="hidden"
-			// bg={cardBg}
 			borderWidth="1px"
 			borderRadius="lg"
 			// ? maybe add like opacity to the background so it can be whatever color u want ?
@@ -39,13 +38,12 @@ export const SingleProductViewCard = (props) => {
 						<Text as="h2" fontWeight="normal" my={2}>
 							{props.name}
 						</Text>
-						{/* <Text fontWeight="light">{props.description}</Text> */}
 					</Stack>
 					<Flex>
 						<Spacer />
 					</Flex>
 				</Box>
 			</Link>
-		</Box>
+		</WrapItem>
 	);
 };
