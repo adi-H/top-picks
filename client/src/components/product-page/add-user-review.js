@@ -6,17 +6,10 @@ import { ModifyRatingModal } from './modify-rating-modal';
 export const AddUserReview = ({ productId, userId, isUserValid, rating }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	// const [ isLoading, setIsLoading ] = useState(true);
-	// const [ review, setReview ] = useState({});
-
-	// useEffect(
-	// 	async () => {
-	// 		console.log(userId); // ! note this is 'nulluserId' if the userId is undefined in users-ratings-section
-	// 		console.log(isUserValid);
-	// 		console.log('RATING~~~~~~~', rating);
-	// 	},
-	// 	[ userId, isUserValid ]
-	// );
+	const submitRating = (newRating, newDesc) => {
+		console.log(newRating, newDesc);
+		// TODO add submitting thro api here
+	};
 
 	return isUserValid ? (
 		<Flex mb={3}>
@@ -31,7 +24,7 @@ export const AddUserReview = ({ productId, userId, isUserValid, rating }) => {
 				<StackItem>
 					<Button onClick={onOpen}>Open Modal</Button>
 
-					<ModifyRatingModal isOpen={isOpen} onClose={onClose} rating={rating} />
+					<ModifyRatingModal isOpen={isOpen} onClose={onClose} rating={rating} submitEdit={submitRating} />
 				</StackItem>
 			</Stack>
 		</Flex>
