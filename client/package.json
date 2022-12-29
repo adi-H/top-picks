@@ -7,30 +7,32 @@
 		"@chakra-ui/react": "^1.8.1",
 		"@emotion/react": "^11.7.1",
 		"@emotion/styled": "^11.6.0",
+		"@tanstack/react-query": "^4.12.0",
 		"@testing-library/jest-dom": "^5.16.1",
 		"@testing-library/react": "^12.1.2",
 		"@testing-library/user-event": "^13.5.0",
+		"async": ">=2.6.4",
 		"axios": "^0.25.0",
 		"chakra-icons": "^0.0.0",
+		"ejs": ">=3.1.7",
 		"formik": "^2.2.9",
 		"formik-chakra-ui": "^1.6.0",
 		"framer-motion": "^5.6.0",
 		"history": "^5.2.0",
+		"minimist": ">=1.2.6",
+		"node-forge": ">=1.3.0",
+		"nth-check": ">=2.0.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-icons": "^4.3.1",
+		"react-query": "^3.39.2",
 		"react-ratings-declarative": "^3.4.1",
 		"react-router-dom": "^6.2.1",
 		"react-scripts": "5.0.0",
 		"serve": "^13.0.2",
+		"terser": ">=5.14.2",
 		"web-vitals": "^2.1.4",
-		"yup": "^0.32.11",
-		"minimist": ">=1.2.6",
-		"async": ">=2.6.4",
-		"ejs": ">=3.1.7",
-		"node-forge": ">=1.3.0",
-		"nth-check": ">=2.0.1",
-		"terser": ">=5.14.2"
+		"yup": "^0.32.11"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -40,10 +42,21 @@
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
-		"extends": [ "react-app", "react-app/jest" ]
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
 	},
 	"browserslist": {
-		"production": [ ">0.2%", "not dead", "not op_mini all" ],
-		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
 	}
 }
