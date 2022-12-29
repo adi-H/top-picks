@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, Heading, SimpleGrid, Skeleton, Input } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Heading, SimpleGrid, Skeleton, Input, Text, Spacer } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { useFetch } from '../../hooks/use-fetch';
 import { getProductsByBrand } from '../../services/products';
@@ -52,7 +52,14 @@ export const MiscProducts = ({ brandId }) => {
 						value={search}
 						onChange={handleSearchTextChange}
 					/>
-					<SearchByTag current={searchedTags} setCurrent={setSearchedTags} />
+
+					<Box mt={4}>
+						<SearchByTag
+							current={searchedTags}
+							setCurrent={setSearchedTags}
+							directionArr={[ 'row', 'column' ]}
+						/>
+					</Box>
 				</GridItem>
 
 				<GridItem colSpan={4}>
