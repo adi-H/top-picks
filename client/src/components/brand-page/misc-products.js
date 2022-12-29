@@ -2,18 +2,22 @@ import { Box, Grid, GridItem, Heading, SimpleGrid, Skeleton, Input } from '@chak
 import React, { useState, useEffect } from 'react';
 import { useFetch } from '../../hooks/use-fetch';
 import { getProductsByBrand } from '../../services/products';
+import { SearchByTag } from '../common/search-by-tag';
 import { SmallProductCard } from './small-product-card';
 
 export const MiscProducts = ({ brandId }) => {
 	let [ isLoading, setIsLoading ] = useState(true);
 	let [ products, setProducts ] = useState([]);
+	let [ displayProducts, setDisplayProducts ] = useState([]);
 	let [ search, setSearch ] = useState('');
+	let [ searchedTags, setSearchedTags ] = useState([]);
 	let conf = getProductsByBrand(brandId);
 	let { status, data } = useFetch(conf);
 
 	useEffect(
 		() => {
 			setProducts(data);
+			setDisplayProducts(data);
 			if (status === 'fetched') setIsLoading(false);
 			console.log(data);
 		},
@@ -22,25 +26,39 @@ export const MiscProducts = ({ brandId }) => {
 
 	const handleSearchTextChange = (event) => setSearch(event.target.value);
 
-	// TODO add a normal search comp?? maybe generic enough so it can be reused ?
+	useEffect(
+		(products) => {
+			if (searchedTags.length > 0) {
+				// ! for product - check if the product tags contain some of the searched tags
+				let filtered = products.filter((p) => p.bestForTags.some((s) => searchedTags.includes(s)));
+				setDisplayProducts(filtered);
+			} else {
+				setDisplayProducts(products);
+			}
+		},
+		[ searchedTags ]
+	);
+
 	return (
 		<Box m={4}>
 			<Heading size="sm"> available products by the brand ~~ </Heading> <br />
 			<Grid templateColumns="repeat(5, 1fr)">
 				<GridItem>
-					search comp
 					<Input
+						p={3}
 						size="md"
 						variant="filled"
-						placeholder="filter your products"
+						placeholder="filter by name"
 						value={search}
 						onChange={handleSearchTextChange}
 					/>
+					<SearchByTag current={searchedTags} setCurrent={setSearchedTags} />
 				</GridItem>
+
 				<GridItem colSpan={4}>
 					<Skeleton isLoaded={!isLoading}>
 						<SimpleGrid columns={4}>
-							{products
+							{displayProducts
 								.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
 								.map((p) => (
 									<SmallProductCard
