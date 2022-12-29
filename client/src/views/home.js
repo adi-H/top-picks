@@ -8,11 +8,6 @@ export const Home = ({ props }) => {
 			<h1>hiiiii</h1>
 			<br />
 
-			{/* {products.length > 0 &&
-				products.forEach((p) => {
-					console.log(p);
-					return <ProductCard key={p.id} props={p} />;
-				})} */}
 			<MainProductsView />
 
 			<Heading>hehe some more text here ~~ still home page</Heading>
