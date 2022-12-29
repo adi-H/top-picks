@@ -46,13 +46,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
-var axios_1 = require("axios");
-var form_data_1 = require("form-data");
-var path_1 = require("path");
-var fs_1 = require("fs");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var axios_1 = __importDefault(require("axios"));
+var form_data_1 = __importDefault(require("form-data"));
+var path_1 = __importDefault(require("path"));
+var fs_1 = __importDefault(require("fs"));
 var SERVER_URL = 'http://20.82.37.12';
-var testImgPath = path_1["default"].resolve(__dirname, 'alien.png');
+var testImgPath = path_1.default.resolve(__dirname, 'alien.png');
 var userDetails = [
     { email: 'test1@test.com', password: 'abc1234', userAccess: 'admin' },
     { email: 'test2@test.com', password: 'asmnbclkj12', userAccess: '~' }
@@ -72,14 +75,14 @@ var productsDetails = [
     },
     {
         name: 'product2',
-        productType: 'cleanser',
+        productType: 'serum',
         description: 'prod descp2134567',
         bestForTags: ['combo skin', 'hyperpigmentation'],
         brandName: 'brand1'
     },
     {
         name: 'product3',
-        productType: 'cleanser',
+        productType: 'moisturizer',
         description: 'prod descp',
         bestForTags: ['dry skin', 'hyperpigmentation'],
         brandName: 'brand2'
@@ -110,7 +113,7 @@ var createRating = function (userCookie, productId, desc, rating) { return __awa
                         Cookie: userCookie
                     }
                 };
-                return [4 /*yield*/, (0, axios_1["default"])(config)];
+                return [4 /*yield*/, (0, axios_1.default)(config)];
             case 1:
                 res = _a.sent();
                 return [2 /*return*/, res.data];
@@ -171,7 +174,7 @@ var createUser = function (email, password) { return __awaiter(void 0, void 0, v
                         password: password
                     }
                 };
-                return [4 /*yield*/, (0, axios_1["default"])(config)];
+                return [4 /*yield*/, (0, axios_1.default)(config)];
             case 1:
                 res = _a.sent();
                 return [2 /*return*/, res];
@@ -217,7 +220,7 @@ var createBrand = function (name, description) { return __awaiter(void 0, void 0
                         description: description
                     }
                 };
-                return [4 /*yield*/, (0, axios_1["default"])(config)];
+                return [4 /*yield*/, (0, axios_1.default)(config)];
             case 1:
                 res = _a.sent();
                 return [2 /*return*/, res.data];
@@ -251,13 +254,13 @@ var createProduct = function (name, productType, bestForTags, brandId, descripti
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                form = new form_data_1["default"]();
+                form = new form_data_1.default();
                 form.append('name', name);
                 form.append('productType', productType);
                 form.append('bestForTags', bestForTags.toString());
                 form.append('brand', brandId);
                 form.append('description', description);
-                form.append('productImg', fs_1["default"].createReadStream(testImgPath));
+                form.append('productImg', fs_1.default.createReadStream(testImgPath));
                 config = {
                     method: 'post',
                     url: SERVER_URL + '/api/products',
@@ -267,7 +270,7 @@ var createProduct = function (name, productType, bestForTags, brandId, descripti
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, axios_1["default"])(config)];
+                return [4 /*yield*/, (0, axios_1.default)(config)];
             case 2:
                 res = _a.sent();
                 return [2 /*return*/, res.data];

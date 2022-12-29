@@ -33,7 +33,8 @@ spec:
             value: 'http://nats-srv:4222'
           - name: NATS_CLUSTER_ID
             value: toppicks
-
+          - name: NODE_ENV
+            value: 'DEV'
 --- 
 
 apiVersion: v1

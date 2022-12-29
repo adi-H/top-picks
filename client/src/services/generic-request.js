@@ -11,7 +11,8 @@ export const genericRequest = async ({ baseUrl, endpoint, method, authRequired =
 				'Content-Type': 'application/json;charset=UTF-8'
 			},
 			data: body,
-			options: otherOptions
+			options: otherOptions,
+			withCredentials: true
 		};
 
 		const response = await axios(options);

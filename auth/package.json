@@ -39,15 +39,13 @@
 	},
 	"scripts": {
 		"start": "ts-node-dev src/index.ts",
-		"test": "jest --watchAll --no-cache",
-		"test:ci": "jest --forceExit"
+		"test": "set NODE_ENV='DEV'&&jest --watchAll --no-cache",
+		"test:ci": "set NODE_ENV='DEV'&&jest --forceExit"
 	},
 	"jest": {
 		"preset": "ts-jest",
 		"testEnvironment": "node",
-		"setupFilesAfterEnv": [
-			"./src/test/setup.ts"
-		]
+		"setupFilesAfterEnv": [ "./src/test/setup.ts" ]
 	},
 	"author": "",
 	"license": "ISC"
