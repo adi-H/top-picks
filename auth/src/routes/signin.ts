@@ -57,7 +57,8 @@ router.post('/api/users/signin', reqValidationRules(), validateRequest, async (r
 		.cookie('jwt', userJwt, {
 			maxAge: 900000,
 			httpOnly: false,
-			sameSite: 'lax'
+			sameSite: 'none',
+			secure: true
 		})
 		.send(existingUser);
 });
