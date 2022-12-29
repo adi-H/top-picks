@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, Heading, SimpleGrid, Skeleton, Input, Text, Spacer } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Heading, SimpleGrid, Skeleton } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { useFetch } from '../../hooks/use-fetch';
 import { getProductsByBrand } from '../../services/products';

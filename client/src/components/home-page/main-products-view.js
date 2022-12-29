@@ -1,4 +1,4 @@
-import { Box, Text, SimpleGrid, Flex, Input, Spacer, Wrap, Grid, GridItem, WrapItem } from '@chakra-ui/react';
+import { Box, Text, Wrap } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
 import { SingleProductViewCard } from './single-product-view-card';

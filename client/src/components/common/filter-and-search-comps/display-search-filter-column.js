@@ -1,5 +1,5 @@
-import { Box, Text, SimpleGrid, Flex, Input, Spacer, Wrap, WrapItem, Stack } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { Input, Spacer, Wrap, WrapItem, Stack } from '@chakra-ui/react';
+import React from 'react';
 import { SearchByGenericArray } from './search-by-generic-array';
 
 import { BEST_FOR_TAGS_ICONS } from '../../../variables/best-for-tags-icons';
