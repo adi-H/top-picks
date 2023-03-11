@@ -1,4 +1,5 @@
 import { Flex } from '@chakra-ui/react';
+import { navBarColor, titleDetails } from '../../theme/variables';
 
 export const NavBarContainer = ({ children, ...props }) => {
 	return (
@@ -10,10 +11,10 @@ export const NavBarContainer = ({ children, ...props }) => {
 			wrap="wrap"
 			w="100%"
 			p={4}
-			bg="#495464"
+			bg={navBarColor}
 			// bg={[ 'gray', 'primary.500', 'transparent', 'transparent' ]}
 			// color={[ 'white', 'white', 'primary.700', 'primary.700' ]}
-			color="black"
+			color={titleDetails.color}
 			{...props}
 		>
 			{children}

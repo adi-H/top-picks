@@ -54,10 +54,19 @@ export const ModifyRatingModal = ({ isOpen, onClose, rating, submitEdit }) => {
 				</ModalBody>
 
 				<ModalFooter>
-					<Button colorScheme="blue" mr={3} onClick={() => submitEdit(newRating, newDesc)}>
+					<Button
+						colorScheme="blue"
+						mr={3}
+						onClick={() => {
+							submitEdit(newRating, newDesc);
+							onClose();
+						}}
+					>
 						save changes
 					</Button>
-					<Button variant="ghost">discard</Button>
+					<Button variant="ghost" onClick={onClose}>
+						discard
+					</Button>
 				</ModalFooter>
 			</ModalContent>
 		</Modal>
